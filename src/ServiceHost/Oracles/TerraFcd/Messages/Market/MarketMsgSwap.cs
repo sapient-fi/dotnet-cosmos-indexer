@@ -1,7 +1,6 @@
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Market
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Market;
+
+public record MarketMsgSwap : IMsg
 {
-    public record MarketMsgSwap : IMsg
-    {
-        public string Type { get; set; }
-    }
+    public string Type { get; set; }
 }

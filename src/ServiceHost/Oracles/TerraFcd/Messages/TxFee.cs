@@ -1,13 +1,11 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages;
+
+public record TxFee
 {
-    public record TxFee
-    {
-        [JsonPropertyName("gas")]
-        public string Gas { get; set; }
-        [JsonPropertyName("amount")]
-        public List<TerraStringAmount> Amount { get; set; }
-    }
+    [JsonPropertyName("gas")]
+    public string Gas { get; set; }
+    [JsonPropertyName("amount")]
+    public List<TerraStringAmount> Amount { get; set; }
 }

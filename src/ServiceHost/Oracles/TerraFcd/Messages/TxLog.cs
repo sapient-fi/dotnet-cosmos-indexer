@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages;
+
+public record TxLog
 {
-    public record TxLog
-    {
-        [JsonPropertyName("events")]
-        public List<TxLogEvent> Events { get; set; }
-    }
+    [JsonPropertyName("events")]
+    public List<TxLogEvent> Events { get; set; }
 }

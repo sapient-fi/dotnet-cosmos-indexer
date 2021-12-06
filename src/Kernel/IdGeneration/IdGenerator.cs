@@ -1,20 +1,16 @@
-using System.Net.Sockets;
-using IdGen;
+namespace Pylonboard.Kernel.IdGeneration;
 
-namespace Invacoil.Kernel.IdGeneration
+public class IdGenerator
 {
-    public class IdGenerator
+    private readonly IdGen.IdGenerator _snowflakeGenerator;
+
+    public IdGenerator(IdGen.IdGenerator snowflakeGenerator)
     {
-        private readonly IdGen.IdGenerator _snowflakeGenerator;
+        _snowflakeGenerator = snowflakeGenerator;
+    }
 
-        public IdGenerator(IdGen.IdGenerator snowflakeGenerator)
-        {
-            _snowflakeGenerator = snowflakeGenerator;
-        }
-
-        public long Snowflake()
-        {
-            return _snowflakeGenerator.CreateId();
-        }
+    public long Snowflake()
+    {
+        return _snowflakeGenerator.CreateId();
     }
 }

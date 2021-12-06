@@ -1,16 +1,26 @@
+using Pylonboard.Kernel.Hosting.BackgroundWorkers;
+using Pylonboard.Kernel.IdGeneration;
+using Pylonboard.ServiceHost.BackgroundServices;
+using Pylonboard.ServiceHost.Config;
+using Pylonboard.ServiceHost.Oracles;
 using Pylonboard.ServiceHost.Oracles.TerraFcd;
+using Pylonboard.ServiceHost.TerraDataFetchers;
+using Pylonboard.ServiceHost.TerraDataFetchers.Internal.PylonPools;
+using RapidCore.Locking;
 using Refit;
 
-namespace Pylonboard.ServiceHost.Extensions;
+namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
 
 public static class TerraMoneyServiceCollectionExtensions
 {
     public static IServiceCollection AddTerraMoney(this IServiceCollection services, IConfiguration configuration)
     {
-        // var terraMoneyConfig = new TerraMoneyConfig(configuration);
-        // services.AddSingleton(terraMoneyConfig);
-        // services.AddSingleton<ITerraMoneyConfig>(terraMoneyConfig);
-        //     
+        var config = new PylonboardConfig(configuration);
+        services.AddSingleton<IEnabledServiceRolesConfig>(config);
+        
+        services.AddSingleton<IDistributedAppLockProvider>(c => new NoopDistributedAppLockProvider());
+        services.AddSingleton<IdGenerator>(c => new IdGenerator(new IdGen.IdGenerator(0)));
+        
         services.AddRefitClient<ITerraMoneyFcdApiClient>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://fcd.terra.dev"));
             
@@ -18,12 +28,9 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddHostedService<ScopedBackgroundService<TerraMoneyBackgroundServiceWorker>>();
             
         services.AddTransient<TerraTransactionEnumerator>();
-        services.AddTransient<MyTerraWalletDataFetcher>();
-        services.AddTransient<AnchorContractHandler>();
-            
+
         services.AddTransient<MineBuybackDataFetcher>();
         services.AddTransient<MineStakingDataFetcher>();
-        services.AddTransient<TerraRewardsCalculator>();
 
         services.AddTransient<PylonPoolsDataFether>();
         services.AddTransient<LowLevelPoolFetcher>();

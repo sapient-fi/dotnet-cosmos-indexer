@@ -1,6 +1,6 @@
 namespace Pylonboard.Kernel;
 
-public record Amount
+public record TerraAmount
 {
     public decimal Value { get; set; }
         

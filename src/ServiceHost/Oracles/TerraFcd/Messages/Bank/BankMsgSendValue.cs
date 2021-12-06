@@ -1,17 +1,15 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Bank
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Bank;
+
+public record BankMsgSendValue
 {
-    public record BankMsgSendValue
-    {
-        [JsonPropertyName("amount")]
-        public List<TerraStringAmount> Amounts { get; set; }
+    [JsonPropertyName("amount")]
+    public List<TerraStringAmount> Amounts { get; set; }
         
-        [JsonPropertyName("to_address")]
-        public string ToAddress { get; set; }
+    [JsonPropertyName("to_address")]
+    public string ToAddress { get; set; }
         
-        [JsonPropertyName("from_address")]
-        public string FromAddress { get; set; }
-    }
+    [JsonPropertyName("from_address")]
+    public string FromAddress { get; set; }
 }

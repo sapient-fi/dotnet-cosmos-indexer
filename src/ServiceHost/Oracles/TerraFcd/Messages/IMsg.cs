@@ -1,7 +1,6 @@
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages;
+
+public interface IMsg
 {
-    public interface IMsg
-    {
-        public string Type { get; set; }
-    }
+    public string Type { get; set; }
 }

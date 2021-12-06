@@ -1,6 +1,5 @@
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Wasm
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
+
+public record WasmExecuteMsgEndPoll
 {
-    public record WasmExecuteMsgEndPoll
-    {
-    }
 }

@@ -1,27 +1,23 @@
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using Invacoil.Kernel;
+using Pylonboard.Kernel;
 using ServiceStack;
 
-namespace Invacoil.ServiceRole.TerraMoney.Extensions
+namespace Pylonboard.ServiceHost.Extensions;
+
+public static class ListExtensions
 {
-    public static class ListExtensions
+
+    public static void EnsureUstIsLast(this List<TerraAmount> list)
     {
-
-        public static void EnsureUstIsLast(this List<Amount> list)
+        if (list.Count != 2)
         {
-            if (list.Count != 2)
-            {
-                return;
-            }
+            return;
+        }
 
-            if (list.All(i => !i.Denominator.EqualsIgnoreCase(TerraDenominators.Ust))) return;
+        if (list.All(i => !i.Denominator.EqualsIgnoreCase(TerraDenominators.Ust))) return;
             
-            if (list[1].Denominator != TerraDenominators.Ust)
-            {
-                list.Reverse();
-            }
+        if (list[1].Denominator != TerraDenominators.Ust)
+        {
+            list.Reverse();
         }
     }
 }

@@ -1,7 +1,6 @@
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Gov
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Gov;
+
+public record GovMsgVote : IMsg
 {
-    public record GovMsgVote : IMsg
-    {
-        public string Type { get; set; }
-    }
+    public string Type { get; set; }
 }

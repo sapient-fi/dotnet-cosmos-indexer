@@ -1,13 +1,12 @@
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Wasm
-{
-    public record WasmExecuteMsgClaim
-    {
-        [JsonPropertyName("stage")]
-        public int Stage { get; set; }
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
 
-        [JsonPropertyName("amount")]
-        public string Amount { get; set; }
-    }
+public record WasmExecuteMsgClaim
+{
+    [JsonPropertyName("stage")]
+    public int Stage { get; set; }
+
+    [JsonPropertyName("amount")]
+    public string Amount { get; set; }
 }

@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceHost", "src\ServiceHost\ServiceHost.csproj", "{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\Contracts\Contracts.csproj", "{105FF596-032D-4CE2-92AC-9A93CD478421}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel", "src\Kernel\Kernel.csproj", "{6F87E178-4BE5-4255-9633-44DD480ED2EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{105FF596-032D-4CE2-92AC-9A93CD478421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{105FF596-032D-4CE2-92AC-9A93CD478421}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{105FF596-032D-4CE2-92AC-9A93CD478421}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{105FF596-032D-4CE2-92AC-9A93CD478421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F87E178-4BE5-4255-9633-44DD480ED2EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F87E178-4BE5-4255-9633-44DD480ED2EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F87E178-4BE5-4255-9633-44DD480ED2EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F87E178-4BE5-4255-9633-44DD480ED2EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

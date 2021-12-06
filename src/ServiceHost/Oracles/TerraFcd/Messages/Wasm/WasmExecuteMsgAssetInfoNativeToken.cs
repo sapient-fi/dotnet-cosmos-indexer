@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Wasm
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
+
+public record WasmExecuteMessageAssetInfoNativeToken
 {
-    public record WasmExecuteMessageAssetInfoNativeToken
-    {
-        [JsonPropertyName("denom")]
-        public string Denominator { get; set; }
-    }
+    [JsonPropertyName("denom")]
+    public string Denominator { get; set; }
 }

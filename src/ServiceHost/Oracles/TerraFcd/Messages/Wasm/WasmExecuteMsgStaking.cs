@@ -1,9 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Wasm
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
+
+public record WasmExecuteMsgStaking
 {
-    public record WasmExecuteMsgStaking
-    {
-        [JsonPropertyName("unstake")] public WasmExecuteMsgStakingUnstake Unstake { get; set; }
-    }
+    [JsonPropertyName("unstake")] public WasmExecuteMsgStakingUnstake Unstake { get; set; }
 }

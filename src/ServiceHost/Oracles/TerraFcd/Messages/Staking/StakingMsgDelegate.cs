@@ -1,7 +1,6 @@
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Staking
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Staking;
+
+public record StakingMsgDelegate : IMsg
 {
-    public record StakingMsgDelegate : IMsg
-    {
-        public string Type { get; set; }
-    }
+    public string Type { get; set; }
 }

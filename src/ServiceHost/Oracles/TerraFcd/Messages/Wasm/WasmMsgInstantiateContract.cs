@@ -1,7 +1,6 @@
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Wasm
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
+
+public record WasmMsgInstantiateContract : IMsg
 {
-    public record WasmMsgInstantiateContract : IMsg
-    {
-        public string Type { get; set; }
-    }
+    public string Type { get; set; }
 }

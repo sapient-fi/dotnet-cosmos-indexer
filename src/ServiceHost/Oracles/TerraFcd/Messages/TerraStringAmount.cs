@@ -1,45 +1,44 @@
 using System.Text.Json.Serialization;
-using Invacoil.ServiceRole.TerraMoney.Extensions;
-using Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Wasm;
+using Pylonboard.ServiceHost.Extensions;
+using Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages;
+
+public record TerraStringAmount
 {
-    public record TerraStringAmount
-    {
-        [JsonPropertyName("denom")]
-        public string Denominator { get; set; }
+    [JsonPropertyName("denom")]
+    public string Denominator { get; set; }
         
-        [JsonPropertyName("amount")]
-        public string Amount { get; set; }
+    [JsonPropertyName("amount")]
+    public string Amount { get; set; }
 
-        public WasmExecuteMessageAsset ToWasmExecuteMessageAsset()
+    public WasmExecuteMessageAsset ToWasmExecuteMessageAsset()
+    {
+        if (Denominator.IsMuDemominator())
         {
-            if (Denominator.IsMuDemominator())
-            {
-                return new WasmExecuteMessageAsset
-                {
-                    Amount = Amount,
-                    Info = new WasmExecuteMessageAssetInfo
-                    {
-                        NativeToken = new WasmExecuteMessageAssetInfoNativeToken
-                        {
-                            Denominator = Denominator
-                        }
-                    }
-                };
-            }
-
             return new WasmExecuteMessageAsset
             {
                 Amount = Amount,
                 Info = new WasmExecuteMessageAssetInfo
                 {
-                    Token = new WasmExecuteMessageAssetInfoToken
+                    NativeToken = new WasmExecuteMessageAssetInfoNativeToken
                     {
-                        ContractAddress = Denominator,
+                        Denominator = Denominator
                     }
                 }
             };
         }
+
+        return new WasmExecuteMessageAsset
+        {
+            Amount = Amount,
+            Info = new WasmExecuteMessageAssetInfo
+            {
+                Token = new WasmExecuteMessageAssetInfoToken
+                {
+                    ContractAddress = Denominator,
+                }
+            }
+        };
     }
 }

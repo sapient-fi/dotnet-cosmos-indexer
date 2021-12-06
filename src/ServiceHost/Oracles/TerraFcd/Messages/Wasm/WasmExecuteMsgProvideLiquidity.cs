@@ -1,16 +1,14 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Wasm
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
+
+public record WasmExecuteMsgProvideLiquidity
 {
-    public record WasmExecuteMsgProvideLiquidity
-    {
-        [JsonPropertyName("assets")] public List<WasmExecuteMessageAsset> Assets { get; set; }
+    [JsonPropertyName("assets")] public List<WasmExecuteMessageAsset> Assets { get; set; }
         
-        [JsonPropertyName("slippage_tolerance")]
-        public string SlippageTolerance { get; set; }
+    [JsonPropertyName("slippage_tolerance")]
+    public string SlippageTolerance { get; set; }
         
-        [JsonPropertyName("token_amount")] 
-        public string TokenAmount { get; set; }
-    }
+    [JsonPropertyName("token_amount")] 
+    public string TokenAmount { get; set; }
 }

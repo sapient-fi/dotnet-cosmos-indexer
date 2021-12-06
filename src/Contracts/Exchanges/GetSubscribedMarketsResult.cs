@@ -1,17 +1,15 @@
-using System.Collections.Generic;
-using Invacoil.Kernel;
+using Pylonboard.Kernel;
 
-namespace Invacoil.Contracts.Exchanges
+namespace Pylonboard.Contracts.Exchanges;
+
+public class GetSubscribedMarketsResult
 {
-    public class GetSubscribedMarketsResult
-    {
-        public List<GetSubscribedMarketsResultItem> Markets { get; set; }
-    }
+    public List<GetSubscribedMarketsResultItem> Markets { get; set; }
+}
     
-    public class GetSubscribedMarketsResultItem
-    {
-        public string Market { get; set; }
+public class GetSubscribedMarketsResultItem
+{
+    public string Market { get; set; }
         
-        public Exchange Exchange { get; set; }
-    }
+    public Exchange Exchange { get; set; }
 }

@@ -1,13 +1,10 @@
-using System;
+namespace Pylonboard.Contracts.Exchanges;
 
-namespace Invacoil.Contracts.Exchanges
+public class GetExchangeRate
 {
-    public class GetExchangeRate
-    {
-        public string FromDenominator { get; set; }
+    public string FromDenominator { get; set; }
 
-        public string ToDenominator { get; set; }
+    public string ToDenominator { get; set; }
 
-        public DateTimeOffset AtTime { get; set; }
-    }
+    public DateTimeOffset AtTime { get; set; }
 }

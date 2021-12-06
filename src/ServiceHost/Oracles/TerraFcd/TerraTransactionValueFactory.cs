@@ -1,25 +1,23 @@
-using System;
-using Invacoil.ServiceRole.TerraMoney.Extensions;
-using Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages;
+using Pylonboard.ServiceHost.Extensions;
+using Pylonboard.ServiceHost.Oracles.TerraFcd.Messages;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd;
+
+public static class TerraTransactionValueFactory
 {
-    public static class TerraTransactionValueFactory
+    public static CoreStdTx GetIt(TerraTxWrapper tx)
     {
-        public static CoreStdTx GetIt(TerraTxWrapper tx)
+        return tx.Tx.Type switch
         {
-            return tx.Tx.Type switch
-            {
-                "core/StdTx" => new CoreStdTx{
-                    Id = tx.Id,
-                    TransactionHash = tx.TransactionHash,
-                    Fee = tx.Tx.Value.ToObject<TxFee>("fee"),
-                    Memo = tx.Tx.Value.ToObject<string>("memo"),
-                    Messages = tx.Tx.Value.FromCoreStdTxMessage("msg", tx.ChainId, tx.TransactionHash),
-                    Logs = tx.Logs,
-                },
-                _ => throw new ArgumentOutOfRangeException("type", $"Unable to handle tx type: {tx.Tx.Type}"),
-            };
-        }
+            "core/StdTx" => new CoreStdTx{
+                Id = tx.Id,
+                TransactionHash = tx.TransactionHash,
+                Fee = tx.Tx.Value.ToObject<TxFee>("fee"),
+                Memo = tx.Tx.Value.ToObject<string>("memo"),
+                Messages = tx.Tx.Value.FromCoreStdTxMessage("msg", tx.ChainId, tx.TransactionHash),
+                Logs = tx.Logs,
+            },
+            _ => throw new ArgumentOutOfRangeException("type", $"Unable to handle tx type: {tx.Tx.Type}"),
+        };
     }
 }

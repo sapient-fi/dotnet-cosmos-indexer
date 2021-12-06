@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages.Staking
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Staking;
+
+public record StakingMsgBeginRedelegate : IMsg
 {
-    public record StakingMsgBeginRedelegate : IMsg
-    {
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-    }
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 }

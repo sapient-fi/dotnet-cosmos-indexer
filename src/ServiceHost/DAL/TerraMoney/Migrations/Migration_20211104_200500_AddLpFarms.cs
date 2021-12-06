@@ -21,9 +21,7 @@ create table terra_lp_farm_entity
 	id bigint not null
 		constraint terra_lp_farm_entity_pkey
 			primary key,
-	transaction_id bigint not null
-		constraint ""FK_terra_lp_farm_entity_terra_raw_transaction_entity_Transactio""
-                references terra_raw_transaction_entity,
+	transaction_id bigint not null,
                     asset_one_denominator text,
                 asset_one_quantity numeric(38,6) not null,
                 asset_one_ust_value numeric(38,6),

@@ -19,8 +19,7 @@ namespace Invacoil.Data.Migrations
 create table terra_pylon_pool_entity
 (
 	id bigint not null,
-	transaction_id bigint not null
-		constraint ""FK_terra_pylon_pool_entity_terra_raw_transaction_entity_Transac"" references terra_raw_transaction_entity,
+	transaction_id bigint not null,
     depositor text,
     pool_contract text,
     amount numeric(38,6) not null,

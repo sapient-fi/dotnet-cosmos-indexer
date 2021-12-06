@@ -1,13 +1,12 @@
 using System.Text.Json.Serialization;
 
-namespace Invacoil.ServiceRole.TerraMoney.Oracles.TerraFcd.Messages
+namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages;
+
+public record TxLogEventAttribute
 {
-    public record TxLogEventAttribute
-    {
-        [JsonPropertyName("key")]
-        public string Key { get; set; }
+    [JsonPropertyName("key")]
+    public string Key { get; set; }
         
-        [JsonPropertyName("value")]
-        public string Value { get; set; }
-    }
+    [JsonPropertyName("value")]
+    public string Value { get; set; }
 }

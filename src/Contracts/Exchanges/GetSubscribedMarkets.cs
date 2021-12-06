@@ -1,9 +1,8 @@
-using Invacoil.Kernel;
+using Pylonboard.Kernel;
 
-namespace Invacoil.Contracts.Exchanges
+namespace Pylonboard.Contracts.Exchanges;
+
+public class GetSubscribedMarkets
 {
-    public class GetSubscribedMarkets
-    {
-        public Exchange ForExchange { get; set; }
-    }
+    public Exchange ForExchange { get; set; }
 }

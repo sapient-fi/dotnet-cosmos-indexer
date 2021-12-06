@@ -10,6 +10,11 @@ namespace Invacoil.Data.Migrations
         {
             var ctx = ContextAs<PostgreSqlMigrationContext>();
             var connection = ctx.ConnectionProvider.Default();
+            builder.Step("enable timescaledb", () =>
+            {
+	            connection.Execute("CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;");
+            });
+            
             builder.Step("create mine staking table", () =>
             {
                 connection.Execute(@"
@@ -32,15 +37,16 @@ SELECT create_hypertable('terra_mine_staking_entity', 'created_at', chunk_time_i
 	            connection.Execute(@"
 create table terra_raw_transaction_entity
 (
+	id bigint not null,
+	created_at timestamp with time zone not null,
+	raw_tx jsonb,
 	tx_hash text
 		constraint terra_raw_transaction_tx_hash_key
 			unique,
-	raw_tx jsonb,
-	id bigint not null
-		constraint terra_raw_transaction_pkey
-			primary key,
-	created_at timestamp with time zone not null
+	constraint terra_raw_transaction_pkey
+		primary key (id, created_at)
 );
+SELECT create_hypertable('terra_raw_transaction_entity', 'created_at', chunk_time_interval => INTERVAL '1 day');
 ");
             });
         }
