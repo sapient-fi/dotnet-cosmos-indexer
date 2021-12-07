@@ -15,12 +15,10 @@ public class TerraMineStakingEntity
 
     public decimal Amount { get; set; }
         
-    [NotNull]
     public DateTimeOffset CreatedAt { get; set; }
 
     public string TxHash { get; set; }
         
     [Index]
-    [NotNull]
     public bool IsBuyBack { get; set; }
 }
