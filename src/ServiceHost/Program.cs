@@ -1,5 +1,6 @@
 using Pylonboard.ServiceHost;
 using Pylonboard.ServiceHost.Config;
+using Pylonboard.ServiceHost.Endpoints;
 using Pylonboard.ServiceHost.Extensions;
 using Pylonboard.ServiceHost.ServiceCollectionExtensions;
 using RapidCore.Migration;
@@ -28,6 +29,10 @@ builder.Services.AddHealthChecks();
 builder.Services.AddTerraMoney(builder.Configuration);
 builder.Services.AddMessageBus(new PylonboardConfig(builder.Configuration), builder.Configuration);
 builder.Services.AddDbStack(builder.Configuration);
+builder.Services.AddEndpointServices();
+
+builder.Services.AddGraphQLServer()
+    .AddQueryType<Query>();
 
 var app = builder.Build();
 app.UseSerilogRequestLogging();
@@ -37,9 +42,11 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
     endpoints.MapHealthChecks("/health");
+    endpoints.MapGraphQL();
+    endpoints.MapControllers();
 });
+
 try
 {
     var logger = Log.ForContext(typeof(Program));
