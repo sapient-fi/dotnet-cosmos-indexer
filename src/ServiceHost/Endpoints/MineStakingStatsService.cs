@@ -16,10 +16,11 @@ public class MineStakingStatsService
     {
         _connectionFactory = connectionFactory;
     }
+
     public async Task<MineStakingStatsGraph> GetItAsync(CancellationToken cancellationToken)
     {
         using var db = await _connectionFactory.OpenDbConnectionAsync(token: cancellationToken);
-        
+
         var stakingSumPerDayResults = await db.SqlListAsync<TimeSeriesStatEntry>(@"
 select SUM(amount) as Value, DATE(created_at) as At
 from terra_mine_staking_entity
