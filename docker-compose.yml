@@ -3,6 +3,7 @@ version: '3.9'
 services:
   db:
     image: timescale/timescaledb:2.5.0-pg12
+    command: ["postgres", "-c", "log_statement=all"]
     ports:
       - "35432:5432"
     environment:
