@@ -20,15 +20,15 @@ public class Migration_20211019_201600_TerraMoneyMine : MigrationBase
 			connection.Execute(@"
 create table terra_mine_staking_entity
 (
+	id bigint not null,
+	transaction_id bigint not null,
 	sender text,
 	amount numeric(38,6) not null,
-	id bigint not null,
 	created_at timestamp with time zone not null,
 	tx_hash text,
 	constraint terra_mine_staking_entity_pkey
 			primary key (id, created_at)
 );
-
 SELECT create_hypertable('terra_mine_staking_entity', 'created_at', chunk_time_interval => INTERVAL '1 day');
 ");
 		});
@@ -39,10 +39,10 @@ create table terra_raw_transaction_entity
 (
 	id bigint not null,
 	created_at timestamp with time zone not null,
-	raw_tx jsonb,
-	tx_hash text,
 	constraint terra_raw_transaction_pkey
-		primary key (id, created_at)
+		primary key (id, created_at),
+	raw_tx jsonb,
+	tx_hash text
 );
 SELECT create_hypertable('terra_raw_transaction_entity', 'created_at', chunk_time_interval => INTERVAL '1 day');
 ");

@@ -31,7 +31,7 @@ public class TerraMoneyBackgroundServiceWorker : IScopedBackgroundServiceWorker
     {
         if (!_serviceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
         {
-            _logger.LogInformation("Service role {Role} is not enabling, not starting", ServiceRoles.BACKGROUND_WORKER);
+            _logger.LogInformation("Service role {Role} is not enabled, will not start it", ServiceRoles.BACKGROUND_WORKER);
             return;
         }
             
