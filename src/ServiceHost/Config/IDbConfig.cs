@@ -1,9 +1,8 @@
-namespace Pylonboard.ServiceHost.Config
-{
-    public interface IDbConfig
-    {
-        public string ConnectionString { get; }
+namespace Pylonboard.ServiceHost.Config;
 
-        public bool DisableMigrationsDuringBoot { get; }
-    }
+public interface IDbConfig
+{
+    public string ConnectionString { get; }
+
+    public bool DisableMigrationsDuringBoot { get; }
 }
