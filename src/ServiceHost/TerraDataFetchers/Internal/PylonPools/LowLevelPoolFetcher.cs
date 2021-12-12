@@ -33,6 +33,8 @@ public class LowLevelPoolFetcher
 
     public async Task FetchPoolDataAsync(string pylonPoolContractAddr, TerraPylonPoolFriendlyName friendlyName, CancellationToken stoppingToken)
     {
+        _logger.LogInformation("Fetching GW pool data for {Pool}", friendlyName);
+        
         const long offset = 0;
         int skipped = 0;
         using var db = _dbFactory.OpenDbConnection();

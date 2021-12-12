@@ -16,8 +16,3 @@ public class Query
         CancellationToken cancellationToken
     ) => service.GetItAsync(gatewayIdentifier, cancellationToken);
 }
-
-public enum GatewayPoolIdentifier
-{
-    WhiteWhale,
-}
