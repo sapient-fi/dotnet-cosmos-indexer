@@ -103,6 +103,10 @@ public class GatewayPoolStatsService
                 TerraPylonPoolFriendlyName.Mine2,
                 TerraPylonPoolFriendlyName.Mine3,
             },
+            GatewayPoolIdentifier.Nexus => new []
+            {
+                TerraPylonPoolFriendlyName.Nexus,
+            },
             _ => throw new ArgumentOutOfRangeException(nameof(gatewayPoolIdentifier), gatewayPoolIdentifier, null)
         };
     }

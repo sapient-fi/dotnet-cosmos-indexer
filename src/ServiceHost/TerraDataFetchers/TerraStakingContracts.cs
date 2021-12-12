@@ -31,6 +31,8 @@ public static class TerraPylonGatewayContracts
     public const string MINE_1 = "terra19vnwdqz4um0z8f69pc8y0z4ncrcxm4cjf3gevz";
     public const string MINE_2 = "terra1t3wtg074jjscqc5k2hn6l4lsremccm25tt77zp";
     public const string MINE_3 = "terra1za627n8zc8wqg06n9h7khpmjcnlkdkt38rkl3u";
+    
+    public const string NEXUS = "terra1fmnedmd3732gwyyj47r5p03055mygce98dpte2";
 }
 
 public static class TerraLpFarmingContracts

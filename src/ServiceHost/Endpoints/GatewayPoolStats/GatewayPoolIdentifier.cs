@@ -8,4 +8,5 @@ public enum GatewayPoolIdentifier
     Valkyrie,
     TerraWorld,
     Mine,
+    Nexus,
 }
