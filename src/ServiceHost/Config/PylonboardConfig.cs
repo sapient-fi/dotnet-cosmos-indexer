@@ -27,5 +27,8 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig
         "User ID=pylonboard_user;Password=pylonboard_user_pass;Host=localhost;Port=35432;Database=pylonboard;Pooling=true;Minimum Pool Size=10;Maximum Pool Size=100;"
     );
 
-    public bool UseMigrations => _config.Get("INVACOIL_DB_USE_MIGRATIONS", true); // TODO should definitely be true!
+    public bool DisableMigrationsDuringBoot => _config.Get(
+        "PYLONBOARD_DB_DISABLE_MIGRATIONS_ON_BOOT",
+        false
+    );
 }

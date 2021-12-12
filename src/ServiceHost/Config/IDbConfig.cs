@@ -4,6 +4,6 @@ namespace Pylonboard.ServiceHost.Config
     {
         public string ConnectionString { get; }
 
-        public bool UseMigrations { get; }
+        public bool DisableMigrationsDuringBoot { get; }
     }
 }

@@ -42,10 +42,20 @@ app.UseEndpoints(endpoints =>
 });
 try
 {
+    var logger = Log.ForContext(typeof(Program));
     using (var scope = app.Services.CreateScope())
     {
-        var migrator = scope.ServiceProvider.GetRequiredService<MigrationRunner>();
-        await migrator.UpgradeAsync();
+        var config = scope.ServiceProvider.GetRequiredService<IDbConfig>();
+        
+        if (config.DisableMigrationsDuringBoot)
+        {
+            logger.Warning("{Setting} is false so will not apply migrations", nameof(config.DisableMigrationsDuringBoot));
+        }
+        else
+        {
+            var migrator = scope.ServiceProvider.GetRequiredService<MigrationRunner>();
+            await migrator.UpgradeAsync();
+        }
     }
     
     app.Run();
