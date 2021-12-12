@@ -159,6 +159,11 @@ public class MineStakingDataFetcher
                     }
 
                 }
+                else if (properMsg.Value.ExecuteMessage.Airdrop?.Claim != null)
+                {
+                    _logger.LogDebug("Airdrop claim, skipping");
+                    continue;
+                }
                 else if (properMsg.Value.ExecuteMessage.WithdrawVotingTokens != null)
                 {
                     amount = -1 *
