@@ -1,3 +1,4 @@
+using Polly;
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.TerraDataFetchers;
@@ -36,12 +37,23 @@ public class TerraMoneyBackgroundServiceWorker : IScopedBackgroundServiceWorker
         }
             
         _logger.LogInformation("{TheThing} starting work", nameof(TerraMoneyBackgroundServiceWorker));
-
+        var retryPolicy = Policy
+            .Handle<Exception>()
+            .WaitAndRetryAsync(new[]
+            {
+                TimeSpan.FromSeconds(10),
+                TimeSpan.FromSeconds(20),
+                TimeSpan.FromSeconds(40),
+                TimeSpan.FromSeconds(80),
+            }, (exception, waitTime, tryNumber, retryContext) =>
+            {
+                _logger.LogWarning(exception, "Got error while refreshing data, sleeping for {Sleep:T} before trying again. Retry number {Retry}", waitTime, tryNumber);
+            });
         do
         {
-            await _mineStakingDataFetcher.FetchDataAsync(stoppingToken);
-            await _mineBuybackDataFetcher.FetchDataAsync(stoppingToken);
-            await _pylonPoolsDataFether.FetchDataAsync(stoppingToken);
+            await retryPolicy.ExecuteAsync(async () => await _mineStakingDataFetcher.FetchDataAsync(stoppingToken));
+            await retryPolicy.ExecuteAsync(async () => await _mineBuybackDataFetcher.FetchDataAsync(stoppingToken));
+            await retryPolicy.ExecuteAsync(async () => await _pylonPoolsDataFether.FetchDataAsync(stoppingToken));
                 
             var sleepTime = TimeSpan.FromMinutes(10);
             _logger.LogDebug("Done for now, sleeping for {Sleep}", sleepTime.ToString("g"));

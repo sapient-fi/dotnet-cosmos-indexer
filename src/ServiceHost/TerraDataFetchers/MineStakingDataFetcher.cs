@@ -68,9 +68,7 @@ public class MineStakingDataFetcher
                 skipped++;
                 continue;
             }
-
-            // reset skip-counter
-            skipped = 0;
+            
             foreach (var properMsg in msg.Messages.Select(innerMsg => innerMsg as WasmMsgExecuteContract))
             {
                 if (properMsg == default)
@@ -159,6 +157,11 @@ public class MineStakingDataFetcher
                     }
 
                 }
+                else if (properMsg.Value.ExecuteMessage.Airdrop?.Claim != null)
+                {
+                    _logger.LogDebug("Airdrop claim, skipping");
+                    continue;
+                }
                 else if (properMsg.Value.ExecuteMessage.WithdrawVotingTokens != null)
                 {
                     amount = -1 *
@@ -169,6 +172,7 @@ public class MineStakingDataFetcher
                 {
                     amount = -1 * properMsg.Value.ExecuteMessage.Staking.Unstake.Amount.ToInt64() / 1_000_000m;
                 }
+                
                 else
                 {
                         

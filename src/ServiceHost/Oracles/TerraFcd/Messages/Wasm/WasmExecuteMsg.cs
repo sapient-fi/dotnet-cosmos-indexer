@@ -59,5 +59,8 @@ public record WasmExecuteMessage
     public WasmExecuteMsgEndPoll EndPoll { get; set; }
         
     [JsonPropertyName("staking")]
-    public WasmExecuteMsgStaking Staking { get; set; } 
+    public WasmExecuteMsgStaking Staking { get; set; }
+
+    [JsonPropertyName("airdrop")]
+    public WasmExecuteMsgAirdrop Airdrop { get; set; }
 }
