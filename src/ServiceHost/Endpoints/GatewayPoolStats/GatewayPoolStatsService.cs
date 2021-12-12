@@ -17,18 +17,14 @@ public class GatewayPoolStatsService
         _dbConnectionFactory = dbConnectionFactory;
     }
 
-    public async Task<GatewayPoolStatsGraph> GetItAsync(GatewayPoolIdentifier gatewayIdentifier,
-        CancellationToken cancellationToken)
+    public async Task<GatewayPoolStatsGraph> GetItAsync(
+        GatewayPoolIdentifier gatewayIdentifier,
+        CancellationToken cancellationToken
+    )
     {
         using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
 
-        // TODO resolve from input GW pool name
-        var friendlyNames = new[]
-        {
-            TerraPylonPoolFriendlyName.WhiteWhale1,
-            TerraPylonPoolFriendlyName.WhiteWhale2,
-            TerraPylonPoolFriendlyName.WhiteWhale3
-        };
+        var friendlyNames = PoolIdentifierToFriendlyNames(gatewayIdentifier);
 
         var stats = await db.SingleAsync<GatewayPoolStatsOverallGraph>(db.From<TerraPylonPoolEntity>()
                 .Select(entity => new
@@ -67,17 +63,47 @@ public class GatewayPoolStatsService
         };
     }
 
-    private string ToInSqlQuery(IEnumerable<TerraPylonPoolFriendlyName> friendlyNames)
+    private static TerraPylonPoolFriendlyName[] PoolIdentifierToFriendlyNames(
+        GatewayPoolIdentifier gatewayPoolIdentifier
+    )
     {
-        var sb = new StringBuilder();
-        sb.Append("IN(");
-        foreach (var item in friendlyNames)
+        return gatewayPoolIdentifier switch
         {
-            sb.Append($"'{item.ToString()}',");
-        }
-
-        sb.Remove(sb.Length - 1, 1);
-        sb.Append(")");
-        return sb.ToString();
+            GatewayPoolIdentifier.WhiteWhale => new[]
+            {
+                TerraPylonPoolFriendlyName.WhiteWhale1,
+                TerraPylonPoolFriendlyName.WhiteWhale2,
+                TerraPylonPoolFriendlyName.WhiteWhale3
+            },
+            GatewayPoolIdentifier.Loop => new []
+            {
+                TerraPylonPoolFriendlyName.Loop1,
+                TerraPylonPoolFriendlyName.Loop2,
+                TerraPylonPoolFriendlyName.Loop3,
+            },
+            GatewayPoolIdentifier.Orion => new []
+            {
+                TerraPylonPoolFriendlyName.Orion,
+            },
+            GatewayPoolIdentifier.Valkyrie => new []
+            {
+                TerraPylonPoolFriendlyName.Valkyrie1,
+                TerraPylonPoolFriendlyName.Valkyrie2,
+                TerraPylonPoolFriendlyName.Valkyrie3,
+            },
+            GatewayPoolIdentifier.TerraWorld => new []
+            {
+                TerraPylonPoolFriendlyName.TerraWorld1,
+                TerraPylonPoolFriendlyName.TerraWorld2,
+                TerraPylonPoolFriendlyName.TerraWorld3,
+            },
+            GatewayPoolIdentifier.Mine => new []
+            {
+                TerraPylonPoolFriendlyName.Mine1,
+                TerraPylonPoolFriendlyName.Mine2,
+                TerraPylonPoolFriendlyName.Mine3,
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(gatewayPoolIdentifier), gatewayPoolIdentifier, null)
+        };
     }
 }
