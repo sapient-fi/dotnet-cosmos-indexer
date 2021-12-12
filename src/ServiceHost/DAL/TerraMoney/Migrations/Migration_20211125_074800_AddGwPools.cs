@@ -4,18 +4,18 @@ using RapidCore.PostgreSql.Migration;
 using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.Dapper;
 
-namespace Invacoil.Data.Migrations
-{
-    public class Migration_20211125_074800_AddGwPools : MigrationBase
-    {
-        protected override void ConfigureUpgrade(IMigrationBuilder builder)
-        {
-            var ctx = ContextAs<PostgreSqlMigrationContext>();
-            var connection = ctx.ConnectionProvider.Default();
+namespace Pylonboard.ServiceHost.DAL.Migrations;
 
-            builder.Step("create gw pool table", () =>
-            {
-                connection.Execute(@"
+public class Migration_20211125_074800_AddGwPools : MigrationBase
+{
+    protected override void ConfigureUpgrade(IMigrationBuilder builder)
+    {
+        var ctx = ContextAs<PostgreSqlMigrationContext>();
+        var connection = ctx.ConnectionProvider.Default();
+
+        builder.Step("create gw pool table", () =>
+        {
+            connection.Execute(@"
 create table terra_pylon_pool_entity
 (
 	id bigint not null,
@@ -34,21 +34,20 @@ create table terra_pylon_pool_entity
 SELECT create_hypertable('terra_pylon_pool_entity', 'created_at', chunk_time_interval => INTERVAL '1 day');
 ");
                 
-            });
+        });
 
-            builder.Step("add index to friendly name", () =>
-            {
-                connection.Execute(@"
+        builder.Step("add index to friendly name", () =>
+        {
+            connection.Execute(@"
 create index terra_pylon_pool_entity_friendly_name_idx
 	on terra_pylon_pool_entity (friendly_name);
 
 ");
-            });
-        }
+        });
+    }
 
-        protected override void ConfigureDowngrade(IMigrationBuilder builder)
-        {
-            throw new System.NotImplementedException();
-        }
+    protected override void ConfigureDowngrade(IMigrationBuilder builder)
+    {
+        throw new System.NotImplementedException();
     }
 }

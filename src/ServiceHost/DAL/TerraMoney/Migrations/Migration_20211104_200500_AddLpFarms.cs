@@ -4,18 +4,18 @@ using RapidCore.PostgreSql.Migration;
 using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.Dapper;
 
-namespace Invacoil.Data.Migrations
+namespace Pylonboard.ServiceHost.DAL.Migrations;
+
+public class Migration_20211104_200500_AddLpFarms : MigrationBase
 {
-    public class Migration_20211104_200500_AddLpFarms : MigrationBase
+    protected override void ConfigureUpgrade(IMigrationBuilder builder)
     {
-        protected override void ConfigureUpgrade(IMigrationBuilder builder)
-        {
-            var ctx = ContextAs<PostgreSqlMigrationContext>();
-            var connection = ctx.ConnectionProvider.Default();
+        var ctx = ContextAs<PostgreSqlMigrationContext>();
+        var connection = ctx.ConnectionProvider.Default();
             
-            builder.Step("add lp farm table", () =>
-            {
-                connection.Execute(@"
+        builder.Step("add lp farm table", () =>
+        {
+            connection.Execute(@"
 create table terra_lp_farm_entity
 (
 	id bigint not null
@@ -33,20 +33,19 @@ create table terra_lp_farm_entity
                     created_at timestamp with time zone not null
                     );        
 ");
-            });
+        });
 
-            builder.Step("index farm column", () =>
-            {
-                connection.Execute(@"
+        builder.Step("index farm column", () =>
+        {
+            connection.Execute(@"
 create index terra_lp_farm_entity_farm_index
 	on terra_lp_farm_entity (farm);
 ");
-            });
-        }
+        });
+    }
 
-        protected override void ConfigureDowngrade(IMigrationBuilder builder)
-        {
-            throw new System.NotImplementedException();
-        }
+    protected override void ConfigureDowngrade(IMigrationBuilder builder)
+    {
+        throw new System.NotImplementedException();
     }
 }
