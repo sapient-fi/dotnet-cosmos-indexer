@@ -62,7 +62,7 @@ public class TerraTransactionEnumerator
                     continue;
                 }
 
-                _logger.LogInformation("Processing transaction with id {Id}", tx.Id);
+                _logger.LogDebug("Processing transaction with id {Id}", tx.Id);
 
                 var msg = TerraTransactionValueFactory.GetIt(tx);
                 yield return (tx, msg);
