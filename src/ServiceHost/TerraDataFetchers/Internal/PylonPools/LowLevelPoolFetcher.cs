@@ -1,4 +1,5 @@
 using System.Text.Json;
+using NewRelic.Api.Agent;
 using Pylonboard.Kernel;
 using Pylonboard.Kernel.IdGeneration;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
@@ -31,9 +32,13 @@ public class LowLevelPoolFetcher
         _logger = logger;
     }
 
+    [Trace]
     public async Task FetchPoolDataAsync(string pylonPoolContractAddr, TerraPylonPoolFriendlyName friendlyName, CancellationToken stoppingToken)
     {
         _logger.LogInformation("Fetching GW pool data for {Pool}", friendlyName);
+        var agent = NewRelic.Api.Agent.NewRelic.GetAgent(); 
+        var currentSpan = agent.CurrentSpan;
+        currentSpan?.AddCustomAttribute("pool-name", friendlyName);
         
         const long offset = 0;
         int skipped = 0;

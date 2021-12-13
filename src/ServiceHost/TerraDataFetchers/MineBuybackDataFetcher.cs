@@ -1,4 +1,5 @@
 using System.Text.Json;
+using NewRelic.Api.Agent;
 using Pylonboard.Kernel.IdGeneration;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using Pylonboard.ServiceHost.Oracles;
@@ -28,6 +29,7 @@ public class MineBuybackDataFetcher
         _dbFactory = dbFactory;
     }
 
+    [Transaction]
     public async Task FetchDataAsync(CancellationToken stoppingToken)
     {
         const long offset = 0;

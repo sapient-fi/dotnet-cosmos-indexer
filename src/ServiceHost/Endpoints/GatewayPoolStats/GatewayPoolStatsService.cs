@@ -1,4 +1,5 @@
 using System.Text;
+using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Data;
@@ -16,7 +17,8 @@ public class GatewayPoolStatsService
     {
         _dbConnectionFactory = dbConnectionFactory;
     }
-
+    
+    [Trace]
     public async Task<GatewayPoolStatsGraph> GetItAsync(
         GatewayPoolIdentifier gatewayIdentifier,
         CancellationToken cancellationToken
@@ -63,6 +65,7 @@ public class GatewayPoolStatsService
         };
     }
 
+    [Trace]
     private static TerraPylonPoolFriendlyName[] PoolIdentifierToFriendlyNames(
         GatewayPoolIdentifier gatewayPoolIdentifier
     )

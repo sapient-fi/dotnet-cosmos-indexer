@@ -16,6 +16,8 @@
     <PackageReference Include="MassTransit.AspNetCore" Version="7.3.0-develop.317" />
     <PackageReference Include="MassTransit.Grpc" Version="7.3.0-develop.317" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+    <PackageReference Include="NewRelic.Agent.Api" Version="9.2.0" />
+    <PackageReference Include="NewRelic.LogEnrichers.Serilog" Version="1.0.1" />
     <PackageReference Include="RapidCore" Version="0.26.0" />
     <PackageReference Include="RapidCore.PostgreSql" Version="0.26.0" />
     <PackageReference Include="Refit.HttpClientFactory" Version="6.1.15" />
@@ -25,6 +27,7 @@
     <PackageReference Include="Serilog.Exceptions" Version="8.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
     <PackageReference Include="Serilog.Sinks.console" Version="4.0.1" />
+    <PackageReference Include="Serilog.Sinks.NewRelic.Logs" Version="1.2.0" />
     <PackageReference Include="Serilog.Sinks.seq" Version="5.1.0" />
     <PackageReference Include="ServiceStack.OrmLite.PostgreSQL" Version="5.13.2" />
   </ItemGroup>
