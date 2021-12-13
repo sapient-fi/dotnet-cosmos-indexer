@@ -32,7 +32,9 @@ builder.Services.AddDbStack(builder.Configuration);
 builder.Services.AddEndpointServices();
 
 builder.Services.AddGraphQLServer()
-    .AddQueryType<Query>();
+    .AddQueryType<Query>()
+    .AddDiagnosticEventListener<NewRelicReportingDiagnosticEventListener>()
+    .AddApolloTracing(); // https://chillicream.com/docs/hotchocolate/server/instrumentation#on-demand
 
 var app = builder.Build();
 app.UseSerilogRequestLogging();
