@@ -1,3 +1,4 @@
+using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 using Pylonboard.ServiceHost.Endpoints.Types;
@@ -17,6 +18,7 @@ public class MineStakingStatsService
         _connectionFactory = connectionFactory;
     }
 
+    [Trace]
     public async Task<MineStakingStatsGraph> GetItAsync(CancellationToken cancellationToken)
     {
         using var db = await _connectionFactory.OpenDbConnectionAsync(token: cancellationToken);
