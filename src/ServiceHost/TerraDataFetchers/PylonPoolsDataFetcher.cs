@@ -1,3 +1,4 @@
+using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using Pylonboard.ServiceHost.TerraDataFetchers.Internal.PylonPools;
 
@@ -17,6 +18,7 @@ public class PylonPoolsDataFether
         _poolFetcher = poolFetcher;
     }
 
+    [Transaction]
     public async Task FetchDataAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Pylon Pool data fetcher commencing");

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using NewRelic.Api.Agent;
 using Pylonboard.Kernel.IdGeneration;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using Pylonboard.ServiceHost.Oracles;
@@ -30,6 +31,7 @@ public class MineStakingDataFetcher
         _dbFactory = dbFactory;
     }
 
+    [Transaction]
     public async Task FetchDataAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Fetching fresh MINE staking transactions");

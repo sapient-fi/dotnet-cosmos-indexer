@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Runtime.CompilerServices;
+using NewRelic.Api.Agent;
 using Polly;
 using Pylonboard.ServiceHost.Oracles.TerraFcd;
 using Pylonboard.ServiceHost.Oracles.TerraFcd.Messages;
@@ -22,6 +23,7 @@ public class TerraTransactionEnumerator
         _terraClient = terraClient;
     }
 
+    [Trace]
     public async IAsyncEnumerable<(TerraTxWrapper tx, CoreStdTx msg)> EnumerateTransactionsAsync(
         long offset,
         int limit,
