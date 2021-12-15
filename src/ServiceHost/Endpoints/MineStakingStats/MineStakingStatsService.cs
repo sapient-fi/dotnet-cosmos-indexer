@@ -44,10 +44,26 @@ select
 from data order by date;
 ", token: cancellationToken);
 
+        var daysStakedBinnedResults = await db.SqlListAsync<DaysStakedStatEntry>(@"
+select sum(count), daysStakedBin from(
+    select count(*) as count, (FLOOR(days_to_now/5) * 5) as daysStakedBin
+    from v_wallet_first_stake
+    group by days_to_now
+    order by daysStakedBin) as inr
+group by inr.daysStakedBin;
+", token: cancellationToken);
+        
+        var numNewWalletsResults = await db.SqlListAsync<TimeSeriesStatEntry>(@"
+select count(*) as count, DATE(""min"") as At
+        from v_wallet_first_stake
+        group by DATE(""min"")
+");
         return new MineStakingStatsGraph
         {
             StakedPerDay = stakingSumPerDayResults,
             StakedPerDayCumulative = stakingCumSumResults,
+            DaysStakedBinned = daysStakedBinnedResults,
+            NewWalletsPrDay = numNewWalletsResults
         };
     }
 }
