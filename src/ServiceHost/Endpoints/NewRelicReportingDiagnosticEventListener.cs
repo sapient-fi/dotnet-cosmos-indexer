@@ -7,10 +7,27 @@ namespace Pylonboard.ServiceHost.Endpoints;
 
 public class NewRelicReportingDiagnosticEventListener : ExecutionDiagnosticEventListener
 {
+    private readonly ILogger<NewRelicReportingDiagnosticEventListener> _logger;
+
+    public NewRelicReportingDiagnosticEventListener(ILogger<NewRelicReportingDiagnosticEventListener> logger)
+    {
+        _logger = logger;
+    }
     public override void RequestError(IRequestContext context, Exception exception)
     {
         NewRelic.Api.Agent.NewRelic.NoticeError(exception);
         base.RequestError(context, exception);
+    }
+
+    public override void ResolverError(IMiddlewareContext context, IError error)
+    {
+        if (error.Exception != null)
+        {
+            NewRelic.Api.Agent.NewRelic.NoticeError(error.Exception);
+            _logger.LogError(error.Exception, "Resolver error");
+        }
+        
+        base.ResolverError(context, error);
     }
 
     public override IDisposable ExecuteRequest(IRequestContext context)
