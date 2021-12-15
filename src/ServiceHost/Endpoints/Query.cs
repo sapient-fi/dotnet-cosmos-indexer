@@ -1,4 +1,5 @@
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
+using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 
 namespace Pylonboard.ServiceHost.Endpoints;
@@ -15,4 +16,9 @@ public class Query
         [Service] GatewayPoolStatsService service,
         CancellationToken cancellationToken
     ) => service.GetItAsync(gatewayIdentifier, cancellationToken);
+
+    public Task<MineRankingsGraph> GetMineRankings(
+        [Service] MineRankingService service,
+        CancellationToken cancellationToken
+    ) => service.GetItAsync(cancellationToken);
 }

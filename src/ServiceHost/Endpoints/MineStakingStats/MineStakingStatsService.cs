@@ -58,7 +58,8 @@ select distinct count(sender) as value, DATE(""min"") as at
         from v_wallet_first_stake
         group by DATE(""min"")
         order by DATE(""min"");
-");
+", token: cancellationToken);
+        
         return new MineStakingStatsGraph
         {
             StakedPerDay = stakingSumPerDayResults,
