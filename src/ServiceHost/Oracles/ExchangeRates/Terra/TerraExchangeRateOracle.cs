@@ -35,11 +35,11 @@ public class TerraExchangeRateOracle
             return (1m, atTime);
         }
             
-        if (!toDenom.EqualsIgnoreCase(TerraDenominators.Ust))
-        {
-            throw new NotSupportedException("Currently only supports converting _to_ UST");
-        }
-            
+        // if (!toDenom.EqualsIgnoreCase(TerraDenominators.Ust))
+        // {
+        //     throw new NotSupportedException("Currently only supports converting _to_ UST");
+        // }
+        //     
         var contractAddr = fromDenom switch
         {
             TerraDenominators.Luna => "terra1tndcaqxkpc5ce9qee5ggqf430mr2z3pefe5wj6",
@@ -57,18 +57,27 @@ public class TerraExchangeRateOracle
             TerraDenominators.Apollo => "terra1xj2w7w8mx6m2nueczgsxy2gnmujwejjeu2xf78",
             TerraDenominators.bEth => "terra1c0afrdc5253tkp5wt7rxhuj42xwyf2lcre0s7c",
             TerraDenominators.nEth => "terra1c0afrdc5253tkp5wt7rxhuj42xwyf2lcre0s7c", // Lookup nEth as bEth as it's basically the same
+            "bPsiDP" => "terra167gwjhv4mrs0fqj0q5tejyl6cz6qc2cl95z530",
             _ => throw new ArgumentOutOfRangeException(nameof(fromDenom), $"No contract for {fromDenom}")
+        };
+
+        var quoteAsset = toDenom switch
+        {
+            TerraDenominators.Ust => "uusd",
+            TerraDenominators.Psi => "terra12897djskt9rge8dtmm86w654g7kzckkd698608", // TODO make reverse map possible 
+            _ => throw new ArgumentOutOfRangeException(nameof(toDenom), "No handle this"),
         };
             
         var response = await _exchangeRateApiClient.GetExchangeRateAsync(
             atTime.ToUnixTimeSeconds(),
             atTime.AddMinutes(15).ToUnixTimeSeconds(),
-            contractAddr
+            contractAddr,
+            quoteAsset
         );
 
         var first = response.Content.First();
 
-        if (first.Close <= 0.0000001m)
+        if (first.Close <= 0.0001m)
         {
             first.Close *= 1_000_000m;
 
