@@ -1,6 +1,5 @@
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.Kernel.IdGeneration;
-using Pylonboard.ServiceHost.BackgroundServices;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.Oracles;
 using Pylonboard.ServiceHost.Oracles.TerraFcd;
