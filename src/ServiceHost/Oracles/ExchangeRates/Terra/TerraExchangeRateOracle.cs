@@ -28,7 +28,8 @@ public class TerraExchangeRateOracle
     /// <param name="fromDenom"></param>
     /// <param name="toDenom"></param>
     /// <param name="atTime"></param>
-    public async Task<(decimal close, DateTimeOffset closedAt)> GetExchangeRateAsync(string fromDenom, string toDenom, DateTimeOffset atTime)
+    /// <param name="interval">The interval to get candles in, 1m for 1 minute etc</param>
+    public async Task<(decimal close, DateTimeOffset closedAt)> GetExchangeRateAsync(string fromDenom, string toDenom, DateTimeOffset atTime, string interval = "1m")
     {
         if (fromDenom.EqualsIgnoreCase(TerraDenominators.Ust))
         {
@@ -72,7 +73,8 @@ public class TerraExchangeRateOracle
             atTime.ToUnixTimeSeconds(),
             atTime.AddMinutes(15).ToUnixTimeSeconds(),
             contractAddr,
-            quoteAsset
+            quoteAsset,
+            interval
         );
 
         var first = response.Content.First();

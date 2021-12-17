@@ -29,10 +29,10 @@ public static class TerraMoneyServiceCollectionExtensions
 
         services.AddRefitClient<ITerraMoneyExchangeRateApiClient>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.coinhall.org"));
-        services.AddScoped<TerraExchangeRateOracle>();
+        services.AddTransient<TerraExchangeRateOracle>();
 
-        // services.AddScoped<TerraMoneyBackgroundServiceWorker>();
-        // services.AddHostedService<ScopedBackgroundService<TerraMoneyBackgroundServiceWorker>>();
+        services.AddScoped<TerraMoneyBackgroundServiceWorker>();
+        services.AddHostedService<ScopedBackgroundService<TerraMoneyBackgroundServiceWorker>>();
 
         services.AddScoped<PsiPoolArbServiceWorker>();
         services.AddHostedService<ScopedBackgroundService<PsiPoolArbServiceWorker>>();
