@@ -1,5 +1,6 @@
 using Pylonboard.Kernel;
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
+using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL.Exchanges;
 using Pylonboard.ServiceHost.Oracles.ArbNotifier;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
@@ -16,22 +17,31 @@ public class PsiPoolArbServiceWorker : IScopedBackgroundServiceWorker
     private readonly TerraExchangeRateOracle _exchangeRateOracle;
     private readonly IDbConnectionFactory _dbConnectionFactory;
     private readonly ArbNotifier _notifier;
+    private readonly IEnabledServiceRolesConfig _serviceRolesConfig;
 
     public PsiPoolArbServiceWorker(
         ILogger<PsiPoolArbServiceWorker> logger,
         TerraExchangeRateOracle exchangeRateOracle,
         IDbConnectionFactory dbConnectionFactory,
-        ArbNotifier notifier
+        ArbNotifier notifier,
+        IEnabledServiceRolesConfig serviceRolesConfig
     )
     {
         _logger = logger;
         _exchangeRateOracle = exchangeRateOracle;
         _dbConnectionFactory = dbConnectionFactory;
         _notifier = notifier;
+        _serviceRolesConfig = serviceRolesConfig;
     }
 
     public async Task DoWorkAsync(CancellationToken stoppingToken)
     {
+        if (!_serviceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
+        {
+            _logger.LogInformation("Background worker role not active, not starting arb bot");
+            return;
+        }
+        
         do
         {
             var now = DateTimeOffset.Now;
