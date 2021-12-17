@@ -19,6 +19,7 @@ public static class TerraDenominators
     public const string Orion = "ORION";
     public const string Apollo = "APOLLO";
     public const string bEth = "bEth";
+    public const string bPsiDP = "bPsiDP";
 
     public static readonly Dictionary<string, string> AssetTokenAddressToDenominator = new()
     {

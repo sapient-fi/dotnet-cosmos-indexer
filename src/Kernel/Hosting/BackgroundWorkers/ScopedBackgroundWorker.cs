@@ -26,7 +26,7 @@ public class ScopedBackgroundService<TWorker> : BackgroundService where TWorker 
             var worker = scope.ServiceProvider.GetRequiredService<TWorker>();
             await worker.DoWorkAsync(stoppingToken);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not TaskCanceledException)
         {
             _logger.LogCritical(42, ex, "critical error in hosted service");
 

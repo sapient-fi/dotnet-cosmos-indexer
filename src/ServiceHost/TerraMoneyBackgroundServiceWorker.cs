@@ -3,7 +3,7 @@ using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.TerraDataFetchers;
 
-namespace Pylonboard.ServiceHost.BackgroundServices;
+namespace Pylonboard.ServiceHost;
 
 public class TerraMoneyBackgroundServiceWorker : IScopedBackgroundServiceWorker
 {
