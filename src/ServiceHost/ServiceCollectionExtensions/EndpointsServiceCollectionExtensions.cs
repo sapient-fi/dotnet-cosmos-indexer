@@ -11,6 +11,7 @@ public static class EndpointsServiceCollectionExtensions
         services.AddScoped<MineStakingStatsService>();
         services.AddScoped<GatewayPoolStatsService>();
         services.AddScoped<MineRankingService>();
+        services.AddScoped<MineWalletStatsService>();
 
         return services;
     }
