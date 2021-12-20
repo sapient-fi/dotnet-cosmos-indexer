@@ -45,4 +45,9 @@ public class Query
         CancellationToken cancellationToken) =>
         service.GetTreasuryOverviewAsync(cancellationToken
     );
+    
+    public Task<IEnumerable<MineBuybackGraph>> GetMineTreasuryBuybackByWallet(
+        string wallet,
+        [Service]MineTreasuryService service,
+        CancellationToken cancellationToken) => service.GetBuybackByWalletAsync(wallet, cancellationToken);
 }

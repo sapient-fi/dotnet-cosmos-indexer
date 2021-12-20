@@ -33,6 +33,7 @@ public class MineTreasuryService
         return results;
     }
 
+    [Trace]
     private async Task<List<MineBuybackGraph>> GetBuybacksAsync(IDbConnection db, CancellationToken cancellationToken)
     {
         var data = await db.SelectAsync<MineBuybackGraph>(
@@ -46,6 +47,24 @@ public class MineTreasuryService
                     UstAmount = entity.UstAmount
                 }), token: cancellationToken);
 
+        return data;
+    }
+
+    [Trace]
+    public async Task<IEnumerable<MineBuybackGraph>> GetBuybackByWalletAsync(string wallet, CancellationToken cancellationToken)
+    {
+        using var db = await _dbConnectionFactory.OpenDbConnectionAsync(cancellationToken);
+        var data = await db.SelectAsync<MineBuybackGraph>(
+            db.From<TerraMineStakingEntity>()
+                .Where(entity => entity.Sender == wallet && entity.IsBuyBack == true)
+                .OrderByDescending(entity => entity.CreatedAt)
+                .Select(entity => new
+                {
+                    CreatedAt = entity.CreatedAt,
+                    MineAmount = entity.Amount,
+                    TransactionHash = entity.TxHash,
+                    UstAmount = 0
+                }), token: cancellationToken);
         return data;
     }
 }
