@@ -54,6 +54,7 @@ public class GatewayPoolStatsService
             db.From<TerraPylonPoolEntity>()
                 .Select("SUM(amount) as Value, DATE(created_at) as At")
                 .GroupBy("DATE(created_at)")
+                .OrderBy("DATE(created_at)")
                 .Where(entity => Sql.In(entity.FriendlyName, friendlyNames)
                                  && Sql.In(entity.Operation,
                                      new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw }))
