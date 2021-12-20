@@ -75,7 +75,7 @@ Also store this as a time-series then we can visualize the arb-opportunities in 
         var messageText = $"{denom} BUY arb! {calculatedArbRateInUst:F} on the dollar";
         if (calculatedArbRateInUst is >= 0.85m and <= 0.95m)
         {
-            if (_notificationTimer.Elapsed < TimeSpan.FromMinutes(60) && _notificationTimer.IsRunning)
+            if (_notificationTimer.Elapsed < TimeSpan.FromHours(4) && _notificationTimer.IsRunning)
             {
                 _logger.LogDebug("Last notification was {Notify:T} time ago, not notifying now", _notificationTimer.Elapsed);
                 return;
