@@ -77,16 +77,21 @@ public class MineBuybackDataFetcher
             foreach (var evt in events)
             {
                 _logger.LogDebug("Have sweep event: {Event}", evt);
-                var distributeAmountStr =
-                    evt.Attributes.First(attrib => attrib.Key.EqualsIgnoreCase("distribute_amount")).Value;
-
-                var mineAmount = distributeAmountStr.ToInt64();
-
+                var distributeMineAmountStr =
+                    evt.Attributes.First(attrib => 
+                        attrib.Key.EqualsIgnoreCase("distribute_amount")).Value;
+                var mineAmount = distributeMineAmountStr.ToInt64();
+                var offerAmountUstStr =
+                    evt.Attributes.First(attribute =>
+                        attribute.Key.EqualsIgnoreCase("offer_amount")).Value;
+                var offerAmountUst = offerAmountUstStr.ToInt64() / 1_000_000m;
+                
                 buyBacks.Add(new TerraMineBuyBack
                 {
                     TxId = tx.Id,
                     TxHash = tx.TransactionHash,
                     AmountInU = mineAmount,
+                    UstAmount = offerAmountUst,
                     CreatedAt = tx.CreatedAt,
                 });
             }
@@ -127,6 +132,15 @@ public class MineBuybackDataFetcher
                 }, token: stoppingToken);
             }
 
+            await db.InsertAsync(new TerraMineBuybackEntity
+            {
+                Id = _idGenerator.Snowflake(),
+                CreatedAt = buyBack.CreatedAt,
+                MineAmount = buyBack.AmountInU / 1_000_000M,
+                UstAmount = buyBack.UstAmount,
+                TransactionHash = buyBack.TxHash,
+                TransactionId = buyBack.TxId,
+            }, token: stoppingToken);
             dbTx.Commit();
             _logger.LogDebug("Done distributing buy-backs for sweep {TxHash} w. total MINE amount", buyBack.TxHash);
         }
@@ -137,6 +151,7 @@ public record TerraMineBuyBack
 {
     public long TxId { get; set; }
     public string TxHash { get; set; }
+    public decimal UstAmount { get; set; }
     public decimal AmountInU { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
 }

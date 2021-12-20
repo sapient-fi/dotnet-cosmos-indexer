@@ -3,6 +3,7 @@ using HotChocolate.Types.Pagination;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
+using Pylonboard.ServiceHost.Endpoints.MineTreasury;
 
 namespace Pylonboard.ServiceHost.Endpoints;
 
@@ -29,7 +30,7 @@ public class Query
         [Service] MineWalletStatsService service)
     {
         var (results, total) = await service.GetItAsync(skip, take, sortBy);
-        
+
         var pageInfo = new CollectionSegmentInfo(skip * take < total, skip > 0);
 
         var collectionSegment = new CollectionSegment<MineWalletStatsGraph>(
@@ -38,5 +39,15 @@ public class Query
             ct => new ValueTask<int>(total));
 
         return collectionSegment;
-    } 
+    }
+
+    public Task<MineTreasuryGraph> GetMineTreasury([Service] MineTreasuryService service,
+        CancellationToken cancellationToken) =>
+        service.GetTreasuryOverviewAsync(cancellationToken
+    );
+    
+    public Task<IEnumerable<MineBuybackGraph>> GetMineTreasuryBuybackByWallet(
+        string wallet,
+        [Service]MineTreasuryService service,
+        CancellationToken cancellationToken) => service.GetBuybackByWalletAsync(wallet, cancellationToken);
 }
