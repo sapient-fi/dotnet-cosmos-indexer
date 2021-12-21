@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints;
+namespace Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 
 public enum GatewayPoolIdentifier
 {
@@ -9,4 +9,5 @@ public enum GatewayPoolIdentifier
     TerraWorld,
     Mine,
     Nexus,
+    Glow,
 }

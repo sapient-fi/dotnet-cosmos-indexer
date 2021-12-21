@@ -151,6 +151,12 @@ public class GatewayPoolStatsService
             {
                 TerraPylonPoolFriendlyName.Nexus,
             },
+            GatewayPoolIdentifier.Glow => new []
+            {
+                TerraPylonPoolFriendlyName.Glow1,
+                TerraPylonPoolFriendlyName.Glow2,
+                TerraPylonPoolFriendlyName.Glow3,
+            },
             _ => throw new ArgumentOutOfRangeException(nameof(gatewayPoolIdentifier), gatewayPoolIdentifier, null)
         };
     }
