@@ -44,10 +44,34 @@ public class Query
     public Task<MineTreasuryGraph> GetMineTreasury([Service] MineTreasuryService service,
         CancellationToken cancellationToken) =>
         service.GetTreasuryOverviewAsync(cancellationToken
-    );
-    
+        );
+
     public Task<IEnumerable<MineBuybackGraph>> GetMineTreasuryBuybackByWallet(
         string wallet,
-        [Service]MineTreasuryService service,
+        [Service] MineTreasuryService service,
         CancellationToken cancellationToken) => service.GetBuybackByWalletAsync(wallet, cancellationToken);
+
+    [UseOffsetPaging(DefaultPageSize = 100, IncludeTotalCount = true, MaxPageSize = 200)]
+    public async Task<CollectionSegment<GatewayPoolMineStakerStatsOverallGraph>> GetGatewayPoolMineStakingStats(
+        int? skip, 
+        int? take,
+        string sortBy,
+        GatewayPoolIdentifier gatewayIdentifier,
+        [Service] GatewayPoolStatsService service,
+        CancellationToken cancellationToken
+    )
+    {
+        {
+            var (results, total) = await service.GetMineStakerOverviewAsync(skip, take, gatewayIdentifier, cancellationToken);
+
+            var pageInfo = new CollectionSegmentInfo(skip * take < total, skip > 0);
+
+            var collectionSegment = new CollectionSegment<GatewayPoolMineStakerStatsOverallGraph>(
+                new ReadOnlyCollection<GatewayPoolMineStakerStatsOverallGraph>(results),
+                pageInfo,
+                ct => new ValueTask<int>(total));
+
+            return collectionSegment;
+        }
+    }
 }
