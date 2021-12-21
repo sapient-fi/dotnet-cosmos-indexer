@@ -74,4 +74,10 @@ public class Query
             return collectionSegment;
         }
     }
+
+    public async Task<GatewayPoolMineStakerRankGraph> GetGatewayPoolMineRanking(
+        GatewayPoolIdentifier gatewayPoolIdentifier,
+        [Service] GatewayPoolStatsService service,
+        CancellationToken cancellationToken
+    ) => await service.GetMineStakerRankingAsync(gatewayPoolIdentifier, cancellationToken);
 }

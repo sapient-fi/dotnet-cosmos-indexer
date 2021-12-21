@@ -2,6 +2,7 @@ using System.Data;
 using System.Text;
 using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
+using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -67,7 +68,7 @@ public class GatewayPoolStatsService
     )
     {
         using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
-        var friendlyNames = PoolIdentifierToFriendlyNames(gatewayIdentifier);        
+        var friendlyNames = PoolIdentifierToFriendlyNames(gatewayIdentifier);
         /*
          select sum(pool.amount) as deposit_amount,
        pool.depositor,
@@ -91,7 +92,7 @@ ORDER BY (sum(pool.amount)) DESC;
                 }));
 
         var total = await db.ScalarAsync<int>(baseQuery.Select(Sql.Count("*")), token: cancellationToken);
-        
+
         var results = await db.SqlListAsync<GatewayPoolMineStakerStatsOverallGraph>(
             baseQuery
                 .GroupBy(entity => entity.Depositor)
@@ -99,11 +100,11 @@ ORDER BY (sum(pool.amount)) DESC;
                 .Take(take)
                 .Skip(skip)
                 .Select<TerraPylonPoolEntity, TerraMineStakingEntity>((entity, stakingEntity) => new
-            {
-                DepositAmount = Sql.Sum(entity.Amount),
-                StakingAmount = Sql.Sum(stakingEntity.Amount),
-                Depositor = entity.Depositor
-            }), token: cancellationToken);
+                {
+                    DepositAmount = Sql.Sum(entity.Amount),
+                    StakingAmount = Sql.Sum(stakingEntity.Amount),
+                    Depositor = entity.Depositor
+                }), token: cancellationToken);
 
         return (results, total);
     }
@@ -154,6 +155,49 @@ ORDER BY (sum(pool.amount)) DESC;
 
         wrangledReturnData.Add(others);
         return wrangledReturnData;
+    }
+
+    [Trace]
+    public async Task<GatewayPoolMineStakerRankGraph> GetMineStakerRankingAsync(
+        GatewayPoolIdentifier gatewayIdentifier,
+        CancellationToken cancellationToken
+    )
+    {
+        using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
+        var friendlyNames = PoolIdentifierToFriendlyNames(gatewayIdentifier);
+
+        var fnQueryRankAsync = async (decimal minStake, decimal maxStake) =>
+        {
+            var result = await db.SingleAsync<GatewayPoolDepositorRankingView>(
+                db.From<GatewayPoolDepositorRankingView>()
+                    .Where(view => view.StakingAmount >= minStake
+                                   && view.StakingAmount < maxStake)
+                , token: cancellationToken);
+
+            var data = new GatewayPoolMineStakerRankItemGraph
+            {
+                DepositAmountAvg = result.DepositAmountAvg,
+                DepositAmountMax = result.DepositAmountMax,
+                DepositAmountMedian = result.DepositAmountMedian,
+                DepositAmountMin = result.DepositAmountMin,
+                DepositAmountSum = result.DepositAmountSum,
+                StakingLowerBound = minStake,
+                StakingUpperBound = maxStake,
+            };
+            
+            return data;
+        };
+
+        var result = new GatewayPoolMineStakerRankGraph
+        {
+            Tier1 = await fnQueryRankAsync(1, 1_000),
+            Tier2 = await fnQueryRankAsync(1_000, 10_000),
+            Tier3 = await fnQueryRankAsync(10_000, 100_000),
+            Tier4 = await fnQueryRankAsync(100_000, 220_000),
+            Tier5 = await fnQueryRankAsync(220_000, long.MaxValue),
+        };
+
+        return result;
     }
 
     [Trace]
@@ -210,4 +254,15 @@ ORDER BY (sum(pool.amount)) DESC;
             _ => throw new ArgumentOutOfRangeException(nameof(gatewayPoolIdentifier), gatewayPoolIdentifier, null)
         };
     }
+}
+
+public record GatewayPoolMineStakerRankItemGraph
+{
+    public decimal DepositAmountMedian { get; set; }
+    public decimal DepositAmountAvg { get; set; }
+    public decimal DepositAmountSum { get; set; }
+    public decimal DepositAmountMin { get; set; }
+    public decimal DepositAmountMax { get; set; }
+    public decimal StakingLowerBound { get; set; }
+    public decimal StakingUpperBound { get; set; }
 }
