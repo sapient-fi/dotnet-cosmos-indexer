@@ -37,6 +37,10 @@ public static class TerraPylonGatewayContracts
     public const string GLOW_1 = "terra1nu4nxjjgw553zhc0k624h7vqmk5z5tj8ufrrzd";
     public const string GLOW_2 = "terra1vwtr0trqz4nuqwy2g2n3szwczp2a4ccsf8hn9j";
     public const string GLOW_3 = "terra1709w9ll57sdmyr8zzqtp423r6cwxyc33hc9xnq";
+    
+    public const string SAYVE_1 = "terra14hg497r875c62f4kxs8q7pkek0kdw0dphppa0h";
+    public const string SAYVE_2 = "terra1xgewsvsl2gff63fplma52smt8r76fyzvurfwcm";
+    public const string SAYVE_3 = "terra1s9qs7r8aacs0auynhumdn4jtgju58kjlvrg6uw";
 }
 
 public static class TerraLpFarmingContracts
