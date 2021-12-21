@@ -37,6 +37,9 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddScoped<PsiPoolArbServiceWorker>();
         services.AddHostedService<ScopedBackgroundService<PsiPoolArbServiceWorker>>();
 
+        services.AddScoped<MaterializedViewRefresherServiceWorker>();
+        services.AddHostedService<ScopedBackgroundService<MaterializedViewRefresherServiceWorker>>();
+        
         services.AddTransient<TerraTransactionEnumerator>();
 
         services.AddTransient<MineBuybackDataFetcher>();

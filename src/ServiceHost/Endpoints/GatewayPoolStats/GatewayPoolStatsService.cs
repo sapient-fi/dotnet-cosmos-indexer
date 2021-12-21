@@ -2,6 +2,7 @@ using System.Data;
 using System.Text;
 using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
+using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -18,7 +19,7 @@ public class GatewayPoolStatsService
     {
         _dbConnectionFactory = dbConnectionFactory;
     }
-    
+
     [Trace]
     public async Task<GatewayPoolStatsGraph> GetItAsync(
         GatewayPoolIdentifier gatewayIdentifier,
@@ -26,7 +27,6 @@ public class GatewayPoolStatsService
     )
     {
         using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
-
         var friendlyNames = PoolIdentifierToFriendlyNames(gatewayIdentifier);
 
         var stats = await db.SingleAsync<GatewayPoolStatsOverallGraph>(db.From<TerraPylonPoolEntity>()
@@ -55,8 +55,58 @@ public class GatewayPoolStatsService
 
         return new GatewayPoolStatsGraph
         {
-            Overall = stats
+            Overall = stats,
         };
+    }
+
+    [Trace]
+    public async Task<(IList<GatewayPoolMineStakerStatsOverallGraph>, int)> GetMineStakerOverviewAsync(
+        int? skip,
+        int? take,
+        GatewayPoolIdentifier gatewayIdentifier,
+        CancellationToken cancellationToken
+    )
+    {
+        using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
+        var friendlyNames = PoolIdentifierToFriendlyNames(gatewayIdentifier);
+        /*
+         select sum(pool.amount) as deposit_amount,
+       pool.depositor,
+       sum(staking.amount) as staking_amount
+from terra_pylon_pool_entity as pool
+         left join terra_mine_staking_entity staking on staking.sender = pool.depositor
+
+where pool.friendly_name in ('WhiteWhale1', 'WhiteWhale2', 'WhiteWhale3')
+  and pool.operation in ('Deposit', 'Withdraw')
+and staking.sender is null
+GROUP BY pool.depositor
+ORDER BY (sum(pool.amount)) DESC;
+         */
+        var baseQuery = db.From<TerraPylonPoolEntity>()
+            .LeftJoin<TerraMineStakingEntity>((entity, stakingEntity) => entity.Depositor == stakingEntity.Sender)
+            .Where(entity => Sql.In(entity.FriendlyName, friendlyNames) && Sql.In(entity.Operation,
+                new[]
+                {
+                    TerraPylonPoolOperation.Deposit,
+                    TerraPylonPoolOperation.Withdraw
+                }));
+
+        var total = await db.ScalarAsync<int>(baseQuery.Select(Sql.Count("*")), token: cancellationToken);
+
+        var results = await db.SqlListAsync<GatewayPoolMineStakerStatsOverallGraph>(
+            baseQuery
+                .GroupBy(entity => entity.Depositor)
+                .OrderByDescending(entity => Sql.Sum(entity.Amount))
+                .Take(take)
+                .Skip(skip)
+                .Select<TerraPylonPoolEntity, TerraMineStakingEntity>((entity, stakingEntity) => new
+                {
+                    DepositAmount = Sql.Sum(entity.Amount),
+                    StakingAmount = Sql.Sum(stakingEntity.Amount),
+                    Depositor = entity.Depositor
+                }), token: cancellationToken);
+
+        return (results, total);
     }
 
     [Trace]
@@ -70,11 +120,12 @@ public class GatewayPoolStatsService
             db.From<TerraPylonPoolEntity>()
                 .GroupBy(x => x.Depositor)
                 .OrderByDescending(x => Sql.Sum(x.Amount))
-                .Where(x => Sql.In(x.FriendlyName, friendlyNames) 
-                            && Sql.In(x.Operation, new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw }))
+                .Where(x => Sql.In(x.FriendlyName, friendlyNames)
+                            && Sql.In(x.Operation,
+                                new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw }))
                 .Select(x => new
                 {
-                    Wallet = x.Depositor, 
+                    Wallet = x.Depositor,
                     Amount = Sql.Sum(x.Amount)
                 }), token: cancellationToken);
 
@@ -98,12 +149,55 @@ public class GatewayPoolStatsService
                 others.InPercent += item.InPercent;
                 continue;
             }
-            
+
             wrangledReturnData.Add(item);
         }
 
         wrangledReturnData.Add(others);
         return wrangledReturnData;
+    }
+
+    [Trace]
+    public async Task<GatewayPoolMineStakerRankGraph> GetMineStakerRankingAsync(
+        GatewayPoolIdentifier gatewayIdentifier,
+        CancellationToken cancellationToken
+    )
+    {
+        using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
+        var friendlyNames = PoolIdentifierToFriendlyNames(gatewayIdentifier);
+
+        var fnQueryRankAsync = async (decimal minStake, decimal maxStake) =>
+        {
+            var result = await db.SingleAsync<GatewayPoolDepositorRankingView>(
+                db.From<GatewayPoolDepositorRankingView>()
+                    .Where(view => view.StakingAmount >= minStake
+                                   && view.StakingAmount < maxStake)
+                , token: cancellationToken);
+
+            var data = new GatewayPoolMineStakerRankItemGraph
+            {
+                DepositAmountAvg = result.DepositAmountAvg,
+                DepositAmountMax = result.DepositAmountMax,
+                DepositAmountMedian = result.DepositAmountMedian,
+                DepositAmountMin = result.DepositAmountMin,
+                DepositAmountSum = result.DepositAmountSum,
+                StakingLowerBound = minStake,
+                StakingUpperBound = maxStake,
+            };
+            
+            return data;
+        };
+
+        var result = new GatewayPoolMineStakerRankGraph
+        {
+            Tier1 = await fnQueryRankAsync(1, 1_000),
+            Tier2 = await fnQueryRankAsync(1_000, 10_000),
+            Tier3 = await fnQueryRankAsync(10_000, 100_000),
+            Tier4 = await fnQueryRankAsync(100_000, 220_000),
+            Tier5 = await fnQueryRankAsync(220_000, long.MaxValue),
+        };
+
+        return result;
     }
 
     [Trace]
@@ -119,39 +213,39 @@ public class GatewayPoolStatsService
                 TerraPylonPoolFriendlyName.WhiteWhale2,
                 TerraPylonPoolFriendlyName.WhiteWhale3
             },
-            GatewayPoolIdentifier.Loop => new []
+            GatewayPoolIdentifier.Loop => new[]
             {
                 TerraPylonPoolFriendlyName.Loop1,
                 TerraPylonPoolFriendlyName.Loop2,
                 TerraPylonPoolFriendlyName.Loop3,
             },
-            GatewayPoolIdentifier.Orion => new []
+            GatewayPoolIdentifier.Orion => new[]
             {
                 TerraPylonPoolFriendlyName.Orion,
             },
-            GatewayPoolIdentifier.Valkyrie => new []
+            GatewayPoolIdentifier.Valkyrie => new[]
             {
                 TerraPylonPoolFriendlyName.Valkyrie1,
                 TerraPylonPoolFriendlyName.Valkyrie2,
                 TerraPylonPoolFriendlyName.Valkyrie3,
             },
-            GatewayPoolIdentifier.TerraWorld => new []
+            GatewayPoolIdentifier.TerraWorld => new[]
             {
                 TerraPylonPoolFriendlyName.TerraWorld1,
                 TerraPylonPoolFriendlyName.TerraWorld2,
                 TerraPylonPoolFriendlyName.TerraWorld3,
             },
-            GatewayPoolIdentifier.Mine => new []
+            GatewayPoolIdentifier.Mine => new[]
             {
                 TerraPylonPoolFriendlyName.Mine1,
                 TerraPylonPoolFriendlyName.Mine2,
                 TerraPylonPoolFriendlyName.Mine3,
             },
-            GatewayPoolIdentifier.Nexus => new []
+            GatewayPoolIdentifier.Nexus => new[]
             {
                 TerraPylonPoolFriendlyName.Nexus,
             },
-            GatewayPoolIdentifier.Glow => new []
+            GatewayPoolIdentifier.Glow => new[]
             {
                 TerraPylonPoolFriendlyName.Glow1,
                 TerraPylonPoolFriendlyName.Glow2,
@@ -160,4 +254,15 @@ public class GatewayPoolStatsService
             _ => throw new ArgumentOutOfRangeException(nameof(gatewayPoolIdentifier), gatewayPoolIdentifier, null)
         };
     }
+}
+
+public record GatewayPoolMineStakerRankItemGraph
+{
+    public decimal DepositAmountMedian { get; set; }
+    public decimal DepositAmountAvg { get; set; }
+    public decimal DepositAmountSum { get; set; }
+    public decimal DepositAmountMin { get; set; }
+    public decimal DepositAmountMax { get; set; }
+    public decimal StakingLowerBound { get; set; }
+    public decimal StakingUpperBound { get; set; }
 }

@@ -4,6 +4,7 @@ services:
   db:
     image: timescale/timescaledb:2.5.0-pg12
     command: ["postgres", "-c", "log_statement=all"]
+    shm_size: 1g
     ports:
       - "35432:5432"
     environment:
