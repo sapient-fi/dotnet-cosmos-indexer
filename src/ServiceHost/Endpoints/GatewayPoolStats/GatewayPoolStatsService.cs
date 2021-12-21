@@ -1,3 +1,4 @@
+using System.Data;
 using System.Text;
 using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
@@ -40,15 +41,7 @@ public class GatewayPoolStatsService
                     new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw })),
             token: cancellationToken);
 
-        stats.DepositPerWallet = await db.SqlListAsync<WalletAndDepositEntry>(
-            db.From<TerraPylonPoolEntity>()
-                .GroupBy(x => x.Depositor)
-                .Where(entity => Sql.In(entity.FriendlyName, friendlyNames) && Sql.In(entity.Operation,
-                    new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw }))
-                .Select(entity => new
-                {
-                    Wallet = entity.Depositor, Amount = Sql.Sum("amount")
-                }), token: cancellationToken);
+        stats.DepositPerWallet = await CreateDepositPerWalletStatsAsync(db, friendlyNames, cancellationToken);
 
         stats.DepositsOverTime = await db.SqlListAsync<TimeSeriesStatEntry>(
             db.From<TerraPylonPoolEntity>()
@@ -64,6 +57,53 @@ public class GatewayPoolStatsService
         {
             Overall = stats
         };
+    }
+
+    [Trace]
+    private static async Task<List<WalletAndDepositEntry>> CreateDepositPerWalletStatsAsync(
+        IDbConnection db,
+        TerraPylonPoolFriendlyName[] friendlyNames,
+        CancellationToken cancellationToken
+    )
+    {
+        var rawData = await db.SqlListAsync<WalletAndDepositEntry>(
+            db.From<TerraPylonPoolEntity>()
+                .GroupBy(x => x.Depositor)
+                .OrderByDescending(x => Sql.Sum(x.Amount))
+                .Where(x => Sql.In(x.FriendlyName, friendlyNames) 
+                            && Sql.In(x.Operation, new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw }))
+                .Select(x => new
+                {
+                    Wallet = x.Depositor, 
+                    Amount = Sql.Sum(x.Amount)
+                }), token: cancellationToken);
+
+        var wrangledReturnData = new List<WalletAndDepositEntry>(10);
+        var others = new WalletAndDepositEntry
+        {
+            Amount = 0,
+            Wallet = "others",
+            InPercent = 0
+        };
+        // TODO is this faster to calculate in SQL?
+        var totalSum = rawData.Sum(x => x.Amount);
+
+        foreach (var item in rawData)
+        {
+            item.InPercent = item.Amount / totalSum * 100;
+
+            if (item.InPercent < 1 && rawData.Count > 5)
+            {
+                others.Amount += item.Amount;
+                others.InPercent += item.InPercent;
+                continue;
+            }
+            
+            wrangledReturnData.Add(item);
+        }
+
+        wrangledReturnData.Add(others);
+        return wrangledReturnData;
     }
 
     [Trace]
