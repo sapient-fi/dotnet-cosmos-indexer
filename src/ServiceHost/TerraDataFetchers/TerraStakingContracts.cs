@@ -33,6 +33,10 @@ public static class TerraPylonGatewayContracts
     public const string MINE_3 = "terra1za627n8zc8wqg06n9h7khpmjcnlkdkt38rkl3u";
     
     public const string NEXUS = "terra1fmnedmd3732gwyyj47r5p03055mygce98dpte2";
+    
+    public const string GLOW_1 = "terra1nu4nxjjgw553zhc0k624h7vqmk5z5tj8ufrrzd";
+    public const string GLOW_2 = "terra1vwtr0trqz4nuqwy2g2n3szwczp2a4ccsf8hn9j";
+    public const string GLOW_3 = "terra1709w9ll57sdmyr8zzqtp423r6cwxyc33hc9xnq";
 }
 
 public static class TerraLpFarmingContracts

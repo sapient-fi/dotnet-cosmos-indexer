@@ -42,7 +42,10 @@ public enum TerraPylonPoolFriendlyName
     Mine1,
     Mine2,
     Mine3,
-    Nexus
+    Nexus,
+    Glow1,
+    Glow2,
+    Glow3
 }
 
 public enum TerraPylonPoolOperation
