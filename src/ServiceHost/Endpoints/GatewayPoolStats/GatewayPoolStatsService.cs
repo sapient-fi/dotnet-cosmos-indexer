@@ -39,7 +39,7 @@ public class GatewayPoolStatsService
                     AverageDeposit = Sql.Avg("amount")
                 })
                 .Where(entity => Sql.In(entity.FriendlyName, friendlyNames) && Sql.In(entity.Operation,
-                    new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw })),
+                    new[] { TerraPylonPoolOperation.Deposit })),
             token: cancellationToken);
 
         stats.DepositPerWallet = await CreateDepositPerWalletStatsAsync(db, friendlyNames, cancellationToken);
