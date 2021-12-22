@@ -61,6 +61,42 @@ public class GatewayPoolStatsService
     }
 
     [Trace]
+    public async Task<GatewayPoolTotalValueStatsGraph> GetTotalValueStatsAsync(CancellationToken cancellationToken)
+    {
+        using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
+
+        SqlExpression<TerraPylonPoolEntity> BaseQuery()
+        {
+            return db.From<TerraPylonPoolEntity>()
+                .Select(entity => Sql.Sum(entity.Amount))
+                .Where(entity => Sql.In(entity.Operation,
+                    new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw }));
+        }
+
+        var now = DateTimeOffset.UtcNow;
+        var baseQuery = BaseQuery();
+        var totalResults = await db.ScalarAsync<decimal>(baseQuery, cancellationToken);
+
+
+        var last24HourResult =
+            await db.ScalarAsync<decimal>(BaseQuery().Where(entity => entity.CreatedAt >= now.AddHours(-24)), token: cancellationToken);
+        
+        var last7DaysResult = 
+            await db.ScalarAsync<decimal>(BaseQuery().Where(entity => entity.CreatedAt >= now.AddDays(-7)), token: cancellationToken);
+
+        var last30DaysResult = 
+            await db.ScalarAsync<decimal>(BaseQuery().Where(entity => entity.CreatedAt >= now.AddDays(-30)), token: cancellationToken);
+
+        return new GatewayPoolTotalValueStatsGraph
+        {
+            TotalValueLocked = totalResults,
+            ValueLocked24h = last24HourResult,
+            ValueLocked7d = last7DaysResult,
+            ValueLocked30d = last30DaysResult,
+        };
+    }
+
+    [Trace]
     public async Task<(IList<GatewayPoolMineStakerStatsOverallGraph>, int)> GetMineStakerOverviewAsync(
         int? skip,
         int? take,

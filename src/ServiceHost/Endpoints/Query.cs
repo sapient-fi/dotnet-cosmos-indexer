@@ -81,4 +81,9 @@ public class Query
         [Service] GatewayPoolStatsService service,
         CancellationToken cancellationToken
     ) => await service.GetMineStakerRankingAsync(gatewayPoolIdentifier, cancellationToken);
+
+    public async Task<GatewayPoolTotalValueStatsGraph> GetGatewayPoolTotalValues(
+        [Service] GatewayPoolStatsService service,
+        CancellationToken cancellationToken
+    ) => await service.GetTotalValueStatsAsync(cancellationToken);
 }
