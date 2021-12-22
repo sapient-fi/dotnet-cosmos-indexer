@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using HotChocolate.Types.Pagination;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
+using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;

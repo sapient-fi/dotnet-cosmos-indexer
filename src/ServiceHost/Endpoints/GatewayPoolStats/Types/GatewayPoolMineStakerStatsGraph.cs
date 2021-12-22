@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
+namespace Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 
 public record GatewayPoolMineStakerStatsGraph
 {
