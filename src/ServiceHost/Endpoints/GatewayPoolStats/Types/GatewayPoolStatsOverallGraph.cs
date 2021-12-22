@@ -1,6 +1,6 @@
 using Pylonboard.ServiceHost.Endpoints.Types;
 
-namespace Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
+namespace Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 
 public record GatewayPoolStatsOverallGraph
 {

@@ -3,6 +3,7 @@ using System.Text;
 using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
+using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -38,7 +39,7 @@ public class GatewayPoolStatsService
                     AverageDeposit = Sql.Avg("amount")
                 })
                 .Where(entity => Sql.In(entity.FriendlyName, friendlyNames) && Sql.In(entity.Operation,
-                    new[] { TerraPylonPoolOperation.Deposit, TerraPylonPoolOperation.Withdraw })),
+                    new[] { TerraPylonPoolOperation.Deposit })),
             token: cancellationToken);
 
         stats.DepositPerWallet = await CreateDepositPerWalletStatsAsync(db, friendlyNames, cancellationToken);
@@ -260,15 +261,4 @@ ORDER BY (sum(pool.amount)) DESC;
             _ => throw new ArgumentOutOfRangeException(nameof(gatewayPoolIdentifier), gatewayPoolIdentifier, null)
         };
     }
-}
-
-public record GatewayPoolMineStakerRankItemGraph
-{
-    public decimal DepositAmountMedian { get; set; }
-    public decimal DepositAmountAvg { get; set; }
-    public decimal DepositAmountSum { get; set; }
-    public decimal DepositAmountMin { get; set; }
-    public decimal DepositAmountMax { get; set; }
-    public decimal StakingLowerBound { get; set; }
-    public decimal StakingUpperBound { get; set; }
 }
