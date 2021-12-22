@@ -251,6 +251,12 @@ ORDER BY (sum(pool.amount)) DESC;
                 TerraPylonPoolFriendlyName.Glow2,
                 TerraPylonPoolFriendlyName.Glow3,
             },
+            GatewayPoolIdentifier.Sayve => new []
+            {
+                TerraPylonPoolFriendlyName.Sayve1,
+                TerraPylonPoolFriendlyName.Sayve2,
+                TerraPylonPoolFriendlyName.Sayve3,
+            },
             _ => throw new ArgumentOutOfRangeException(nameof(gatewayPoolIdentifier), gatewayPoolIdentifier, null)
         };
     }
