@@ -50,6 +50,7 @@ public class MaterializedViewRefresherServiceWorker : IScopedBackgroundServiceWo
 
                 await RefreshViewAsync<GatewayPoolDepositorRankingView>(stoppingToken, db);
                 await RefreshViewAsync<MineWalletStakeView>(stoppingToken, db);
+                await RefreshViewAsync<MineWalletStakePercentilesView>(stoppingToken, db);
             }
         } while (!stoppingToken.IsCancellationRequested);
     }
