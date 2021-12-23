@@ -20,7 +20,7 @@ public class MineRankingService
         var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
 
         var stakePercentilesResult = await db.SingleAsync<MineStakingPercentileResult>(@"
-select * from v_wallet_stake_percentiles
+select * from mv_wallet_stake_percentiles
 ", token: cancellationToken);
 
 
@@ -69,13 +69,8 @@ select * from v_wallet_stake_percentiles
         CancellationToken cancellationToken
     )
     {
-        return await db.ScalarAsync<int>(@"
-select sum(inr.sum) from (
-select sum(amount) as sum, sender
-from terra_mine_staking_entity
-group by sender
-having SUM(amount) >= @theFloor) as inr;
-
+        return await db.ScalarAsync<decimal>(@"
+select sum(sum) from mv_wallet_stake_sum where sum >= @theFloor;
 ", new
         {
             theFloor = percentileFloor
@@ -90,10 +85,8 @@ having SUM(amount) >= @theFloor) as inr;
     {
         return await db.ScalarAsync<int>(@"
 select count(*) from (
-select sum(amount), sender
-from terra_mine_staking_entity
-group by sender
-having SUM(amount) >= @theFloor) as inr
+select wallet from mv_wallet_stake_sum where sum >= @theFloor
+    ) as inr
 ", new
         {
             theFloor = percentileFloor
