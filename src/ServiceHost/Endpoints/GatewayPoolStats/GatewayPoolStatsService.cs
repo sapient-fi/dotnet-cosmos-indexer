@@ -120,7 +120,7 @@ GROUP BY pool.depositor
 ORDER BY (sum(pool.amount)) DESC;
          */
         var baseQuery = db.From<TerraPylonPoolEntity>()
-            .LeftJoin<TerraMineStakingEntity>((entity, stakingEntity) => entity.Depositor == stakingEntity.Sender)
+            .LeftJoin<MineWalletStakeView>((entity, stakingEntity) => entity.Depositor == stakingEntity.Wallet)
             .Where(entity => Sql.In(entity.FriendlyName, friendlyNames) && Sql.In(entity.Operation,
                 new[]
                 {
@@ -136,10 +136,10 @@ ORDER BY (sum(pool.amount)) DESC;
                 .OrderByDescending(entity => Sql.Sum(entity.Amount))
                 .Take(take)
                 .Skip(skip)
-                .Select<TerraPylonPoolEntity, TerraMineStakingEntity>((entity, stakingEntity) => new
+                .Select<TerraPylonPoolEntity, MineWalletStakeView>((entity, stakingEntity) => new
                 {
                     DepositAmount = Sql.Sum(entity.Amount),
-                    StakingAmount = Sql.Sum(stakingEntity.Amount),
+                    StakingAmount = Sql.Sum(stakingEntity.Sum),
                     Depositor = entity.Depositor
                 }), token: cancellationToken);
 
