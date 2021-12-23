@@ -32,7 +32,7 @@ from v_wallet_stake_sum_v2;
 ");
 
         var results = await db.SqlListAsync<MineWalletStatsGraph>(
-            db.From<MineWalletStakeViewV2>()
+            db.From<MineWalletStakeView>()
                 .Skip(skip)
                 .Take(take)
         );
