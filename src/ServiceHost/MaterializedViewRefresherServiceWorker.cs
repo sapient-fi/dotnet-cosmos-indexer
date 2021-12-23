@@ -1,3 +1,4 @@
+using System.Data;
 using Pylonboard.Kernel;
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
@@ -36,21 +37,27 @@ public class MaterializedViewRefresherServiceWorker : IScopedBackgroundServiceWo
             _logger.LogInformation("Background worker role not active, not starting arb bot");
             return;
         }
-        
+
         do
         {
             _logger.LogInformation("Materialized view refresher is entering hibernation");
             await Task.Delay(TimeSpan.FromHours(1), stoppingToken);
             _logger.LogInformation("Materialized view refresher back from hibernation - refreshing views");
-            
+
             using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: stoppingToken);
-            {   
+            {
                 db.SetCommandTimeout((int?)TimeSpan.FromMinutes(15).TotalSeconds);
-                var viewName = db.GetDialectProvider().GetTableName(ModelDefinition<GatewayPoolDepositorRankingView>.Definition);
-                await db.ExecuteNonQueryAsync($"REFRESH MATERIALIZED VIEW {viewName};",
-                    token: stoppingToken);
-                _logger.LogInformation("Done refreshing {ViewName}", viewName);
+
+                await RefreshViewAsync<GatewayPoolDepositorRankingView>(stoppingToken, db);
+                await RefreshViewAsync<MineWalletStakeView>(stoppingToken, db);
             }
         } while (!stoppingToken.IsCancellationRequested);
+    }
+
+    private async Task RefreshViewAsync<T>(CancellationToken stoppingToken, IDbConnection db)
+    {
+        var viewName = db.GetDialectProvider().GetTableName(ModelDefinition<T>.Definition);
+        await db.ExecuteNonQueryAsync($"REFRESH MATERIALIZED VIEW {viewName};", token: stoppingToken);
+        _logger.LogInformation("Done refreshing {ViewName}", viewName);
     }
 }
