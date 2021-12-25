@@ -23,7 +23,7 @@ public class Query
         {
             return cached;
         }
-        
+
         var data = await service.GetItAsync(cancellationToken);
         cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
         return data;
@@ -61,21 +61,36 @@ public class Query
             data = await service.GetItAsync(cancellationToken);
             cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
         }
+
         return data;
     }
 
     [UseOffsetPaging(DefaultPageSize = 100, IncludeTotalCount = true, MaxPageSize = 200)]
     public async Task<CollectionSegment<MineWalletStatsGraph>> GetMineWalletStats(int? skip, int? take, string sortBy,
-        [Service] MineWalletStatsService service)
+        [Service] ICacheClient cacheClient,
+        [Service] MineWalletStatsService service
+    )
     {
-        var (results, total) = await service.GetItAsync(skip, take, sortBy);
+        var cacheKey = $"cache:mine-wallet-stats:{skip}-{take}-{sortBy}";
+        var data = cacheClient.Get<DataAndTotalCache<List<MineWalletStatsGraph>>>(cacheKey);
 
-        var pageInfo = new CollectionSegmentInfo(skip * take < total, skip > 0);
+        if (data == default)
+        {
+            var (results, total) = await service.GetItAsync(skip, take, sortBy);
+            data = new DataAndTotalCache<List<MineWalletStatsGraph>>
+            {
+                Data = results,
+                Total = total
+            };
+            cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
+        }
+
+        var pageInfo = new CollectionSegmentInfo(skip * take < data.Total, skip > 0);
 
         var collectionSegment = new CollectionSegment<MineWalletStatsGraph>(
-            new ReadOnlyCollection<MineWalletStatsGraph>(results),
+            new ReadOnlyCollection<MineWalletStatsGraph>(data.Data),
             pageInfo,
-            ct => new ValueTask<int>(total));
+            ct => new ValueTask<int>(data.Total));
 
         return collectionSegment;
     }
@@ -97,7 +112,7 @@ public class Query
 
         return data;
     }
-      
+
 
     public Task<IEnumerable<MineBuybackGraph>> GetMineTreasuryBuybackByWallet(
         string wallet,
@@ -106,26 +121,40 @@ public class Query
 
     [UseOffsetPaging(DefaultPageSize = 100, IncludeTotalCount = true, MaxPageSize = 200)]
     public async Task<CollectionSegment<GatewayPoolMineStakerStatsOverallGraph>> GetGatewayPoolMineStakingStats(
-        int? skip, 
+        int? skip,
         int? take,
         string sortBy,
         GatewayPoolIdentifier gatewayIdentifier,
         [Service] GatewayPoolStatsService service,
+        [Service] ICacheClient cacheClient,
         CancellationToken cancellationToken
     )
     {
+        var cacheKey = $"cache:mine-pool-stats:{gatewayIdentifier}:{skip}-{take}-{sortBy}";
+        var data = cacheClient.Get<DataAndTotalCache<IList<GatewayPoolMineStakerStatsOverallGraph>>>(cacheKey);
+
+        if (data == default)
         {
-            var (results, total) = await service.GetMineStakerOverviewAsync(skip, take, gatewayIdentifier, cancellationToken);
+            var (results, total) =
+                await service.GetMineStakerOverviewAsync(skip, take, gatewayIdentifier, cancellationToken);
 
-            var pageInfo = new CollectionSegmentInfo(skip * take < total, skip > 0);
+            data = new DataAndTotalCache<IList<GatewayPoolMineStakerStatsOverallGraph>>
+            {
+                Data = results,
+                Total = total,
+            };
 
-            var collectionSegment = new CollectionSegment<GatewayPoolMineStakerStatsOverallGraph>(
-                new ReadOnlyCollection<GatewayPoolMineStakerStatsOverallGraph>(results),
-                pageInfo,
-                ct => new ValueTask<int>(total));
-
-            return collectionSegment;
+            cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
         }
+        
+        var pageInfo = new CollectionSegmentInfo(skip * take < data.Total, skip > 0);
+
+        var collectionSegment = new CollectionSegment<GatewayPoolMineStakerStatsOverallGraph>(
+            new ReadOnlyCollection<GatewayPoolMineStakerStatsOverallGraph>(data.Data),
+            pageInfo,
+            ct => new ValueTask<int>(data.Total));
+
+        return collectionSegment;
     }
 
     public async Task<GatewayPoolMineStakerRankGraph> GetGatewayPoolMineRanking(
@@ -139,7 +168,7 @@ public class Query
         var data = cacheClient.Get<GatewayPoolMineStakerRankGraph>(cacheKey);
         if (data == default)
         {
-            data =  await service.GetMineStakerRankingAsync(gatewayPoolIdentifier, cancellationToken);
+            data = await service.GetMineStakerRankingAsync(gatewayPoolIdentifier, cancellationToken);
             cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
         }
 
@@ -157,10 +186,17 @@ public class Query
 
         if (data == default)
         {
-            data= await service.GetTotalValueStatsAsync(cancellationToken);
+            data = await service.GetTotalValueStatsAsync(cancellationToken);
             cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
         }
 
         return data;
     }
+}
+
+public class DataAndTotalCache<T>
+{
+    public int Total { get; set; }
+
+    public T Data { get; set; }
 }
