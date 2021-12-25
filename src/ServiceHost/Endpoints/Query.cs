@@ -5,26 +5,64 @@ using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
+using ServiceStack.Caching;
 
 namespace Pylonboard.ServiceHost.Endpoints;
 
 public class Query
 {
-    public Task<MineStakingStatsGraph> GetMineStakingStats(
+    public async Task<MineStakingStatsGraph> GetMineStakingStats(
         [Service] MineStakingStatsService service,
+        [Service] ICacheClient cacheClient,
         CancellationToken cancellationToken
-    ) => service.GetItAsync(cancellationToken);
+    )
+    {
+        var cacheKey = "cache:mine-staking-stats";
+        var cached = cacheClient.Get<MineStakingStatsGraph>(cacheKey);
+        if (cached != default)
+        {
+            return cached;
+        }
+        
+        var data = await service.GetItAsync(cancellationToken);
+        cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
+        return data;
+    }
 
-    public Task<GatewayPoolStatsGraph> GetGatewayPoolStats(
+    public async Task<GatewayPoolStatsGraph> GetGatewayPoolStats(
         GatewayPoolIdentifier gatewayIdentifier,
         [Service] GatewayPoolStatsService service,
+        [Service] ICacheClient cacheClient,
         CancellationToken cancellationToken
-    ) => service.GetItAsync(gatewayIdentifier, cancellationToken);
+    )
+    {
+        var cacheKey = $"cache:gateway-pool-stats:{gatewayIdentifier}";
+        var data = cacheClient.Get<GatewayPoolStatsGraph>(cacheKey);
 
-    public Task<MineRankingsGraph> GetMineRankings(
+        if (data == default)
+        {
+            data = await service.GetItAsync(gatewayIdentifier, cancellationToken);
+            cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
+        }
+
+        return data;
+    }
+
+    public async Task<MineRankingsGraph> GetMineRankings(
         [Service] MineRankingService service,
+        [Service] ICacheClient cacheClient,
         CancellationToken cancellationToken
-    ) => service.GetItAsync(cancellationToken);
+    )
+    {
+        var cacheKey = "cache:mine-rankings";
+        var data = cacheClient.Get<MineRankingsGraph>(cacheKey);
+        if (data == default)
+        {
+            data = await service.GetItAsync(cancellationToken);
+            cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
+        }
+        return data;
+    }
 
     [UseOffsetPaging(DefaultPageSize = 100, IncludeTotalCount = true, MaxPageSize = 200)]
     public async Task<CollectionSegment<MineWalletStatsGraph>> GetMineWalletStats(int? skip, int? take, string sortBy,
@@ -42,10 +80,24 @@ public class Query
         return collectionSegment;
     }
 
-    public Task<MineTreasuryGraph> GetMineTreasury([Service] MineTreasuryService service,
-        CancellationToken cancellationToken) =>
-        service.GetTreasuryOverviewAsync(cancellationToken
-        );
+    public async Task<MineTreasuryGraph> GetMineTreasury(
+        [Service] MineTreasuryService service,
+        [Service] ICacheClient cacheClient,
+        CancellationToken cancellationToken
+    )
+    {
+        var cacheKey = "cache:mine-treasury";
+        var data = cacheClient.Get<MineTreasuryGraph>(cacheKey);
+
+        if (data == default)
+        {
+            data = await service.GetTreasuryOverviewAsync(cancellationToken);
+            cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
+        }
+
+        return data;
+    }
+      
 
     public Task<IEnumerable<MineBuybackGraph>> GetMineTreasuryBuybackByWallet(
         string wallet,
@@ -79,11 +131,36 @@ public class Query
     public async Task<GatewayPoolMineStakerRankGraph> GetGatewayPoolMineRanking(
         GatewayPoolIdentifier gatewayPoolIdentifier,
         [Service] GatewayPoolStatsService service,
+        [Service] ICacheClient cacheClient,
         CancellationToken cancellationToken
-    ) => await service.GetMineStakerRankingAsync(gatewayPoolIdentifier, cancellationToken);
+    )
+    {
+        var cacheKey = $"cache:gw-pool-mine-rankings:{gatewayPoolIdentifier}";
+        var data = cacheClient.Get<GatewayPoolMineStakerRankGraph>(cacheKey);
+        if (data == default)
+        {
+            data =  await service.GetMineStakerRankingAsync(gatewayPoolIdentifier, cancellationToken);
+            cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
+        }
+
+        return data;
+    }
 
     public async Task<GatewayPoolTotalValueStatsGraph> GetGatewayPoolTotalValues(
         [Service] GatewayPoolStatsService service,
+        [Service] ICacheClient cacheClient,
         CancellationToken cancellationToken
-    ) => await service.GetTotalValueStatsAsync(cancellationToken);
+    )
+    {
+        var cacheKey = "cache:gateway-pool-tvl";
+        var data = cacheClient.Get<GatewayPoolTotalValueStatsGraph>(cacheKey);
+
+        if (data == default)
+        {
+            data= await service.GetTotalValueStatsAsync(cancellationToken);
+            cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
+        }
+
+        return data;
+    }
 }
