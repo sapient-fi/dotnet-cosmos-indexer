@@ -40,6 +40,9 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddScoped<MaterializedViewRefresherServiceWorker>();
         services.AddHostedService<ScopedBackgroundService<MaterializedViewRefresherServiceWorker>>();
         
+        services.AddScoped<CacheRefresherServiceWorker>();
+        services.AddHostedService<ScopedBackgroundService<CacheRefresherServiceWorker>>();
+        
         services.AddTransient<TerraTransactionEnumerator>();
 
         services.AddTransient<MineBuybackDataFetcher>();
