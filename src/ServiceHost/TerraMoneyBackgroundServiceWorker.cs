@@ -55,7 +55,7 @@ public class TerraMoneyBackgroundServiceWorker : IScopedBackgroundServiceWorker
             await retryPolicy.ExecuteAsync(async () => await _mineBuybackDataFetcher.FetchDataAsync(stoppingToken));
             await retryPolicy.ExecuteAsync(async () => await _pylonPoolsDataFether.FetchDataAsync(stoppingToken));
                 
-            var sleepTime = TimeSpan.FromMinutes(10);
+            var sleepTime = TimeSpan.FromMinutes(33);
             _logger.LogDebug("Done for now, sleeping for {Sleep}", sleepTime.ToString("g"));
             await Task.Delay(sleepTime, stoppingToken);
         } while (!stoppingToken.IsCancellationRequested);
