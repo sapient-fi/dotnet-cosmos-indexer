@@ -34,7 +34,7 @@ public class MaterializedViewRefresherServiceWorker : IScopedBackgroundServiceWo
     {
         if (!_serviceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
         {
-            _logger.LogInformation("Background worker role not active, not starting arb bot");
+            _logger.LogInformation("Background worker role not active, not starting materialized view refrsher");
             return;
         }
 
