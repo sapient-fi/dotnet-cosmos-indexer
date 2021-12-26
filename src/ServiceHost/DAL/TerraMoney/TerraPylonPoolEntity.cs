@@ -48,7 +48,10 @@ public enum TerraPylonPoolFriendlyName
     Glow3,
     Sayve1,
     Sayve2,
-    Sayve3
+    Sayve3,
+    Xdefi1,
+    Xdefi2,
+    Xdefi3
 }
 
 public enum TerraPylonPoolOperation
