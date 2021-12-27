@@ -52,7 +52,8 @@ public enum TerraPylonPoolFriendlyName
     Xdefi1,
     Xdefi2,
     Xdefi3,
-    DeviantsFactions
+    DeviantsFactions,
+    GalaticPunks
 }
 
 public enum TerraPylonPoolOperation
