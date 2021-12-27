@@ -41,8 +41,12 @@ public class LowLevelPoolFetcher
         currentSpan?.AddCustomAttribute("pool-name", friendlyName);
         
         const long offset = 0;
-        int skipped = 0;
         using var db = _dbFactory.OpenDbConnection();
+        var latestRow = await db.SingleAsync(db.From<TerraPylonPoolEntity>()
+            .Where(q => q.FriendlyName == friendlyName)
+            .OrderByDescending(q => q.CreatedAt)
+            .Take(1), token: stoppingToken);
+        
         await foreach (var (tx, stdTx) in _transactionEnumerator.EnumerateTransactionsAsync(
                            offset,
                            100,
@@ -50,11 +54,12 @@ public class LowLevelPoolFetcher
                            stoppingToken
                        ))
         {
-            if (skipped > 50)
+            if (tx.Id == latestRow?.TransactionId)
             {
-                _logger.LogInformation("50 txes skipped, won't fetch more txes");
+                _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, aborting", tx.Id, tx.TransactionHash);
                 break;
             }
+            
             using var dbTx = db.BeginTransaction();
             await dbTx.Connection.SaveAsync(obj: new TerraRawTransactionEntity
                 {
@@ -65,16 +70,6 @@ public class LowLevelPoolFetcher
                 },
                 token: stoppingToken
             );
-
-            var exists =
-                await dbTx.Connection.SelectAsync<TerraPylonPoolEntity>(q => q.TransactionId == tx.Id,
-                    token: stoppingToken);
-            if (exists.Any())
-            {
-                _logger.LogDebug("Pylon Gateway tx already exists: {TxHash}", tx.TransactionHash);
-                skipped++;
-                continue;
-            }
 
             foreach (var msg in stdTx.Messages)
             {
