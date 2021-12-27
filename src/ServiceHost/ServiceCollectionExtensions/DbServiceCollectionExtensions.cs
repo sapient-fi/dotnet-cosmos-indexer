@@ -22,6 +22,7 @@ public static class DbServiceCollectionExtensions
             typeof(TerraMoneyServiceCollectionExtensions).Assembly,
         });
 
+        services.AddTransient<DbConnectionHealthCheck>();
         return services;
     }
 

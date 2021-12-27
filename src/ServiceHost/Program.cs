@@ -21,7 +21,8 @@ var loggerConfiguration = new LoggerConfiguration()
 Log.Logger = loggerConfiguration.CreateLogger();
 
 builder.Services.AddControllers();
-builder.Services.AddHealthChecks();
+builder.Services.AddHealthChecks()
+    .AddCheck<DbConnectionHealthCheck>("database");
         // .AddCheck<MarketDataHealthCheck>("market_data_health_check")
         // .AddNpgSql(dbConfig.ConnectionString);
         // .AddRedis(Configuration["Data:ConnectionStrings:Redis"]);
