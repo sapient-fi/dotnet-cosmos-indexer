@@ -304,7 +304,7 @@ ORDER BY (sum(pool.amount)) DESC;
             {
                 TerraPylonPoolFriendlyName.DeviantsFactions,
             },
-            GatewayPoolIdentifier.GalaticPunks => new []
+            GatewayPoolIdentifier.GalacticPunks => new []
             {
                 TerraPylonPoolFriendlyName.GalaticPunks,
             },
