@@ -45,6 +45,8 @@ public static class TerraPylonGatewayContracts
     public const string XDEFI_1 = "terra1a9cu63vx3u0m386x5f74qsr7sw405zdj5uhpll";
     public const string XDEFI_2 = "terra14e0g6gqldl2ruyt6ps72gwl2xc6lvxh7mz02lw";
     public const string XDEFI_3 = "terra1r9we2p8knhzxn0gk0ak667fcxdv26x4tp46l4k";
+    
+    public const string DEVIANTS_FACTIONS = "terra1nata7lxk6ylx7ttu56jgp2s57g3fucl8saz0qw";
 }
 
 public static class TerraLpFarmingContracts

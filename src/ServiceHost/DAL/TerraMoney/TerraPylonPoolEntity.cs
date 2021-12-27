@@ -51,7 +51,8 @@ public enum TerraPylonPoolFriendlyName
     Sayve3,
     Xdefi1,
     Xdefi2,
-    Xdefi3
+    Xdefi3,
+    DeviantsFactions
 }
 
 public enum TerraPylonPoolOperation
