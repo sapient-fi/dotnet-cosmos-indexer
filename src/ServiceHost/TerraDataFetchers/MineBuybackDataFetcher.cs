@@ -35,6 +35,9 @@ public class MineBuybackDataFetcher
         const long offset = 0;
         var buyBacks = new List<TerraMineBuyBack>();
         using var db = _dbFactory.OpenDbConnection();
+        var latestBuyback = await db.SingleAsync(db.From<TerraMineBuybackEntity>()
+            .OrderByDescending(q => q.CreatedAt), token: stoppingToken);
+        
         await foreach (var (tx, stdTx) in _transactionEnumerator.EnumerateTransactionsAsync(
                            offset,
                            100,
@@ -42,6 +45,11 @@ public class MineBuybackDataFetcher
                            stoppingToken
                        ))
         {
+            if (tx.Id == latestBuyback?.TransactionId)
+            {
+                _logger.LogDebug("Mine buyback exists already for tx: {TxHash}", tx.TransactionHash);
+                break;
+            }
             using var dbTx = db.BeginTransaction();
             await dbTx.Connection.SaveAsync(obj: new TerraRawTransactionEntity
                 {
@@ -52,16 +60,7 @@ public class MineBuybackDataFetcher
                 },
                 token: stoppingToken
             );
-
-            var exists =
-                await dbTx.Connection.SelectAsync<TerraMineStakingEntity>(q => q.TxHash == tx.TransactionHash,
-                    token: stoppingToken);
-            if (exists.Any())
-            {
-                _logger.LogDebug("Mine buyback exists already for tx: {TxHash}", tx.TransactionHash);
-                continue;
-            }
-                
+            
             var events = tx.Logs
                 .SelectMany(l => l.Events)
                 .Where(evt =>
