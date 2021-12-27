@@ -184,12 +184,12 @@ ORDER BY (sum(pool.amount)) DESC;
         };
         // TODO is this faster to calculate in SQL?
         var totalSum = rawData.Sum(x => x.Amount);
-
+        var itemsAdded = 0;
         foreach (var item in rawData)
         {
             item.InPercent = item.Amount / totalSum * 100;
 
-            if (item.InPercent < 1 && rawData.Count > 5)
+            if (itemsAdded > 9)
             {
                 others.Amount += item.Amount;
                 others.InPercent += item.InPercent;
@@ -197,6 +197,7 @@ ORDER BY (sum(pool.amount)) DESC;
             }
 
             wrangledReturnData.Add(item);
+            itemsAdded++;
         }
 
         wrangledReturnData.Add(others);
