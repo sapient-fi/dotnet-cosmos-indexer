@@ -11,5 +11,6 @@ public enum GatewayPoolIdentifier
     Nexus,
     Glow,
     Sayve,
-    Xdefi
+    Xdefi,
+    DeviantsFactions,
 }

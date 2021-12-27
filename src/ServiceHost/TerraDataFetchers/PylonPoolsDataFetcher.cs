@@ -59,5 +59,7 @@ public class PylonPoolsDataFether
         await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.XDEFI_1, TerraPylonPoolFriendlyName.Xdefi1, stoppingToken);
         await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.XDEFI_2, TerraPylonPoolFriendlyName.Xdefi2, stoppingToken);
         await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.XDEFI_3, TerraPylonPoolFriendlyName.Xdefi3, stoppingToken);
+        
+        await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.DEVIANTS_FACTIONS, TerraPylonPoolFriendlyName.DeviantsFactions, stoppingToken);
     }
 }
