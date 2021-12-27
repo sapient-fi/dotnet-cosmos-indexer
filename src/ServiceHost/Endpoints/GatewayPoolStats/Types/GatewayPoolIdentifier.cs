@@ -13,4 +13,5 @@ public enum GatewayPoolIdentifier
     Sayve,
     Xdefi,
     DeviantsFactions,
+    GalaticPunks,
 }

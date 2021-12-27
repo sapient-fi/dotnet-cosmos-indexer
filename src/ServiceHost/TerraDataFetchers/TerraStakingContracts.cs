@@ -47,6 +47,8 @@ public static class TerraPylonGatewayContracts
     public const string XDEFI_3 = "terra1r9we2p8knhzxn0gk0ak667fcxdv26x4tp46l4k";
     
     public const string DEVIANTS_FACTIONS = "terra1nata7lxk6ylx7ttu56jgp2s57g3fucl8saz0qw";
+
+    public const string GALATIC_PUNKS = "terra10jrv8wy6s06mku9t6yawt2yr09wjlqsw0qk0vf";
 }
 
 public static class TerraLpFarmingContracts
