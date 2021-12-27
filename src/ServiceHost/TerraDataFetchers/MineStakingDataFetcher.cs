@@ -35,8 +35,11 @@ public class MineStakingDataFetcher
     public async Task FetchDataAsync(CancellationToken stoppingToken)
     {
         _logger.LogInformation("Fetching fresh MINE staking transactions");
-        int skipped = 0;
         using var db = _dbFactory.OpenDbConnection();
+
+        var latestRow = await db.SingleAsync(
+            db.From<TerraMineStakingEntity>()
+                        .OrderByDescending(q => q.CreatedAt), token: stoppingToken);
 
         await foreach (var (tx, msg) in _transactionEnumerator.EnumerateTransactionsAsync(
                            0,
@@ -44,12 +47,11 @@ public class MineStakingDataFetcher
                            TerraStakingContracts.MINE_STAKING_CONTRACT,
                            stoppingToken))
         {
-            if (skipped >= 50)
+            if (tx.Id == latestRow?.TransactionId)
             {
-                _logger.LogInformation("50 transactions have now been skipped, stopping enumeration");
+                _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, aborting", tx.Id, tx.TransactionHash);
                 break;
             }
-
             using var dbTx = db.BeginTransaction();
             await dbTx.Connection.SaveAsync(obj: new TerraRawTransactionEntity
                 {
@@ -60,16 +62,6 @@ public class MineStakingDataFetcher
                 },
                 token: stoppingToken
             );
-
-            var exists =
-                await db.SingleAsync<TerraMineStakingEntity>(q => q.TxHash == tx.TransactionHash,
-                    token: stoppingToken);
-            if (exists != default)
-            {
-                _logger.LogDebug("tx exists for {Id}", tx.Id);
-                skipped++;
-                continue;
-            }
             
             foreach (var properMsg in msg.Messages.Select(innerMsg => innerMsg as WasmMsgExecuteContract))
             {
