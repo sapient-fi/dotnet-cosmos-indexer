@@ -41,7 +41,16 @@ public class GatewayPoolStatsService
                 .Where(entity => Sql.In(entity.FriendlyName, friendlyNames) && Sql.In(entity.Operation,
                     new[] { TerraPylonPoolOperation.Deposit })),
             token: cancellationToken);
-
+        var statsForWithdraw = await db.SingleAsync<GatewayPoolStatsOverallGraph>(db.From<TerraPylonPoolEntity>()
+                .Select(entity => new
+                {
+                    TotalValueLocked = Sql.Sum("amount"),
+                })
+                .Where(entity => Sql.In(entity.FriendlyName, friendlyNames) && Sql.In(entity.Operation,
+                    new[] { TerraPylonPoolOperation.Withdraw })),
+            token: cancellationToken);
+        stats.TotalValueLocked += statsForWithdraw.TotalValueLocked; // withdraw numbers are negative
+        
         stats.DepositPerWallet = await CreateDepositPerWalletStatsAsync(db, friendlyNames, cancellationToken);
 
         stats.DepositsOverTime = await db.SqlListAsync<TimeSeriesStatEntry>(
