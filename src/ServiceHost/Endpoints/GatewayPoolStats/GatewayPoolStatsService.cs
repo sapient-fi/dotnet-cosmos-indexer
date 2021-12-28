@@ -1,6 +1,7 @@
 using System.Data;
 using System.Text;
 using NewRelic.Api.Agent;
+using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
@@ -13,12 +14,15 @@ namespace Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 public class GatewayPoolStatsService
 {
     private readonly IDbConnectionFactory _dbConnectionFactory;
+    private readonly IGatewayPoolsConfig _config;
 
     public GatewayPoolStatsService(
-        IDbConnectionFactory dbConnectionFactory
+        IDbConnectionFactory dbConnectionFactory,
+        IGatewayPoolsConfig config
     )
     {
         _dbConnectionFactory = dbConnectionFactory;
+        _config = config;
     }
 
     [Trace]
@@ -156,7 +160,7 @@ ORDER BY (sum(pool.amount)) DESC;
     }
 
     [Trace]
-    private static async Task<List<WalletAndDepositEntry>> CreateDepositPerWalletStatsAsync(
+    private async Task<List<WalletAndDepositEntry>> CreateDepositPerWalletStatsAsync(
         IDbConnection db,
         TerraPylonPoolFriendlyName[] friendlyNames,
         CancellationToken cancellationToken
@@ -189,7 +193,7 @@ ORDER BY (sum(pool.amount)) DESC;
         {
             item.InPercent = item.Amount / totalSum * 100;
 
-            if (itemsAdded > 9)
+            if (itemsAdded > _config.NumberOfElementsInDepositsPrWallet - 1)
             {
                 others.Amount += item.Amount;
                 others.InPercent += item.InPercent;
