@@ -2,7 +2,7 @@ using RapidCore.Configuration;
 
 namespace Pylonboard.ServiceHost.Config;
 
-public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig
+public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig
 {
     private readonly IConfiguration _config;
 
@@ -30,5 +30,10 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig
     public bool DisableMigrationsDuringBoot => _config.Get(
         "PYLONBOARD_DB_DISABLE_MIGRATIONS_ON_BOOT",
         false
+    );
+
+    public int NumberOfElementsInDepositsPrWallet => _config.Get(
+        "PYLONBOARD_NR_ELEMENTS_DEPOSITS_PR_WALLET",
+        11
     );
 }

@@ -20,6 +20,7 @@ public static class TerraMoneyServiceCollectionExtensions
     {
         var config = new PylonboardConfig(configuration);
         services.AddSingleton<IEnabledServiceRolesConfig>(config);
+        services.AddSingleton<IGatewayPoolsConfig>(config);
 
         services.AddSingleton<IDistributedAppLockProvider>(c => new NoopDistributedAppLockProvider());
         services.AddSingleton<IdGenerator>(c => new IdGenerator(new IdGen.IdGenerator(0)));
