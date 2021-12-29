@@ -26,7 +26,21 @@ builder.Services.AddHealthChecks()
         // .AddCheck<MarketDataHealthCheck>("market_data_health_check")
         // .AddNpgSql(dbConfig.ConnectionString);
         // .AddRedis(Configuration["Data:ConnectionStrings:Redis"]);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "board-cors",
+        corsPolicyBuilder =>
+        {
+            corsPolicyBuilder
+                .WithOrigins("http://localhost:3000")
+                .WithMethods(new []{"GET", "POST", "PUT"})
+                .WithHeaders(new []
+                {
+                    "accept", "Access-Control-Request-Method", "Access-Control-Request-Headers", "origin", "User-agent", 
+                    "Referer", "Accept-Encoding", "Accept-Language", "connection", "host", "content-type"
+                });
+        });
+});
 builder.Services.AddTerraMoney(builder.Configuration);
 builder.Services.AddMessageBus(new PylonboardConfig(builder.Configuration), builder.Configuration);
 builder.Services.AddDbStack(builder.Configuration);
@@ -38,8 +52,8 @@ builder.Services.AddGraphQLServer()
     .AddApolloTracing(); // https://chillicream.com/docs/hotchocolate/server/instrumentation#on-demand
 
 var app = builder.Build();
+app.UseCors("board-cors");
 app.UseSerilogRequestLogging();
-
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();

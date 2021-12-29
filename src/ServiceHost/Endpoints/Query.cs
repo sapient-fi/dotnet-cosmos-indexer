@@ -1,10 +1,12 @@
 using System.Collections.ObjectModel;
 using HotChocolate.Types.Pagination;
+using Pylonboard.ServiceHost.Endpoints.Arbitraging;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
+using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Caching;
 
 namespace Pylonboard.ServiceHost.Endpoints;
@@ -192,6 +194,34 @@ public class Query
 
         return data;
     }
+
+    public async Task<ArbitrageGraph> GetArbitrageForMarket(
+        [Service] ArbitrageService service,
+        [Service] ICacheClient cacheClient,
+        ArbitrageMarket market,
+        CancellationToken cancellationToken)
+    {
+        var cacheKey = $"cache:arbitrage:{market}";
+        var data = cacheClient.Get<ArbitrageGraph>(cacheKey);
+        if (data == default)
+        {
+            var results = await service.GetArbTimeSeriesForMarketAsync(market, cancellationToken);
+            data = new ArbitrageGraph
+            {
+                Items = results
+            };
+            
+            cacheClient.Set(cacheKey, data, TimeSpan.FromMinutes(65));
+        }
+
+        return data;
+    }
+}
+
+public class ArbitrageGraph
+{
+    public List<TimeSeriesStatEntry> Items { get; set; }
+    
 }
 
 public class DataAndTotalCache<T>
