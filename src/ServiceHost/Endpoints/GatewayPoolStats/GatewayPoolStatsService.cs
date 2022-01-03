@@ -152,7 +152,7 @@ ORDER BY (sum(pool.amount)) DESC;
                 .Select<TerraPylonPoolEntity, MineWalletStakeView>((entity, stakingEntity) => new
                 {
                     DepositAmount = Sql.Sum(entity.Amount),
-                    StakingAmount = Sql.Sum(stakingEntity.Sum),
+                    StakingAmount = Sql.Max(stakingEntity.Sum),
                     Depositor = entity.Depositor
                 }), token: cancellationToken);
 
