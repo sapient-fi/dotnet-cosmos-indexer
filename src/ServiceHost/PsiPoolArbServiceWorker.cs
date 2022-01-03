@@ -1,3 +1,4 @@
+using Polly;
 using Pylonboard.Kernel;
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
@@ -41,25 +42,41 @@ public class PsiPoolArbServiceWorker : IScopedBackgroundServiceWorker
             _logger.LogInformation("Background worker role not active, not starting arb bot");
             return;
         }
-        
+
         do
         {
             var now = DateTimeOffset.Now;
-            var toPsi = await _exchangeRateOracle.GetExchangeRateAsync(TerraDenominators.bPsiDP, TerraDenominators.Psi, now);
-            var toUst = await _exchangeRateOracle.GetExchangeRateAsync(TerraDenominators.Psi, TerraDenominators.Ust, now);
-
-            var endResult = toUst.close * toPsi.close;
-            await _notifier.HandlePotentialArbAsync(TerraDenominators.bPsiDP, endResult, stoppingToken);
-            using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: stoppingToken);
-            {
-                await db.InsertAsync(new ExchangeMarketCandle
+            await Policy
+                .Handle<Exception>()
+                .WaitAndRetryAsync(
+                    5,
+                    retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
+                    (exception, span) =>
+                    {
+                        _logger.LogWarning("Handling retry while performing Terra Transactions, waiting {Time:c}", span);
+                    }
+                )
+                .ExecuteAsync(async () =>
                 {
-                    Close = endResult,
-                    Exchange = Exchange.Terra,
-                    Market = $"{TerraDenominators.bPsiDP}-arb",
-                    CloseTime = toUst.closedAt,
-                }, token: stoppingToken);
-            }
+                    var toPsi = await _exchangeRateOracle.GetExchangeRateAsync(TerraDenominators.bPsiDP,
+                        TerraDenominators.Psi, now);
+                    var toUst = await _exchangeRateOracle.GetExchangeRateAsync(TerraDenominators.Psi,
+                        TerraDenominators.Ust, now);
+
+                    var endResult = toUst.close * toPsi.close;
+                    await _notifier.HandlePotentialArbAsync(TerraDenominators.bPsiDP, endResult, stoppingToken);
+                    using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: stoppingToken);
+                    {
+                        await db.InsertAsync(new ExchangeMarketCandle
+                        {
+                            Close = endResult,
+                            Exchange = Exchange.Terra,
+                            Market = $"{TerraDenominators.bPsiDP}-arb",
+                            CloseTime = toUst.closedAt,
+                        }, token: stoppingToken);
+                    }
+                });
+
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
         } while (!stoppingToken.IsCancellationRequested);
     }
