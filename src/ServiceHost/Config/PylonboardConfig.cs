@@ -2,7 +2,7 @@ using RapidCore.Configuration;
 
 namespace Pylonboard.ServiceHost.Config;
 
-public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig
+public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig, ICorsConfig
 {
     private readonly IConfiguration _config;
 
@@ -36,4 +36,9 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayP
         "PYLONBOARD_NR_ELEMENTS_DEPOSITS_PR_WALLET",
         11
     );
+
+    List<string> ICorsConfig.AllowedOrigins => _config.GetFromCommaSeparatedList<string>("PYLONBOARD_API_ALLOWED_CORS_ORIGINS", new List<string>
+    {
+        "http://localhost:3000",
+    });
 }
