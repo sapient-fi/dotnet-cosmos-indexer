@@ -17,22 +17,22 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayP
         ServiceRoles.BACKGROUND_WORKER,
     });
 
-    public bool IsRoleEnabled(string role)
+    bool IEnabledServiceRolesConfig.IsRoleEnabled(string role)
     {
         return EnabledRoles.Contains(role);
     }
 
-    public string ConnectionString => _config.Get(
+    string IDbConfig.ConnectionString => _config.Get(
         "PYLONBOARD_DB_CONNECTION_STRING",
         "User ID=pylonboard_user;Password=pylonboard_user_pass;Host=localhost;Port=35432;Database=pylonboard;Pooling=true;Minimum Pool Size=10;Maximum Pool Size=100;"
     );
 
-    public bool DisableMigrationsDuringBoot => _config.Get(
+    bool IDbConfig.DisableMigrationsDuringBoot => _config.Get(
         "PYLONBOARD_DB_DISABLE_MIGRATIONS_ON_BOOT",
         false
     );
 
-    public int NumberOfElementsInDepositsPrWallet => _config.Get(
+    int IGatewayPoolsConfig.NumberOfElementsInDepositsPrWallet => _config.Get(
         "PYLONBOARD_NR_ELEMENTS_DEPOSITS_PR_WALLET",
         11
     );
