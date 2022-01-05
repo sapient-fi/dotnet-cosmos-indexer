@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: ASPNETCORE_ENVIRONMENT
-              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | default "PRODUCTION"}}
+              value: {{ .Values.env.ASPNETCORE_ENVIRONMENT | default "Production"}}
             - name: PYLONBOARD_SERVICE_ROLES_ENABLED
               value: {{required "env.PYLONBOARD_SERVICE_ROLES_ENABLED is required." .Values.env.PYLONBOARD_SERVICE_ROLES_ENABLED}}
           envFrom:

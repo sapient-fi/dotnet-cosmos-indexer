@@ -36,4 +36,4 @@ jobs:
       - name: Lint Helm
         uses: WyriHaximus/github-action-helm3@v2
         with:
-          exec: helm lint ./charts/pylonboard
+          exec: helm lint ./charts/pylonboard         
