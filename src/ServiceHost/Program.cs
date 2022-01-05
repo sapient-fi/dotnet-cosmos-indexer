@@ -33,11 +33,12 @@ builder.Services.AddCors(options =>
         {
             corsPolicyBuilder
                 .WithOrigins(config.AllowedOrigins.ToArray())
-                .WithMethods(new []{"GET", "POST", "PUT"})
+                .WithMethods(new []{"GET", "POST", "PUT", "HEAD", "CONNECT", "OPTIONS", "TRACE"})
                 .WithHeaders(new []
                 {
                     "accept", "Access-Control-Request-Method", "Access-Control-Request-Headers", "origin", "User-agent", 
-                    "Referer", "Accept-Encoding", "Accept-Language", "connection", "host", "content-type"
+                    "Referer", "Accept-Encoding", "Accept-Language", "connection", "host", "content-type",
+                    "GraphQL-Tracing", "X-Apollo-Tracing", "newrelic", "traceparent", "tracestate"
                 });
         });
 });
