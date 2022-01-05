@@ -33,6 +33,7 @@ builder.Services.AddCors(options =>
         {
             corsPolicyBuilder
                 .WithOrigins(config.AllowedOrigins.ToArray())
+                .AllowCredentials()
                 .WithMethods(new []{"GET", "POST", "PUT", "HEAD", "CONNECT", "OPTIONS", "TRACE"})
                 .WithHeaders(new []
                 {
