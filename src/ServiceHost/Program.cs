@@ -23,16 +23,16 @@ Log.Logger = loggerConfiguration.CreateLogger();
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks()
     .AddCheck<DbConnectionHealthCheck>("database");
-        // .AddCheck<MarketDataHealthCheck>("market_data_health_check")
-        // .AddNpgSql(dbConfig.ConnectionString);
-        // .AddRedis(Configuration["Data:ConnectionStrings:Redis"]);
+
 builder.Services.AddCors(options =>
 {
+    var config = new PylonboardConfig(builder.Configuration) as ICorsConfig;
+    
     options.AddPolicy(name: "board-cors",
         corsPolicyBuilder =>
         {
             corsPolicyBuilder
-                .WithOrigins("http://localhost:3000")
+                .WithOrigins(config.AllowedOrigins.ToArray())
                 .WithMethods(new []{"GET", "POST", "PUT"})
                 .WithHeaders(new []
                 {
