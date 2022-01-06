@@ -1,7 +1,11 @@
 on:
+#  pull_request:
+#    branches: [ main ]  
   push:
     branches:
       - main
+    tags:
+      - v*
     paths:
       - 'src/**'
       - 'Dockerfile'
@@ -15,12 +19,14 @@ jobs:
 
       - name: Checkout main
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Update SHA
         run: echo $GITHUB_SHA > $GITHUB_WORKSPACE/_meta
 
       - name: Build container image
-        run: docker build -t registry.digitalocean.com/pylonboard/dotnet-monolith:$(echo $GITHUB_SHA | head -c7) .
+        run: docker build -t registry.digitalocean.com/pylonboard/dotnet-monolith:$(git describe --tags) .
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
@@ -31,4 +37,4 @@ jobs:
         run: doctl registry login --expiry-seconds 600
 
       - name: Push image to DigitalOcean Container Registry
-        run: docker push registry.digitalocean.com/pylonboard/dotnet-monolith:$(echo $GITHUB_SHA | head -c7)
+        run: docker push registry.digitalocean.com/pylonboard/dotnet-monolith:$(git describe --tags)

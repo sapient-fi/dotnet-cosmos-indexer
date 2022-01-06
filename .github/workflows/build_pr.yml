@@ -29,3 +29,11 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 #      - name: Test
 #        run: dotnet test --no-restore --verbosity normal
+  lint-helm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Lint Helm
+        uses: WyriHaximus/github-action-helm3@v2
+        with:
+          exec: helm lint ./charts/pylonboard         
