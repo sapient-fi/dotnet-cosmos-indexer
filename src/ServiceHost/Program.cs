@@ -1,5 +1,6 @@
 using Pylonboard.ServiceHost;
 using Pylonboard.ServiceHost.Config;
+using Pylonboard.ServiceHost.DAL;
 using Pylonboard.ServiceHost.Endpoints;
 using Pylonboard.ServiceHost.Extensions;
 using Pylonboard.ServiceHost.ServiceCollectionExtensions;

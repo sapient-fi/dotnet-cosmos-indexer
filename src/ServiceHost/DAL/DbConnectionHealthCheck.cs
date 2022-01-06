@@ -1,7 +1,10 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+
+namespace Pylonboard.ServiceHost.DAL;
 
 public class DbConnectionHealthCheck : IHealthCheck
 {
@@ -15,6 +18,8 @@ public class DbConnectionHealthCheck : IHealthCheck
         _factory = factory;
         _logger = logger;
     }
+    
+    [Trace]
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())
     {
         try
