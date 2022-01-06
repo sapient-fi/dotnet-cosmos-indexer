@@ -7,23 +7,30 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout main
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Prep helm chart
-        run: |
-          helm package --app-version $(git describe --tags) --version $(git describe --tags) -d releases/ charts/pylonboard
+      
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
       - uses: azure/setup-helm@v1
         with:
           version: '3.7.1'
         id: install-helm
+      
+      - name: Prep helm chart
+        run: |
+          helm package --app-version $(git describe --tags) --version $(git describe --tags) -d releases/ charts/pylonboard
+
       - name: Save DigitalOcean kubeconfig with short-lived credentials
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-pylonboard
+      
       - name: Deploy API
         run: helm upgrade --kube-context=do-ams3-k8s-pylonboard --install --atomic --namespace=pylonboard --set "ingress.traefik.hosts={api.pylonboard.money}" --set "env.PYLONBOARD_SERVICE_ROLES_ENABLED=API" --set "envFromSecretName=api-secrets" api ./releases/*.tgz
+      
       - name: Deploy Worker
         run: helm upgrade --kube-context=do-ams3-k8s-pylonboard --install --atomic --namespace=pylonboard --set "env.PYLONBOARD_SERVICE_ROLES_ENABLED=BACKGROUND_WORKER" --set "envFromSecretName=worker-secrets" worker ./releases/*.tgz
