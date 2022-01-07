@@ -1,9 +1,11 @@
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using Microsoft.AspNetCore.SignalR;
 using Pylonboard.Kernel;
 using Pylonboard.ServiceHost.DAL.Exchanges;
 using Pylonboard.ServiceHost.Endpoints.Arbitraging;
+using Pylonboard.ServiceHost.Hubs;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using Telegram.Bot;
@@ -16,6 +18,7 @@ public class ArbNotifier
     private readonly ITelegramBotClient _botClient;
     private readonly ArbitrageService _arbitrageService;
     private readonly ILogger<ArbNotifier> _logger;
+    private readonly IHubContext<ArbitrageHub> _arbHub;
     private readonly ChatId _chatId;
     private ArbDirection _arbDirection;
     private readonly Stopwatch _notificationTimer;
@@ -23,12 +26,14 @@ public class ArbNotifier
     public ArbNotifier(
         ITelegramBotClient botClient,
         ArbitrageService arbitrageService,
-        ILogger<ArbNotifier> logger
+        ILogger<ArbNotifier> logger,
+        IHubContext<ArbitrageHub> arbHub
     )
     {
         _botClient = botClient;
         _arbitrageService = arbitrageService;
         _logger = logger;
+        _arbHub = arbHub;
         _chatId = new ChatId(-796208526);
         _notificationTimer = new Stopwatch();
     }
@@ -49,13 +54,37 @@ public class ArbNotifier
         if (calculatedArbRateInUst < relevantBand.LowerBand)
         {
             await HandleBuyArbAsync(denom, calculatedArbRateInUst, relevantBand.LowerBand, stoppingToken);
+            await _arbHub.Clients.All.SendAsync("nexus-liquid-arb", new
+            {
+                Price = calculatedArbRateInUst,
+                Direction = ArbDirection.Buy.ToString().ToLowerInvariant(),
+                At = DateTimeOffset.UtcNow
+            }, cancellationToken: stoppingToken);
+
             return;
         }
 
         if (calculatedArbRateInUst > relevantBand.UpperBand)
         {
             await HandleSellArbAsync(denom, calculatedArbRateInUst, relevantBand.UpperBand, stoppingToken);
+            await _arbHub.Clients.All.SendAsync("nexus-liquid-arb", new
+            {
+                Price = calculatedArbRateInUst,
+                Direction = ArbDirection.Sell.ToString().ToLowerInvariant(),
+                At = DateTimeOffset.UtcNow
+            }, cancellationToken: stoppingToken);
+
+            return;
         }
+        // send a pulse notification to let the bot know that new data is there
+        // as it might have relevant positions to close
+        await _arbHub.Clients.All.SendAsync("nexus-liquid-arb", new
+        {
+            Price = calculatedArbRateInUst,
+            Direction = ArbDirection.Pulse.ToString().ToLowerInvariant(),
+            At = DateTimeOffset.UtcNow
+        }, cancellationToken: stoppingToken);
+
     }
 
     private async Task HandleSellArbAsync(
@@ -74,7 +103,8 @@ public class ArbNotifier
             return;
         }
 
-        var messageText = $"{denom} SELL arb! {calculatedArbRateInUst:F4} crossed up over {upperBand:F4} (55 period avg)";
+        var messageText =
+            $"{denom} SELL arb! {calculatedArbRateInUst:F4} crossed up over {upperBand:F4} (55 period avg)";
 
         await _botClient.SendTextMessageAsync(
             _chatId, messageText,
@@ -95,7 +125,8 @@ public class ArbNotifier
     {
         _logger.LogInformation("{Denom} buy arb! {ToUst:F4} crossed down under {UpperBand:F4}", denom,
             calculatedArbRateInUst, lowerBand);
-        var messageText = $"{denom} BUY arb!  {calculatedArbRateInUst:F4} crossed down under {lowerBand:F4} (55 period avg)";
+        var messageText =
+            $"{denom} BUY arb!  {calculatedArbRateInUst:F4} crossed down under {lowerBand:F4} (55 period avg)";
 
         if (_notificationTimer.Elapsed < TimeSpan.FromHours(4) && _notificationTimer.IsRunning &&
             _arbDirection == ArbDirection.Buy)
@@ -125,5 +156,7 @@ enum ArbDirection
 
     Buy,
 
-    Sell
+    Sell,
+    
+    Pulse
 }
