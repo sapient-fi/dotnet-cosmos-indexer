@@ -40,6 +40,19 @@ public class ArbitrageServiceTests : IDisposable
         Assert.NotEmpty(data);
     }
 
+    [Fact]
+    public async Task Get_trading_bands()
+    {
+        var service = _scope.ServiceProvider.GetRequiredService<ArbitrageService>();
+
+        var data = await service.GetArbitrageTimeSeriesBandsAsync(
+            ArbitrageMarket.Nexus, 
+            CancellationToken.None
+        );
+        Assert.NotEmpty(data);
+        Assert.InRange(data.Count, 1, 55);
+    }
+
     public void Dispose()
     {
         _scope.Dispose();

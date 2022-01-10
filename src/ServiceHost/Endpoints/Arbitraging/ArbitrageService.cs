@@ -14,16 +14,17 @@ public class ArbitrageService
     public ArbitrageService(
         IDbConnectionFactory dbConnectionFactory,
         ILogger<ArbitrageService> service
-        )
+    )
     {
         _dbConnectionFactory = dbConnectionFactory;
         _service = service;
     }
 
-    public async Task<List<TimeSeriesStatEntry>> GetArbTimeSeriesForMarketAsync(ArbitrageMarket market, CancellationToken cancellationToken)
+    public async Task<List<TimeSeriesStatEntry>> GetArbTimeSeriesForMarketAsync(ArbitrageMarket market,
+        CancellationToken cancellationToken)
     {
         using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
-        
+
         /*
          *  SELECT time_bucket('{bucket}', time) AS bucket,
     last(price_close, time) AS last_closing_price
@@ -44,6 +45,38 @@ public class ArbitrageService
             .OrderBy("at");
 
         var results = await db.SqlListAsync<TimeSeriesStatEntry>(query, token: cancellationToken);
+
+        return results;
+    }
+
+    public async Task<List<ArbBands>> GetArbitrageTimeSeriesBandsAsync(
+        ArbitrageMarket market,
+        CancellationToken cancellationToken
+    )
+    {
+        using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
+
+        var results = await db
+            .SqlListAsync<ArbBands>(
+                @"
+select s.close_time,
+        s.close,
+        close_smooth * 1.0-(@percentage/2) as lower_band,
+        close_smooth * 1.0+(@percentage/2) as upper_band
+ FROM (SELECT close_time,
+              close,
+              AVG(close) OVER (ORDER BY close_time
+                  ROWS BETWEEN @periods PRECEDING AND CURRENT ROW)
+                  AS close_smooth
+       FROM exchange_market_candle
+       WHERE market = @market
+         and close_time > NOW() - INTERVAL '1 day'
+       ORDER BY close_time DESC) s LIMIT @periods;", new
+                {
+                    percentage = 0.05m,
+                    periods = 55,
+                    market = $"{TerraDenominators.bPsiDP}-arb",
+                }, token: cancellationToken);
 
         return results;
     }
