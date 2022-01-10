@@ -64,7 +64,6 @@ public class PsiPoolArbServiceWorker : IScopedBackgroundServiceWorker
                         TerraDenominators.Ust, now);
 
                     var endResult = toUst.close * toPsi.close;
-                    await _notifier.HandlePotentialArbAsync(TerraDenominators.bPsiDP, endResult, stoppingToken);
                     using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: stoppingToken);
                     {
                         await db.InsertAsync(new ExchangeMarketCandle
@@ -75,6 +74,8 @@ public class PsiPoolArbServiceWorker : IScopedBackgroundServiceWorker
                             CloseTime = toUst.closedAt,
                         }, token: stoppingToken);
                     }
+                    
+                    await _notifier.HandlePotentialArbAsync(TerraDenominators.bPsiDP, endResult, stoppingToken);
                 });
 
             await Task.Delay(TimeSpan.FromMinutes(5), stoppingToken);
