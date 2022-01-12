@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.SignalR;
 using Polly;
 using Pylonboard.Kernel;
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL.Exchanges;
+using Pylonboard.ServiceHost.Hubs;
 using Pylonboard.ServiceHost.Oracles.ArbNotifier;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using ServiceStack.Data;

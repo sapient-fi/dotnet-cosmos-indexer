@@ -1,6 +1,7 @@
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.Kernel.IdGeneration;
 using Pylonboard.ServiceHost.Config;
+using Pylonboard.ServiceHost.Hubs;
 using Pylonboard.ServiceHost.Oracles;
 using Pylonboard.ServiceHost.Oracles.ArbNotifier;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
@@ -56,6 +57,7 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddScoped<ArbNotifier>();
         services.AddScoped<ITelegramBotClient>(c => new TelegramBotClient("5008024993:AAHbSuGs__0YvSxoKkMQ0qPlwwTi6Pj7CVI"));
 
+        services.AddTransient<ArbitrageHub>();
         return services;
     }
 }
