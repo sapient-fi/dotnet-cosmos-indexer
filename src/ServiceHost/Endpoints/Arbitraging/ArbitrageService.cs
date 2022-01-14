@@ -74,7 +74,7 @@ select s.close_time,
        ORDER BY close_time DESC) s LIMIT @periods;", new
                 {
                     percentage = 0.05m,
-                    periods = 55,
+                    periods = 161,
                     market = $"{TerraDenominators.bPsiDP}-arb",
                 }, token: cancellationToken);
 

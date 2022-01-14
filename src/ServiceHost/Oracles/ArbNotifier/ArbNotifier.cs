@@ -45,7 +45,7 @@ public class ArbNotifier
     )
     {
         // Notification rules...
-        // We're computing a band of +/- 2.5% around the 55 periods average of close prices on the arb... if the current
+        // We're computing a band of +/- 2.5% around the 161 periods average of close prices on the arb... if the current
         // price has broken below the lower-band, we have a  buy arb
         // if the price has broken above the upper-band, we have a sell arb
         var priceBands = await _arbitrageService.GetArbitrageTimeSeriesBandsAsync(ArbitrageMarket.Nexus, stoppingToken);
@@ -104,7 +104,7 @@ public class ArbNotifier
         }
 
         var messageText =
-            $"{denom} SELL arb! {calculatedArbRateInUst:F4} crossed up over {upperBand:F4} (55 period avg)";
+            $"{denom} SELL arb! {calculatedArbRateInUst:F4} crossed up over {upperBand:F4} (161 period avg)";
 
         await _botClient.SendTextMessageAsync(
             _chatId, messageText,
@@ -126,7 +126,7 @@ public class ArbNotifier
         _logger.LogInformation("{Denom} buy arb! {ToUst:F4} crossed down under {UpperBand:F4}", denom,
             calculatedArbRateInUst, lowerBand);
         var messageText =
-            $"{denom} BUY arb!  {calculatedArbRateInUst:F4} crossed down under {lowerBand:F4} (55 period avg)";
+            $"{denom} BUY arb!  {calculatedArbRateInUst:F4} crossed down under {lowerBand:F4} (161 period avg)";
 
         if (_notificationTimer.Elapsed < TimeSpan.FromHours(4) && _notificationTimer.IsRunning &&
             _arbDirection == ArbDirection.Buy)
