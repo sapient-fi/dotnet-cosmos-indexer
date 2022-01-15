@@ -78,6 +78,7 @@ public class ArbNotifier
         }
         // send a pulse notification to let the bot know that new data is there
         // as it might have relevant positions to close
+        _logger.LogInformation("Sending out pulse arb on WebSocket");
         await _arbHub.Clients.All.SendAsync("nexus-liquid-arb", new
         {
             Price = calculatedArbRateInUst,
