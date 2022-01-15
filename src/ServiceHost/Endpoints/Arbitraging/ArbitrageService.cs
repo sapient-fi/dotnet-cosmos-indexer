@@ -73,7 +73,7 @@ select s.close_time,
          and close_time > NOW() - INTERVAL '1 day'
        ORDER BY close_time DESC) s LIMIT @periods;", new
                 {
-                    percentage = 0.05m,
+                    percentage = 0.029m,
                     periods = 161,
                     market = $"{TerraDenominators.bPsiDP}-arb",
                 }, token: cancellationToken);
