@@ -6,6 +6,7 @@ using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
+using Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Caching;
 
@@ -212,6 +213,26 @@ public class Query
             };
             
             cacheClient.Set(cacheKey, data, TimeSpan.FromMinutes(65));
+        }
+
+        return data;
+    }
+
+    public async Task<List<MyGatewayPoolGraph>> GetMyGatewayPools(
+        string terraWallet,
+        [Service] MyGatewayPoolService service,
+        [Service] ICacheClient cacheClient,
+        CancellationToken cancellationToken
+    )
+    {
+        var cacheKey = $"cache:mypools:{terraWallet}";
+        var data = cacheClient.Get<List<MyGatewayPoolGraph>>(cacheKey);
+
+        if (data == default)
+        {
+            var results = await service.GetMyGatewayPoolsAsync(terraWallet, cancellationToken);
+            cacheClient.Set(cacheKey, results, TimeSpan.FromHours(1));
+            data = results;
         }
 
         return data;

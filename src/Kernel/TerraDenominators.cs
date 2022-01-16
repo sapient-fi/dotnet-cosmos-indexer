@@ -20,6 +20,10 @@ public static class TerraDenominators
     public const string Apollo = "APOLLO";
     public const string bEth = "bEth";
     public const string bPsiDP = "bPsiDP";
+    public const string Whale = "WHALE";
+    public const string Glow = "GLOW";
+    public const string Sayve = "SAYVE";
+    public const string Xdefi = "XDEFI";
 
     public static readonly Dictionary<string, string> AssetTokenAddressToDenominator = new()
     {
