@@ -3,6 +3,7 @@ using Pylonboard.ServiceHost.Endpoints.Arbitraging;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
+using Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
 using ServiceStack.Caching;
 
 namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
@@ -17,6 +18,7 @@ public static class EndpointsServiceCollectionExtensions
         services.AddScoped<MineWalletStatsService>();
         services.AddScoped<MineTreasuryService>();
         services.AddScoped<ArbitrageService>();
+        services.AddScoped<MyGatewayPoolService>();
 
         services.AddSingleton<ICacheClient>(c => new MemoryCacheClient());
 
