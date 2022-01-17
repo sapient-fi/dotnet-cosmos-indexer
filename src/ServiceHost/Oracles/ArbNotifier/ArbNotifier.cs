@@ -105,7 +105,7 @@ public class ArbNotifier
         }
 
         var messageText =
-            $"{denom} SELL arb! {calculatedArbRateInUst:F4} crossed up over {upperBand:F4} (161 period avg)";
+            $"{denom} SELL arb! {calculatedArbRateInUst:F4} crossed up over {upperBand:F4} (131 period avg)";
 
         await _botClient.SendTextMessageAsync(
             _chatId, messageText,
@@ -127,7 +127,7 @@ public class ArbNotifier
         _logger.LogInformation("{Denom} buy arb! {ToUst:F4} crossed down under {UpperBand:F4}", denom,
             calculatedArbRateInUst, lowerBand);
         var messageText =
-            $"{denom} BUY arb!  {calculatedArbRateInUst:F4} crossed down under {lowerBand:F4} (161 period avg)";
+            $"{denom} BUY arb!  {calculatedArbRateInUst:F4} crossed down under {lowerBand:F4} (131 period avg)";
 
         if (_notificationTimer.Elapsed < TimeSpan.FromHours(4) && _notificationTimer.IsRunning &&
             _arbDirection == ArbDirection.Buy)
