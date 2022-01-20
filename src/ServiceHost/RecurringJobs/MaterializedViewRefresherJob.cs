@@ -1,19 +1,13 @@
 using System.Data;
-using Pylonboard.Kernel;
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.DAL.Exchanges;
 using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
-using Pylonboard.ServiceHost.Oracles.ArbNotifier;
-using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
-namespace Pylonboard.ServiceHost;
+namespace Pylonboard.ServiceHost.RecurringJobs;
 
-public class MaterializedViewRefresherServiceWorker : IScopedBackgroundServiceWorker
+public class MaterializedViewRefresherServiceWorker
 {
     private readonly ILogger<MaterializedViewRefresherServiceWorker> _logger;
     private readonly IEnabledServiceRolesConfig _serviceRolesConfig;

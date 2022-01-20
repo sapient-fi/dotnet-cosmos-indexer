@@ -3,9 +3,9 @@ using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.TerraDataFetchers;
 
-namespace Pylonboard.ServiceHost;
+namespace Pylonboard.ServiceHost.RecurringJobs;
 
-public class TerraMoneyBackgroundServiceWorker : IScopedBackgroundServiceWorker
+public class TerraMoneyBackgroundServiceWorker
 {
     private readonly ILogger<TerraMoneyBackgroundServiceWorker> _logger;
     private readonly MineStakingDataFetcher _mineStakingDataFetcher;

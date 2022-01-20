@@ -1,20 +1,16 @@
-using Microsoft.AspNetCore.SignalR;
 using Polly;
 using Pylonboard.Kernel;
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL.Exchanges;
-using Pylonboard.ServiceHost.Hubs;
 using Pylonboard.ServiceHost.Oracles.ArbNotifier;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
-namespace Pylonboard.ServiceHost;
+namespace Pylonboard.ServiceHost.RecurringJobs;
 
-public class PsiPoolArbServiceWorker : IScopedBackgroundServiceWorker
+public class PsiPoolArbServiceWorker
 {
     private readonly ILogger<PsiPoolArbServiceWorker> _logger;
     private readonly TerraExchangeRateOracle _exchangeRateOracle;
