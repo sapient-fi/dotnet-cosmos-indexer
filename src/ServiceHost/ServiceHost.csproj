@@ -13,8 +13,8 @@
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="5.0.2" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="5.0.1" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.2" />
-    <PackageReference Include="MassTransit.AspNetCore" Version="7.3.0-develop.317" />
-    <PackageReference Include="MassTransit.Grpc" Version="7.3.0-develop.317" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.3.0" />
+    <PackageReference Include="MassTransit.Grpc" Version="7.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="NewRelic.Agent.Api" Version="9.2.0" />
