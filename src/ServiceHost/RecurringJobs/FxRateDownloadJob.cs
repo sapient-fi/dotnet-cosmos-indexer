@@ -10,16 +10,16 @@ using ServiceStack.OrmLite;
 
 namespace Pylonboard.ServiceHost.RecurringJobs;
 
-public class FxRateDownloadServiceWorker : IScopedBackgroundServiceWorker
+public class FxRateDownloadJob
 {
-    private readonly ILogger<FxRateDownloadServiceWorker> _logger;
+    private readonly ILogger<FxRateDownloadJob> _logger;
     private readonly IEnabledServiceRolesConfig _serviceRolesConfig;
     private readonly IDbConnectionFactory _dbConnectionFactory;
     private readonly TerraExchangeRateOracle _terraExchangeRateOracle;
     private readonly IdGenerator _idGenerator;
 
-    public FxRateDownloadServiceWorker(
-        ILogger<FxRateDownloadServiceWorker> logger,
+    public FxRateDownloadJob(
+        ILogger<FxRateDownloadJob> logger,
         IEnabledServiceRolesConfig serviceRolesConfig,
         IDbConnectionFactory dbConnectionFactory,
         TerraExchangeRateOracle terraExchangeRateOracle,

@@ -50,6 +50,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddTerraMoney(builder.Configuration);
 builder.Services.AddMessageBus(new PylonboardConfig(builder.Configuration), builder.Configuration);
 builder.Services.AddDbStack(builder.Configuration);
+builder.Services.AddBackgroundJobStack(builder.Configuration);
 builder.Services.AddEndpointServices();
 
 builder.Services.AddGraphQLServer()
@@ -69,7 +70,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapGraphQL();
     endpoints.MapControllers();
 });
-
 try
 {
     var logger = Log.ForContext(typeof(Program));
@@ -86,6 +86,8 @@ try
             var migrator = scope.ServiceProvider.GetRequiredService<MigrationRunner>();
             await migrator.UpgradeAsync();
         }
+        var cronJobs = app.Services.GetRequiredService<CronjobManager>();
+        await cronJobs.RegisterJobsIfRequiredAsync();
     }
     
     app.MapHub<ArbitrageHub>("/arb-hub");
