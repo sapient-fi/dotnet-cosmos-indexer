@@ -1,4 +1,6 @@
+using MassTransit;
 using Pylonboard.Kernel;
+using Pylonboard.ServiceHost.Consumers;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using ServiceStack.Data;
@@ -10,13 +12,17 @@ public class MyGatewayPoolService
 {
     private readonly ILogger<MyGatewayPoolService> _logger;
     private readonly IDbConnectionFactory _dbConnectionFactory;
+    private readonly IRequestClient<GetLatestExchangeRateRequest> _exchangeRateClient;
 
     public MyGatewayPoolService(
         ILogger<MyGatewayPoolService> logger,
-        IDbConnectionFactory dbConnectionFactory)
+        IDbConnectionFactory dbConnectionFactory,
+        IRequestClient<GetLatestExchangeRateRequest> exchangeRateClient
+    )
     {
         _logger = logger;
         _dbConnectionFactory = dbConnectionFactory;
+        _exchangeRateClient = exchangeRateClient;
     }
 
     public async Task<List<MyGatewayPoolGraph>> GetMyGatewayPoolsAsync(string terraWallet,
@@ -62,6 +68,17 @@ public class MyGatewayPoolService
                 }
             }
 
+            var result = await _exchangeRateClient.GetResponse<GetLatestExchangeRateResult>(
+                new GetLatestExchangeRateRequest
+                {
+                    FromDenominator = graph.RewardDenominator.ToUpperInvariant(),
+                    ToDenominator = "UST"
+                },
+                cancellationToken
+            );
+
+            graph.TotalClaimedAmountInUst = result.Message.Value * graph.TotalClaimedAmount;
+            
             returnData.Add(graph);
         }
 
