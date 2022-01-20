@@ -9,6 +9,7 @@ public record MyGatewayPoolGraph
     public decimal TotalWithdrawnAmount { get; set; }
     public decimal TotalClaimedAmount { get; set; }
     public decimal TotalClaimedAmountInUst { get; set; }
+    public decimal ClaimedAmountToUstMultiplier { get; set; }
     public string RewardDenominator { get; set; }
     public string PoolContractAddress { get; set; }
     public GatewayPoolIdentifier PoolIdentifier { get; set; }
