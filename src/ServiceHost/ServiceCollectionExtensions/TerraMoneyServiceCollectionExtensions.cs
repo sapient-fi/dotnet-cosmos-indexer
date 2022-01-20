@@ -4,6 +4,7 @@ using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.Hubs;
 using Pylonboard.ServiceHost.Oracles;
 using Pylonboard.ServiceHost.Oracles.ArbNotifier;
+using Pylonboard.ServiceHost.Oracles.ExchangeRates.Fiat;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra.LowLevel;
 using Pylonboard.ServiceHost.Oracles.TerraFcd;
@@ -45,6 +46,9 @@ public static class TerraMoneyServiceCollectionExtensions
         
         services.AddScoped<CacheRefresherServiceWorker>();
         services.AddHostedService<ScopedBackgroundService<CacheRefresherServiceWorker>>();
+        
+        services.AddScoped<FxRateDownloadServiceWorker>();
+        services.AddHostedService<ScopedBackgroundService<FxRateDownloadServiceWorker>>();
         
         services.AddTransient<TerraTransactionEnumerator>();
 
