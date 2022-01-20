@@ -137,6 +137,7 @@ public class MyGatewayPoolService
         }
     }
 
+    [Trace]
     private void FillOutDatesAndRewardDenom(MyGatewayPoolGraph graph)
     {
         switch (graph.FriendlyName)

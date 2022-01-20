@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using HotChocolate.Utilities;
 using MassTransit;
+using NewRelic.Api.Agent;
 using Pylonboard.Kernel;
 using Pylonboard.ServiceHost.DAL.Exchanges;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Fiat;
@@ -33,6 +34,7 @@ public class LatestExchangeRateConsumer : IConsumer<GetLatestExchangeRateRequest
         _cacheClient = cacheClient;
     }
 
+    [Trace]
     public async Task Consume(ConsumeContext<GetLatestExchangeRateRequest> context)
     {
         var request = context.Message;
@@ -49,6 +51,7 @@ public class LatestExchangeRateConsumer : IConsumer<GetLatestExchangeRateRequest
         await context.RespondAsync(response);
     }
 
+    [Trace]
     private async Task<GetLatestExchangeRateResult> HandleTerraRateAsync(
         string fromDenominator,
         string toDenominator,
