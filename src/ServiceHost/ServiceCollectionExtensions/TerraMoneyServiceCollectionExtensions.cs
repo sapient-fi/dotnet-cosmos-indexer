@@ -8,6 +8,7 @@ using Pylonboard.ServiceHost.Oracles.ExchangeRates.Fiat;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra.LowLevel;
 using Pylonboard.ServiceHost.Oracles.TerraFcd;
+using Pylonboard.ServiceHost.RecurringJobs;
 using Pylonboard.ServiceHost.TerraDataFetchers;
 using Pylonboard.ServiceHost.TerraDataFetchers.Internal.PylonPools;
 using RapidCore.Locking;
@@ -33,22 +34,10 @@ public static class TerraMoneyServiceCollectionExtensions
 
         services.AddRefitClient<ITerraMoneyExchangeRateApiClient>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.coinhall.org"));
-        services.AddTransient<TerraExchangeRateOracle>();
-
-        services.AddScoped<TerraMoneyBackgroundServiceWorker>();
-        services.AddHostedService<ScopedBackgroundService<TerraMoneyBackgroundServiceWorker>>();
-
-        services.AddScoped<PsiPoolArbServiceWorker>();
-        services.AddHostedService<ScopedBackgroundService<PsiPoolArbServiceWorker>>();
-
-        services.AddScoped<MaterializedViewRefresherServiceWorker>();
-        services.AddHostedService<ScopedBackgroundService<MaterializedViewRefresherServiceWorker>>();
         
         services.AddScoped<CacheRefresherServiceWorker>();
         services.AddHostedService<ScopedBackgroundService<CacheRefresherServiceWorker>>();
         
-        services.AddScoped<FxRateDownloadServiceWorker>();
-        services.AddHostedService<ScopedBackgroundService<FxRateDownloadServiceWorker>>();
         
         services.AddTransient<TerraTransactionEnumerator>();
 

@@ -1,23 +1,13 @@
-using System.Data;
 using System.Diagnostics;
 using NewRelic.Api.Agent;
-using Pylonboard.Kernel;
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.DAL.Exchanges;
-using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
 using Pylonboard.ServiceHost.Endpoints;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
-using Pylonboard.ServiceHost.Oracles.ArbNotifier;
-using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using ServiceStack.Caching;
-using ServiceStack.Data;
-using ServiceStack.OrmLite;
-using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace Pylonboard.ServiceHost;
 

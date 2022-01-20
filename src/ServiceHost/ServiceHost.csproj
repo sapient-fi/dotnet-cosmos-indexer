@@ -12,6 +12,9 @@
     <PackageReference Include="AspNetCore.HealthChecks.Npgsql" Version="5.0.2" />
     <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="5.0.2" />
     <PackageReference Include="AspNetCore.HealthChecks.System" Version="5.0.1" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
+    <PackageReference Include="Hangfire.Core" Version="1.7.28" />
+    <PackageReference Include="Hangfire.InMemory" Version="0.3.4" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.2" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.3.0" />
     <PackageReference Include="MassTransit.Grpc" Version="7.3.0" />
