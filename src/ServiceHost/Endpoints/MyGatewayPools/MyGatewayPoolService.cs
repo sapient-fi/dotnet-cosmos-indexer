@@ -78,6 +78,7 @@ public class MyGatewayPoolService
             );
 
             graph.TotalClaimedAmountInUst = result.Message.Value * graph.TotalClaimedAmount;
+            graph.ClaimedAmountToUstMultiplier = result.Message.Value;
             
             returnData.Add(graph);
         }
