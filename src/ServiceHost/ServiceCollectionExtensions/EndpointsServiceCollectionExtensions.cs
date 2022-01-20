@@ -1,5 +1,6 @@
 using Pylonboard.ServiceHost.Endpoints;
 using Pylonboard.ServiceHost.Endpoints.Arbitraging;
+using Pylonboard.ServiceHost.Endpoints.FxRates;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
@@ -19,6 +20,7 @@ public static class EndpointsServiceCollectionExtensions
         services.AddScoped<MineTreasuryService>();
         services.AddScoped<ArbitrageService>();
         services.AddScoped<MyGatewayPoolService>();
+        services.AddScoped<FxRatesService>();
 
         services.AddSingleton<ICacheClient>(c => new MemoryCacheClient());
 
