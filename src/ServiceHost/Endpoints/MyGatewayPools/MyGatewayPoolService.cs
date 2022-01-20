@@ -1,4 +1,5 @@
 using MassTransit;
+using NewRelic.Api.Agent;
 using Pylonboard.Kernel;
 using Pylonboard.ServiceHost.Consumers;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
@@ -25,6 +26,7 @@ public class MyGatewayPoolService
         _exchangeRateClient = exchangeRateClient;
     }
 
+    [Trace]
     public async Task<List<MyGatewayPoolGraph>> GetMyGatewayPoolsAsync(string terraWallet,
         CancellationToken cancellationToken)
     {
@@ -368,6 +370,7 @@ public class MyGatewayPoolService
         }
     }
 
+    [Trace]
     private async Task<List<MyGatewayPoolResult>> FetchGatewayDataFromDbAsync(string terraWallet,
         CancellationToken cancellationToken)
     {
