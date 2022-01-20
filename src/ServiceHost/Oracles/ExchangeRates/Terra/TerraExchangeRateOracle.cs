@@ -35,12 +35,17 @@ public class TerraExchangeRateOracle
         {
             return (1m, atTime);
         }
-            
-        // if (!toDenom.EqualsIgnoreCase(TerraDenominators.Ust))
-        // {
-        //     throw new NotSupportedException("Currently only supports converting _to_ UST");
-        // }
-        //     
+
+        if (fromDenom.EqualsIgnoreCase(TerraDenominators.Sayve))
+        {
+            return (0.001m, atTime);
+        }
+
+        if (fromDenom.EqualsIgnoreCase(TerraDenominators.Xdefi))
+        {
+            return (1.0m, atTime);
+        }
+        
         var contractAddr = fromDenom switch
         {
             TerraDenominators.Luna => "terra1tndcaqxkpc5ce9qee5ggqf430mr2z3pefe5wj6",
@@ -59,6 +64,8 @@ public class TerraExchangeRateOracle
             TerraDenominators.bEth => "terra1c0afrdc5253tkp5wt7rxhuj42xwyf2lcre0s7c",
             TerraDenominators.nEth => "terra1c0afrdc5253tkp5wt7rxhuj42xwyf2lcre0s7c", // Lookup nEth as bEth as it's basically the same
             "bPsiDP" => "terra167gwjhv4mrs0fqj0q5tejyl6cz6qc2cl95z530",
+            TerraDenominators.Glow => "terra1p44kn7l233p7gcj0v3mzury8k7cwf4zt6gsxs5",
+            TerraDenominators.Whale => "terra1v4kpj65uq63m4x0mqzntzm27ecpactt42nyp5c",
             _ => throw new ArgumentOutOfRangeException(nameof(fromDenom), $"No contract for {fromDenom}")
         };
 

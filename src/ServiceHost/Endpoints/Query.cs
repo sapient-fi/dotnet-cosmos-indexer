@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using HotChocolate.Types.Pagination;
 using Pylonboard.ServiceHost.Endpoints.Arbitraging;
+using Pylonboard.ServiceHost.Endpoints.FxRates;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
@@ -237,17 +238,18 @@ public class Query
 
         return data;
     }
-}
 
-public class ArbitrageGraph
-{
-    public List<TimeSeriesStatEntry> Items { get; set; }
-    
-}
+    public async Task<FxRateGraph> GetFxRates(
+        FxRateQuery[] rates,
+        [Service] FxRatesService fxRatesService,
+        CancellationToken cancellationToken
+    )
+    {
+        var results = await fxRatesService.ConvertEmAllAsync(rates, cancellationToken);
 
-public class DataAndTotalCache<T>
-{
-    public int Total { get; set; }
-
-    public T Data { get; set; }
+        return new FxRateGraph
+        {
+            Rates = results,
+        };
+    }
 }

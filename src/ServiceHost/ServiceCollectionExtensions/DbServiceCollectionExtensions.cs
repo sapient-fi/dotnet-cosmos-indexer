@@ -1,6 +1,7 @@
 using System.Reflection;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL;
+using Pylonboard.ServiceHost.DAL.Exchanges;
 using RapidCore.DependencyInjection;
 using RapidCore.Migration;
 using RapidCore.PostgreSql.Migration;
@@ -23,6 +24,7 @@ public static class DbServiceCollectionExtensions
         });
 
         services.AddTransient<DbConnectionHealthCheck>();
+        services.AddTransient<ExchangeMarketRepository>();
         return services;
     }
 
