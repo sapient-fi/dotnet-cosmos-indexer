@@ -59,6 +59,15 @@ public class LatestExchangeRateConsumer : IConsumer<GetLatestExchangeRateRequest
     )
     {
         var market = CreateMarketFromDenoms(fromDenominator, toDenominator);
+
+        if (market.EqualsInvariantIgnoreCase("UST-$UST"))
+        {
+            return new GetLatestExchangeRateResult
+            {
+                Value = 1m,
+                ClosedAt = DateTimeOffset.UtcNow,
+            };
+        }
         var cacheKey = $"cache:fx:terra:{market}";
         var cached = _cacheClient.Get<GetLatestExchangeRateResult>(cacheKey);
 
