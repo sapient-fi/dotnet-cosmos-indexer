@@ -41,6 +41,7 @@ public class MaterializedViewRefresherJob
             await RefreshViewAsync<GatewayPoolDepositorRankingView>(stoppingToken, db);
             await RefreshViewAsync<MineWalletStakeView>(stoppingToken, db);
             await RefreshViewAsync<MineWalletStakePercentilesView>(stoppingToken, db);
+            await RefreshViewAsync<MyGatewayPoolsView>(stoppingToken, db);
         }
     }
 

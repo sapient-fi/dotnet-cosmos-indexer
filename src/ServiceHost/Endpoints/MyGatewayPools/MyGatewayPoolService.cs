@@ -3,6 +3,7 @@ using NewRelic.Api.Agent;
 using Pylonboard.Kernel;
 using Pylonboard.ServiceHost.Consumers;
 using Pylonboard.ServiceHost.DAL.TerraMoney;
+using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -81,7 +82,7 @@ public class MyGatewayPoolService
 
             graph.TotalClaimedAmountInUst = result.Message.Value * graph.TotalClaimedAmount;
             graph.ClaimedAmountToUstMultiplier = result.Message.Value;
-            
+
             returnData.Add(graph);
         }
 
@@ -372,41 +373,14 @@ public class MyGatewayPoolService
     }
 
     [Trace]
-    private async Task<List<MyGatewayPoolResult>> FetchGatewayDataFromDbAsync(string terraWallet,
+    private async Task<List<MyGatewayPoolsView>> FetchGatewayDataFromDbAsync(string terraWallet,
         CancellationToken cancellationToken)
     {
         using var db = await _dbConnectionFactory.OpenDbConnectionAsync(token: cancellationToken);
-
-        /*
-         * select SUM(amount),
-       denominator,
-       operation,
-       friendly_name,
-       pool_contract
-from terra_pylon_pool_entity
-where depositor = 'terra14qul6swv2p3vcfqk38fm8dvkezf0gj52m6a78k'
-group by friendly_name, operation, denominator, pool_contract
-order by friendly_name;
-         */
-        var data = await db.SqlListAsync<MyGatewayPoolResult>(
-            db.From<TerraPylonPoolEntity>()
-                .Select(entity => new
-                {
-                    Amount = Sql.Sum(entity.Amount),
-                    entity.Denominator,
-                    entity.Operation,
-                    entity.FriendlyName,
-                    entity.PoolContract
-                })
-                .Where(entity => entity.Depositor == terraWallet)
-                .GroupBy(entity => new
-                {
-                    entity.FriendlyName,
-                    entity.Operation,
-                    entity.Denominator,
-                    entity.PoolContract
-                })
-                .OrderBy(entity => entity.FriendlyName), token: cancellationToken);
+        var data = await db.SelectAsync<MyGatewayPoolsView>(
+            q => q.Depositor == terraWallet,
+            token: cancellationToken
+        );
 
         return data;
     }

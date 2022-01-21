@@ -1,12 +1,14 @@
-using Pylonboard.ServiceHost.DAL.TerraMoney;
+using ServiceStack.DataAnnotations;
 
-namespace Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
+namespace Pylonboard.ServiceHost.DAL.TerraMoney.Views;
 
-public record MyGatewayPoolResult
+[Alias("mv_my_gateway_pools")]
+public record MyGatewayPoolsView
 {
     public decimal Amount { get; set; }
     public string Denominator { get; set; }
     public TerraPylonPoolOperation Operation { get; set; }
     public TerraPylonPoolFriendlyName FriendlyName { get; set; }
     public string PoolContract { get; set; }
+    public string Depositor { get; set; }
 }
