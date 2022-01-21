@@ -13,14 +13,14 @@ public static class EndpointsServiceCollectionExtensions
 {
     public static IServiceCollection AddEndpointServices(this IServiceCollection services)
     {
-        services.AddScoped<MineStakingStatsService>();
-        services.AddScoped<GatewayPoolStatsService>();
-        services.AddScoped<MineRankingService>();
-        services.AddScoped<MineWalletStatsService>();
-        services.AddScoped<MineTreasuryService>();
-        services.AddScoped<ArbitrageService>();
-        services.AddScoped<MyGatewayPoolService>();
-        services.AddScoped<FxRatesService>();
+        services.AddTransient<MineStakingStatsService>();
+        services.AddTransient<GatewayPoolStatsService>();
+        services.AddTransient<MineRankingService>();
+        services.AddTransient<MineWalletStatsService>();
+        services.AddTransient<MineTreasuryService>();
+        services.AddTransient<ArbitrageService>();
+        services.AddTransient<MyGatewayPoolService>();
+        services.AddTransient<FxRatesService>();
 
         services.AddSingleton<ICacheClient>(c => new MemoryCacheClient());
 

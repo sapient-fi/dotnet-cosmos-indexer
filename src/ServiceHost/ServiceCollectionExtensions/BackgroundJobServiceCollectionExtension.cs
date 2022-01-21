@@ -37,7 +37,7 @@ public static class BackgroundJobServiceCollectionExtension
         // Add our jobs
         services.AddTransient<TerraExchangeRateOracle>();
         services.AddTransient<TerraMoneyRefreshJob>();
-        services.AddTransient<PsiPoolArbJob>();
+        services.AddSingleton<PsiPoolArbJob>();
         services.AddTransient<MaterializedViewRefresherJob>();
         services.AddTransient<FxRateDownloadJob>();
 

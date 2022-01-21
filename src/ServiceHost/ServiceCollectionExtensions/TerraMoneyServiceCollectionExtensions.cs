@@ -47,8 +47,8 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddTransient<PylonPoolsDataFether>();
         services.AddTransient<LowLevelPoolFetcher>();
 
-        services.AddScoped<ArbNotifier>();
-        services.AddScoped<ITelegramBotClient>(c => new TelegramBotClient("5008024993:AAHbSuGs__0YvSxoKkMQ0qPlwwTi6Pj7CVI"));
+        services.AddSingleton<ArbNotifier>();
+        services.AddSingleton<ITelegramBotClient>(c => new TelegramBotClient("5008024993:AAHbSuGs__0YvSxoKkMQ0qPlwwTi6Pj7CVI"));
 
         services.AddTransient<ArbitrageHub>();
         return services;
