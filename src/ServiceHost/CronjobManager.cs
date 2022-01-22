@@ -10,16 +10,19 @@ public class CronjobManager
     private readonly IEnabledServiceRolesConfig _rolesConfig;
     private readonly ILogger<CronjobManager> _logger;
     private readonly RecurringJobManager _jobManager;
+    private readonly IFeatureConfig _featureConfig;
 
     public CronjobManager(
         IEnabledServiceRolesConfig rolesConfig,
         ILogger<CronjobManager> logger,
-        RecurringJobManager jobManager
+        RecurringJobManager jobManager,
+        IFeatureConfig featureConfig
     )
     {
         _rolesConfig = rolesConfig;
         _logger = logger;
         _jobManager = jobManager;
+        _featureConfig = featureConfig;
     }
 
     public virtual Task RegisterJobsIfRequiredAsync()
@@ -34,12 +37,12 @@ public class CronjobManager
         );
 
         _jobManager.AddOrUpdate("terra-money",
-            Job.FromExpression<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None)),
+            Job.FromExpression<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None, false)),
             "33 * * * *"
         );
 
         _jobManager.AddOrUpdate("terra-money",
-            Job.FromExpression<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None)),
+            Job.FromExpression<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None, false)),
             "03 * * * *"
         );
 
@@ -53,6 +56,11 @@ public class CronjobManager
             "43 * * * *"
         );
 
+        if (_featureConfig.TriggerFullResync)
+        {
+            _logger.LogWarning("Triggering full terra money resync (config settings)");
+            BackgroundJob.Enqueue<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None, true));
+        }
 
         return Task.CompletedTask;
     }

@@ -2,7 +2,7 @@ using RapidCore.Configuration;
 
 namespace Pylonboard.ServiceHost.Config;
 
-public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig, ICorsConfig
+public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig, ICorsConfig, IFeatureConfig
 {
     private readonly IConfiguration _config;
 
@@ -41,4 +41,6 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayP
     {
         "http://localhost:3000",
     });
+
+    bool IFeatureConfig.TriggerFullResync => _config.Get("PYLONBOARD_TRIGGER_FULL_RESYNC", false);
 }

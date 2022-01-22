@@ -42,8 +42,14 @@ public class TerraTransactionEnumerator
         var txes = response;
         var next = txes.Next;
         var stopwatch = new Stopwatch();
+        var doContinue = true;
         do
         {
+            if (next == 0)
+            {
+                doContinue = false;
+            }
+            
             _logger.LogInformation("`next` continuation token: {Next}", next);
 
             // NO await to perform background work
@@ -71,9 +77,11 @@ public class TerraTransactionEnumerator
             }
             stopwatch.Stop();
                 
-            if (stopwatch.Elapsed.TotalSeconds < 4d)
+            if (stopwatch.Elapsed.TotalSeconds < 6d)
             {
-                await Task.Delay(TimeSpan.FromSeconds(3), stoppingToken);
+                var nappieTime = TimeSpan.FromSeconds(6-stopwatch.Elapsed.TotalSeconds);
+                _logger.LogDebug("Rate limiting, less than 6 seconds was spent on processing by the consumer. Napping for {Sleep}", nappieTime.ToString("g"));
+                await Task.Delay(nappieTime, stoppingToken);
             }
             _logger.LogDebug("waiting for next http result-set");
 
@@ -89,6 +97,6 @@ public class TerraTransactionEnumerator
             _logger.LogDebug("done, iterating");
             txes = nextTxes.Result;
             next = nextTxes.Result.Next;
-        } while (next > 0);
+        } while (doContinue);
     }
 }

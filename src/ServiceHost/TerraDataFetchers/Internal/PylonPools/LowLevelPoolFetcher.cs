@@ -33,9 +33,10 @@ public class LowLevelPoolFetcher
     }
 
     [Trace]
-    public async Task FetchPoolDataAsync(string pylonPoolContractAddr, TerraPylonPoolFriendlyName friendlyName, CancellationToken stoppingToken)
+    public async Task FetchPoolDataAsync(string pylonPoolContractAddr, TerraPylonPoolFriendlyName friendlyName,
+        CancellationToken stoppingToken, bool fullResync)
     {
-        _logger.LogInformation("Fetching GW pool data for {Pool}", friendlyName);
+        _logger.LogInformation("Fetching GW pool data for {Pool} in full resync mode? {FullResync}", friendlyName, fullResync);
         var agent = NewRelic.Api.Agent.NewRelic.GetAgent(); 
         var currentSpan = agent.CurrentSpan;
         currentSpan?.AddCustomAttribute("pool-name", friendlyName);
@@ -56,6 +57,11 @@ public class LowLevelPoolFetcher
         {
             if (tx.Id == latestRow?.TransactionId)
             {
+                if (fullResync)
+                {
+                    continue;
+                }
+                
                 _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, aborting", tx.Id, tx.TransactionHash);
                 break;
             }

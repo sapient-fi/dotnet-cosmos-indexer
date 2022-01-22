@@ -32,14 +32,15 @@ public class MineStakingDataFetcher
     }
 
     [Transaction]
-    public async Task FetchDataAsync(CancellationToken stoppingToken)
+    public async Task FetchDataAsync(CancellationToken stoppingToken, bool fullResync = false)
+
     {
         _logger.LogInformation("Fetching fresh MINE staking transactions");
         using var db = _dbFactory.OpenDbConnection();
 
         var latestRow = await db.SingleAsync(
             db.From<TerraMineStakingEntity>()
-                        .OrderByDescending(q => q.CreatedAt), token: stoppingToken);
+                .OrderByDescending(q => q.CreatedAt), token: stoppingToken);
 
         await foreach (var (tx, msg) in _transactionEnumerator.EnumerateTransactionsAsync(
                            0,
@@ -49,9 +50,11 @@ public class MineStakingDataFetcher
         {
             if (tx.Id == latestRow?.TransactionId)
             {
-                _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, aborting", tx.Id, tx.TransactionHash);
+                _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, aborting", tx.Id,
+                    tx.TransactionHash);
                 break;
             }
+
             using var dbTx = db.BeginTransaction();
             await dbTx.Connection.SaveAsync(obj: new TerraRawTransactionEntity
                 {
@@ -62,7 +65,7 @@ public class MineStakingDataFetcher
                 },
                 token: stoppingToken
             );
-            
+
             foreach (var properMsg in msg.Messages.Select(innerMsg => innerMsg as WasmMsgExecuteContract))
             {
                 if (properMsg == default)
@@ -102,7 +105,7 @@ public class MineStakingDataFetcher
                     _logger.LogDebug("Contact COL-4 transfer, ignore");
                     continue;
                 }
-                    
+
                 if (properMsg.Value.ExecuteMessage.Send != null)
                 {
                     amount = Convert.ToDecimal(properMsg.Value.ExecuteMessage.Send.Amount) / 1_000_000m;
@@ -123,11 +126,12 @@ public class MineStakingDataFetcher
                                 attribute.Value.EqualsIgnoreCase(TerraStakingContracts.MINE_STAKING_CONTRACT)))
                         {
                             var farmAmount =
-                                TxLogExtensions.QueryTxLogsForAttributeFirstOrDefault(tx.Logs, "from_contract", "farm_amount");
+                                TxLogExtensions.QueryTxLogsForAttributeFirstOrDefault(tx.Logs, "from_contract",
+                                    "farm_amount");
                             amount = farmAmount.Value.ToInt64() / 1_000_000m;
                         }
                     }
-                        
+
                 }
                 // SPEC compounding provides tokens for the MINE governance contract
                 else if (properMsg.Value.ExecuteMessage.Compound != null)
@@ -145,7 +149,8 @@ public class MineStakingDataFetcher
                                 attribute.Value.EqualsIgnoreCase(TerraStakingContracts.MINE_STAKING_CONTRACT)))
                         {
                             var stakeAmount =
-                                TxLogExtensions.QueryTxLogsForAttributeFirstOrDefault(tx.Logs, "from_contract", "stake_amount");
+                                TxLogExtensions.QueryTxLogsForAttributeFirstOrDefault(tx.Logs, "from_contract",
+                                    "stake_amount");
                             amount = stakeAmount.Value.ToInt64() / 1_000_000m;
                         }
                     }
@@ -166,10 +171,10 @@ public class MineStakingDataFetcher
                 {
                     amount = -1 * properMsg.Value.ExecuteMessage.Staking.Unstake.Amount.ToInt64() / 1_000_000m;
                 }
-                
+
                 else
                 {
-                        
+
                     _logger.LogWarning(
                         "Transaction w. id {Id} and hash {TxHash} does not have send nor withdraw amount",
                         tx.Id,
