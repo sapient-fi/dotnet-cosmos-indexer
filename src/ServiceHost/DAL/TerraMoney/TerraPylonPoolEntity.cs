@@ -2,6 +2,13 @@ using ServiceStack.DataAnnotations;
 
 namespace Pylonboard.ServiceHost.DAL.TerraMoney;
 
+[CompositeIndex(
+    nameof(Depositor),
+    nameof(TransactionId),
+    nameof(FriendlyName),
+    nameof(CreatedAt),
+    Name = "terra_pylon_pool_entity_dep_tx_fn_creat_uindex",
+    Unique = true)]
 public class TerraPylonPoolEntity
 {
     public long Id { get; set; }
