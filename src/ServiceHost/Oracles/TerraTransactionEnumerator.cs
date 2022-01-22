@@ -42,8 +42,14 @@ public class TerraTransactionEnumerator
         var txes = response;
         var next = txes.Next;
         var stopwatch = new Stopwatch();
+        var doContinue = true;
         do
         {
+            if (next == 0)
+            {
+                doContinue = false;
+            }
+            
             _logger.LogInformation("`next` continuation token: {Next}", next);
 
             // NO await to perform background work
@@ -89,6 +95,6 @@ public class TerraTransactionEnumerator
             _logger.LogDebug("done, iterating");
             txes = nextTxes.Result;
             next = nextTxes.Result.Next;
-        } while (next > 0);
+        } while (doContinue);
     }
 }
