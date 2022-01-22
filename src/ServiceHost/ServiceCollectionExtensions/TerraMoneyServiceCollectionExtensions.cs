@@ -25,6 +25,7 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddSingleton<IEnabledServiceRolesConfig>(config);
         services.AddSingleton<IGatewayPoolsConfig>(config);
         services.AddSingleton<ICorsConfig>(config);
+        services.AddSingleton<IFeatureConfig>(config);
 
         services.AddSingleton<IDistributedAppLockProvider>(c => new NoopDistributedAppLockProvider());
         services.AddSingleton<IdGenerator>(c => new IdGenerator(new IdGen.IdGenerator(0)));

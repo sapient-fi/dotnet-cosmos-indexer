@@ -30,7 +30,7 @@ public class MineBuybackDataFetcher
     }
 
     [Transaction]
-    public async Task FetchDataAsync(CancellationToken stoppingToken)
+    public async Task FetchDataAsync(CancellationToken stoppingToken, bool fullResync = false)
     {
         const long offset = 0;
         var buyBacks = new List<TerraMineBuyBack>();
