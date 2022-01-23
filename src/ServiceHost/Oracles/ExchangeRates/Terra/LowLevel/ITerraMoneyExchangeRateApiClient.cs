@@ -1,3 +1,4 @@
+using Pylonboard.Kernel;
 using Refit;
 
 namespace Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra.LowLevel;
@@ -10,7 +11,7 @@ public interface ITerraMoneyExchangeRateApiClient
         long from,
         long to,
         string pairAddress,
-        string quoteAsset = "uusd",
+        string quoteAsset = TerraTokenContracts.USD,
         string interval = "1m"
     );
 }
