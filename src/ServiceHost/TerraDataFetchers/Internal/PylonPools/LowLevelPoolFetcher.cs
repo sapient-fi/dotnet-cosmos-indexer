@@ -55,13 +55,21 @@ public class LowLevelPoolFetcher
                            stoppingToken
                        ))
         {
-            if (tx.Id == latestRow?.TransactionId)
+            if (fullResync)
             {
-                if (fullResync)
+                var exists = await db.SingleAsync(db.From<TerraPylonPoolEntity>()
+                    .Where(q => q.TransactionId == tx.Id 
+                                && q.FriendlyName == friendlyName)
+                    .Take(1), token: stoppingToken);
+
+                if (exists != default)
                 {
+                    _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, skipping during full resync", tx.Id, tx.TransactionHash);
                     continue;
                 }
-                
+            }
+            else if (tx.Id == latestRow?.TransactionId)
+            {
                 _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, aborting", tx.Id, tx.TransactionHash);
                 break;
             }
