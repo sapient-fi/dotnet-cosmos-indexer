@@ -30,11 +30,7 @@ public static class StringExtensions
     {
         var terraStrAmount = str.ToTerraStringAmount();
 
-        var amount = new TerraAmount
-        {
-            Denominator = terraStrAmount.Denominator,
-            Value = terraStrAmount.Amount.ToInt64() / 1_000_000m,
-        };
+        var amount = new TerraAmount(terraStrAmount.Amount, terraStrAmount.Denominator);
 
         // is this a terra address we need to convert?
         if (amount.Denominator.StartsWithIgnoreCase("terra"))

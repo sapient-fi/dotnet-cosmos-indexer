@@ -91,11 +91,7 @@ public class LowLevelPoolFetcher
                     // TODO determine deposit denominator?
                     var amountDepositStr =
                         tx.Logs.QueryTxLogsForAttributeFirstOrDefault("from_contract", "deposit_amount");
-                    var amount = new TerraAmount
-                    {
-                        Denominator = "UST",
-                        Value = amountDepositStr.Value.ToInt64() / 1_000_000m,
-                    };
+                    var amount = new TerraAmount(amountDepositStr.Value, TerraDenominators.Ust);
 
                     var data = new TerraPylonPoolEntity
                     {
@@ -116,11 +112,7 @@ public class LowLevelPoolFetcher
                 if (contract.Value.ExecuteMessage.Withdraw != null)
                 {
                     _logger.LogDebug("Handing withdraw");
-                    var amount = new TerraAmount
-                    {
-                        Denominator = TerraDenominators.Ust,
-                        Value = contract.Value.ExecuteMessage.Withdraw.Amount.ToInt64() / 1_000_000M,
-                    };
+                    var amount = new TerraAmount(contract.Value.ExecuteMessage.Withdraw.Amount, TerraDenominators.Ust);
                     var data = new TerraPylonPoolEntity
                     {
                         Id = _idGenerator.Snowflake(),
@@ -154,11 +146,10 @@ public class LowLevelPoolFetcher
                             "from_contract",
                             attribute => attribute.Key.EqualsIgnoreCase("contract_address") && ! attribute.Value.EqualsIgnoreCase(pylonPoolContractAddr));
 
-                    var amount = new TerraAmount
-                    {
-                        Value = claimAmountStr.Value.ToInt64() / 1_000_000m,
-                        Denominator = TerraDenominators.AssetTokenAddressToDenominator[denominatorAddrStr.Value]
-                    };
+                    var amount = new TerraAmount(
+                        claimAmountStr.Value,
+                        TerraDenominators.AssetTokenAddressToDenominator[denominatorAddrStr.Value]
+                    );
 
                     var data = new TerraPylonPoolEntity
                     {
