@@ -149,6 +149,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(9);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(18);
                 graph.RewardDenominator = TerraDenominators.Whale;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WHALE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.WhiteWhale2:
@@ -157,6 +158,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(6);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Whale;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WHALE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.WhiteWhale3:
@@ -165,6 +167,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(3);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(6);
                 graph.RewardDenominator = TerraDenominators.Whale;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WHALE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Loop1:
@@ -173,6 +176,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(9);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(18);
                 graph.RewardDenominator = TerraDenominators.Loop;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.LOOP).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Loop2:
@@ -181,6 +185,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(6);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Loop;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.LOOP).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Loop3:
@@ -189,6 +194,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(3);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(6);
                 graph.RewardDenominator = TerraDenominators.Loop;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.LOOP).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Orion:
@@ -197,6 +203,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(1);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Orion;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.ORION).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Valkyrie1:
@@ -205,6 +212,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(9);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(18);
                 graph.RewardDenominator = TerraDenominators.Vkr;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.VKR).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Valkyrie2:
@@ -213,6 +221,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(6);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Vkr;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.VKR).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Valkyrie3:
@@ -221,6 +230,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(3);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(6);
                 graph.RewardDenominator = TerraDenominators.Vkr;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.VKR).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.TerraWorld1:
@@ -229,6 +239,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(9);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(18);
                 graph.RewardDenominator = TerraDenominators.Twd;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.TWD).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.TerraWorld2:
@@ -237,6 +248,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(6);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Twd;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.TWD).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.TerraWorld3:
@@ -245,6 +257,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(3);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(6);
                 graph.RewardDenominator = TerraDenominators.Twd;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.TWD).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Mine1:
@@ -253,6 +266,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(9);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(18);
                 graph.RewardDenominator = TerraDenominators.Mine;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.MINE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Mine2:
@@ -261,6 +275,7 @@ public class MyGatewayPoolService
                 graph.StartedAt = new DateTimeOffset(2021, 07, 02, 03, 00, 00, TimeSpan.Zero);
                 graph.ClaimAt = graph.StartedAt.AddMonths(6);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.MINE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Mine3:
@@ -269,6 +284,7 @@ public class MyGatewayPoolService
                 graph.StartedAt = new DateTimeOffset(2021, 07, 02, 03, 00, 00, TimeSpan.Zero);
                 graph.ClaimAt = graph.StartedAt.AddMonths(3);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.MINE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Nexus:
@@ -277,6 +293,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt;
                 graph.WithdrawAt = graph.StartedAt.AddMonths(24);
                 graph.RewardDenominator = TerraDenominators.Psi;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.PSI).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Glow1:
@@ -285,6 +302,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(9);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(18);
                 graph.RewardDenominator = TerraDenominators.Glow;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.GLOW).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Glow2:
@@ -293,6 +311,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(6);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Glow;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.GLOW).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Glow3:
@@ -301,6 +320,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(3);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(6);
                 graph.RewardDenominator = TerraDenominators.Glow;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.GLOW).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Sayve1:
@@ -309,6 +329,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(9);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(18);
                 graph.RewardDenominator = TerraDenominators.Sayve;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.SAYVE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Sayve2:
@@ -317,6 +338,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(6);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Sayve;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.SAYVE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Sayve3:
@@ -325,6 +347,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(3);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(6);
                 graph.RewardDenominator = TerraDenominators.Sayve;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.SAYVE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Xdefi1:
@@ -333,6 +356,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(8);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(24);
                 graph.RewardDenominator = TerraDenominators.Xdefi;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.XDEFI).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Xdefi2:
@@ -341,6 +365,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(4);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Xdefi;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.XDEFI).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Xdefi3:
@@ -349,6 +374,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(2);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(6);
                 graph.RewardDenominator = TerraDenominators.Xdefi;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.XDEFI).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.DeviantsFactions:
@@ -357,6 +383,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt;
                 graph.WithdrawAt = graph.StartedAt;
                 graph.RewardDenominator = TerraDenominators.Ust;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.USD).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.GalaticPunks:
@@ -365,6 +392,7 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt;
                 graph.WithdrawAt = graph.StartedAt;
                 graph.RewardDenominator = TerraDenominators.Ust;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.USD).Divisor;
                 break;
             }
             default:
