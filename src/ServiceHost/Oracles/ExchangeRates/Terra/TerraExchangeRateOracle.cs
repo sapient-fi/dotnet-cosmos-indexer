@@ -71,8 +71,8 @@ public class TerraExchangeRateOracle
 
         var quoteAsset = toDenom switch
         {
-            TerraDenominators.Ust => "uusd",
-            TerraDenominators.Psi => "terra12897djskt9rge8dtmm86w654g7kzckkd698608", // TODO make reverse map possible 
+            TerraDenominators.Ust => TerraTokenContracts.USD,
+            TerraDenominators.Psi => TerraTokenContracts.PSI, 
             _ => throw new ArgumentOutOfRangeException(nameof(toDenom), "No handle this"),
         };
             

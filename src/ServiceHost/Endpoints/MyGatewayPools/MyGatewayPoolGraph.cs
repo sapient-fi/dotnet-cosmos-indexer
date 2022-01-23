@@ -11,6 +11,8 @@ public record MyGatewayPoolGraph
     public decimal TotalClaimedAmountInUst { get; set; }
     public decimal ClaimedAmountToUstMultiplier { get; set; }
     public string RewardDenominator { get; set; }
+
+    public decimal RewardUAmountDivisor { get; set; }
     public string PoolContractAddress { get; set; }
     public GatewayPoolIdentifier PoolIdentifier { get; set; }
     public TerraPylonPoolFriendlyName FriendlyName { get; set; }
