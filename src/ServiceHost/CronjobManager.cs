@@ -36,12 +36,12 @@ public class CronjobManager
             "*/5 * * * *"
         );
 
-        _jobManager.AddOrUpdate("terra-money",
+        _jobManager.AddOrUpdate("terra-money-1",
             Job.FromExpression<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None, false)),
             "33 * * * *"
         );
 
-        _jobManager.AddOrUpdate("terra-money",
+        _jobManager.AddOrUpdate("terra-money-2",
             Job.FromExpression<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None, false)),
             "03 * * * *"
         );
