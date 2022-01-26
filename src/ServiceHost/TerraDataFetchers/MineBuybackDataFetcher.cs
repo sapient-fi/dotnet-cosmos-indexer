@@ -124,8 +124,10 @@ public class MineBuybackDataFetcher
             var totalStakingSum = stakingResults.Sum(pair => pair.Value);
             _logger.LogDebug("Total staked at time {Time} was {StakingAmount}", buyBack.CreatedAt, totalStakingSum);
                 
+            var buyBackCreatedAt = buyBack.CreatedAt;
             foreach (var staker in stakingResults.Where(pair => pair.Value > 0.0m))
             {
+                buyBackCreatedAt = buyBackCreatedAt.AddMilliseconds(1); // offset each of them by 1 ms to allow unique indexing 
                 var stakersShare = ((staker.Value / totalStakingSum) * buyBack.AmountInU) / 1_000_000m;
 
                 await db.InsertAsync(new TerraMineStakingEntity
@@ -135,7 +137,7 @@ public class MineBuybackDataFetcher
                     TxHash = buyBack.TxHash,
                     Amount = stakersShare,
                     Sender = staker.Key,
-                    CreatedAt = buyBack.CreatedAt,
+                    CreatedAt = buyBackCreatedAt,
                     IsBuyBack = true,
                 }, token: stoppingToken);
             }
