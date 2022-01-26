@@ -150,6 +150,7 @@ public class Query
 
             cacheClient.Set(cacheKey, data, TimeSpan.FromHours(1));
         }
+
         
         var pageInfo = new CollectionSegmentInfo(skip * take < data.Total, skip > 0);
 
@@ -212,7 +213,7 @@ public class Query
             {
                 Items = results
             };
-            
+
             cacheClient.Set(cacheKey, data, TimeSpan.FromMinutes(65));
         }
 
@@ -251,5 +252,25 @@ public class Query
         {
             Rates = results,
         };
+    }
+
+    public async Task<List<MyGatewayPoolDetailsGraph>> GetGetMyGatewayPoolsDetails(
+        string terraWallet,
+        string poolContractId,
+        [Service] MyGatewayPoolService service,
+        [Service] ICacheClient cacheClient,
+        CancellationToken cancellationToken
+    )
+    {
+        var cacheKey = $"cache:pools:{terraWallet}:{poolContractId}";
+        var data = cacheClient.Get<List<MyGatewayPoolDetailsGraph>>(cacheKey);
+
+        if (data == default)
+        {
+            data = await service.GetGatewayPoolDetailsAsync(terraWallet, poolContractId, cancellationToken);
+            cacheClient.Set(cacheKey, data);
+        }
+
+        return data;
     }
 }

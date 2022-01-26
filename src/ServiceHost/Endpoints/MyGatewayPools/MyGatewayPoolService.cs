@@ -412,4 +412,35 @@ public class MyGatewayPoolService
 
         return data;
     }
+
+    public async Task<List<MyGatewayPoolDetailsGraph>> GetGatewayPoolDetailsAsync(
+        string terraWallet,
+        string poolContractId,
+        CancellationToken cancellationToken
+    )
+    {
+        using var db = await _dbConnectionFactory.OpenDbConnectionAsync(cancellationToken);
+
+        var data = await db.SelectAsync<MyGatewayPoolDetailsGraph>(
+            db.From<TerraPylonPoolEntity>()
+                .Join<TerraRawTransactionEntity>()
+                .Where(q =>
+                    q.Depositor == terraWallet
+                    && q.PoolContract == poolContractId
+                )
+                .OrderByDescending(q => q.CreatedAt)
+                .Select<TerraPylonPoolEntity, TerraRawTransactionEntity>((p, t) =>
+                    new
+                    {
+                        p.Operation,
+                        p.CreatedAt,
+                        p.Amount,
+                        p.Denominator,
+                        t.TxHash
+                    })
+                ,
+            token: cancellationToken);
+
+        return data;
+    }
 }
