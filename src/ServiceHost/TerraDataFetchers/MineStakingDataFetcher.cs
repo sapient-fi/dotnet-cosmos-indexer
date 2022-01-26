@@ -124,6 +124,14 @@ public class MineStakingDataFetcher
 
                 if (properMsg.Value.ExecuteMessage.Send != null)
                 {
+                    if (!properMsg.Value.ExecuteMessage.Send.Contract.EqualsIgnoreCase(TerraStakingContracts
+                            .MINE_STAKING_CONTRACT))
+                    {
+                        _logger.LogDebug("Send to contract that is not MINE governance, skipping ");
+                        continue;
+                    }
+                    
+                    
                     amount = Convert.ToDecimal(properMsg.Value.ExecuteMessage.Send.Amount) / 1_000_000m;
                 }
                 // SPEC farm does funky stuff
