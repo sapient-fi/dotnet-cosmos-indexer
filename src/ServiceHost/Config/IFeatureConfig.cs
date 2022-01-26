@@ -2,5 +2,7 @@ namespace Pylonboard.ServiceHost.Config;
 
 public interface IFeatureConfig
 {
-    public bool TriggerFullResync { get; }
+    public bool TriggerGatewayPoolFullResync { get; }
+    
+    public bool TriggerMineStakingFullResync { get; }
 }

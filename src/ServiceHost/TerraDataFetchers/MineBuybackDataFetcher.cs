@@ -35,6 +35,15 @@ public class MineBuybackDataFetcher
         const long offset = 0;
         var buyBacks = new List<TerraMineBuyBack>();
         using var db = _dbFactory.OpenDbConnection();
+        
+        // Full resync for buybacks requires a partial wipe of data, since staking resync could have touched data in the past
+        // affecting the estimates of how much was distributed by each buy-back block
+        if (fullResync)
+        {
+            await db.DeleteAsync<TerraMineStakingEntity>(q => q.IsBuyBack, token: stoppingToken);
+            await db.DeleteAllAsync<TerraMineBuybackEntity>(token: stoppingToken);
+        }
+        
         var latestBuyback = await db.SingleAsync(db.From<TerraMineBuybackEntity>()
             .OrderByDescending(q => q.CreatedAt), token: stoppingToken);
         

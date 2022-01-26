@@ -42,5 +42,7 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayP
         "http://localhost:3000",
     });
 
-    bool IFeatureConfig.TriggerFullResync => _config.Get("PYLONBOARD_TRIGGER_FULL_RESYNC", false);
+    bool IFeatureConfig.TriggerGatewayPoolFullResync => _config.Get("PYLONBOARD_TRIGGER_GATEWAY_POOL_FULL_RESYNC", false);
+    
+    bool IFeatureConfig.TriggerMineStakingFullResync => _config.Get("PYLONBOARD_TRIGGER_MINE_STAKING_FULL_RESYNC", false);
 }
