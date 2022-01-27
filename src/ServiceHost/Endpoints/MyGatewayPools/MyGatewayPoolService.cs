@@ -413,6 +413,7 @@ public class MyGatewayPoolService
         return data;
     }
 
+    [Trace]
     public async Task<List<MyGatewayPoolDetailsGraph>> GetGatewayPoolDetailsAsync(
         string terraWallet,
         string poolContractId,
