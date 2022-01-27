@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using HotChocolate.Types.Pagination;
+using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.Endpoints.Arbitraging;
 using Pylonboard.ServiceHost.Endpoints.FxRates;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
@@ -254,7 +255,8 @@ public class Query
         };
     }
 
-    public async Task<List<MyGatewayPoolDetailsGraph>> GetGetMyGatewayPoolsDetails(
+    [Trace]
+    public async Task<List<MyGatewayPoolDetailsGraph>> GetMyGatewayPoolsDetails(
         string terraWallet,
         string poolContractId,
         [Service] MyGatewayPoolService service,
