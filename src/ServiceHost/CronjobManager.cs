@@ -31,39 +31,45 @@ public class CronjobManager
         {
             _logger.LogInformation("Background worker role not enabled, not registering jobs");
         }
-        
+
         _jobManager.AddOrUpdate("psi-arbs",
             Job.FromExpression<PsiPoolArbJob>((job => job.DoWorkAsync(CancellationToken.None))),
             "*/5 * * * *"
         );
-        
+
         _jobManager.AddOrUpdate("terra-money-1",
-            Job.FromExpression<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None, false, false)),
+            Job.FromExpression<TerraMoneyRefreshJob>(
+                job => job.DoWorkAsync(CancellationToken.None, false, false, false)),
             "33 * * * *"
         );
-        
+
         _jobManager.AddOrUpdate("terra-money-2",
-            Job.FromExpression<TerraMoneyRefreshJob>(job => job.DoWorkAsync(CancellationToken.None, false, false)),
+            Job.FromExpression<TerraMoneyRefreshJob>(
+                job => job.DoWorkAsync(CancellationToken.None, false, false, false)),
             "03 * * * *"
         );
-        
+
         _jobManager.AddOrUpdate("materialized-view-refresh",
             Job.FromExpression<MaterializedViewRefresherJob>(job => job.DoWorkAsync(CancellationToken.None)),
             "13 * * * *"
         );
-        
+
         _jobManager.AddOrUpdate("fx-rate-download",
             Job.FromExpression<FxRateDownloadJob>(job => job.DoWorkAsync(CancellationToken.None)),
             "43 * * * *"
         );
 
-        if (_featureConfig.TriggerGatewayPoolFullResync || _featureConfig.TriggerMineStakingFullResync)
+        if (_featureConfig.TriggerGatewayPoolFullResync
+            || _featureConfig.TriggerMineStakingFullResync
+            || _featureConfig.TriggerMineBuyBackFullResync
+           )
         {
             _logger.LogWarning("Triggering full terra money resync (config settings)");
             BackgroundJob.Enqueue<TerraMoneyRefreshJob>(job => job.DoWorkAsync(
                     CancellationToken.None,
                     _featureConfig.TriggerGatewayPoolFullResync,
-                    _featureConfig.TriggerMineStakingFullResync
+                    _featureConfig.TriggerMineStakingFullResync,
+                    _featureConfig.TriggerMineBuyBackFullResync
                 )
             );
         }

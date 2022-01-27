@@ -45,4 +45,5 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayP
     bool IFeatureConfig.TriggerGatewayPoolFullResync => _config.Get("PYLONBOARD_TRIGGER_GATEWAY_POOL_FULL_RESYNC", false);
     
     bool IFeatureConfig.TriggerMineStakingFullResync => _config.Get("PYLONBOARD_TRIGGER_MINE_STAKING_FULL_RESYNC", false);
+    bool IFeatureConfig.TriggerMineBuyBackFullResync  => _config.Get("PYLONBOARD_TRIGGER_MINE_BUYBACK_FULL_RESYNC", false);
 }
