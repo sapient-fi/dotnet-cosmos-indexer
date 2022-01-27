@@ -28,7 +28,12 @@ public class TerraMoneyRefreshJob
         _serviceRolesConfig = serviceRolesConfig;
     }
 
-    public async Task DoWorkAsync(CancellationToken stoppingToken, bool gatewayPoolfullResync = false, bool mineStakingFullResync = false)
+    public async Task DoWorkAsync(
+        CancellationToken stoppingToken, 
+        bool gatewayPoolfullResync = false, 
+        bool mineStakingFullResync = false,
+        bool mineBuybackFullResync = false
+    )
     {
         if (!_serviceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
         {
@@ -56,6 +61,6 @@ public class TerraMoneyRefreshJob
 
         await retryPolicy.ExecuteAsync(async () => await _pylonPoolsDataFether.FetchDataAsync(stoppingToken, gatewayPoolfullResync));
         await retryPolicy.ExecuteAsync(async () => await _mineStakingDataFetcher.FetchDataAsync(stoppingToken, mineStakingFullResync));
-        await retryPolicy.ExecuteAsync(async () => await _mineBuybackDataFetcher.FetchDataAsync(stoppingToken, mineStakingFullResync));
+        await retryPolicy.ExecuteAsync(async () => await _mineBuybackDataFetcher.FetchDataAsync(stoppingToken, mineBuybackFullResync));
     }
 }
