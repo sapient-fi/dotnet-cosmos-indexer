@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using HotChocolate.Types.Pagination;
+using NewRelic.Api.Agent;
 using Pylonboard.ServiceHost.Endpoints.Arbitraging;
 using Pylonboard.ServiceHost.Endpoints.FxRates;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
@@ -33,6 +34,7 @@ public class Query
         return data;
     }
 
+    [Trace]
     public async Task<GatewayPoolStatsGraph> GetGatewayPoolStats(
         GatewayPoolIdentifier gatewayIdentifier,
         [Service] GatewayPoolStatsService service,
@@ -52,6 +54,7 @@ public class Query
         return data;
     }
 
+    [Trace]
     public async Task<MineRankingsGraph> GetMineRankings(
         [Service] MineRankingService service,
         [Service] ICacheClient cacheClient,
@@ -69,6 +72,7 @@ public class Query
         return data;
     }
 
+    [Trace]
     [UseOffsetPaging(DefaultPageSize = 100, IncludeTotalCount = true, MaxPageSize = 200)]
     public async Task<CollectionSegment<MineWalletStatsGraph>> GetMineWalletStats(int? skip, int? take, string sortBy,
         [Service] ICacheClient cacheClient,
@@ -99,6 +103,7 @@ public class Query
         return collectionSegment;
     }
 
+    [Trace]
     public async Task<MineTreasuryGraph> GetMineTreasury(
         [Service] MineTreasuryService service,
         [Service] ICacheClient cacheClient,
@@ -117,7 +122,7 @@ public class Query
         return data;
     }
 
-
+    [Trace]
     public Task<IEnumerable<MineBuybackGraph>> GetMineTreasuryBuybackByWallet(
         string wallet,
         [Service] MineTreasuryService service,
@@ -162,6 +167,7 @@ public class Query
         return collectionSegment;
     }
 
+    [Trace]
     public async Task<GatewayPoolMineStakerRankGraph> GetGatewayPoolMineRanking(
         GatewayPoolIdentifier gatewayPoolIdentifier,
         [Service] GatewayPoolStatsService service,
@@ -180,6 +186,7 @@ public class Query
         return data;
     }
 
+    [Trace]
     public async Task<GatewayPoolTotalValueStatsGraph> GetGatewayPoolTotalValues(
         [Service] GatewayPoolStatsService service,
         [Service] ICacheClient cacheClient,
@@ -198,6 +205,7 @@ public class Query
         return data;
     }
 
+    [Trace]
     public async Task<ArbitrageGraph> GetArbitrageForMarket(
         [Service] ArbitrageService service,
         [Service] ICacheClient cacheClient,
@@ -220,6 +228,7 @@ public class Query
         return data;
     }
 
+    [Trace]
     public async Task<List<MyGatewayPoolGraph>> GetMyGatewayPools(
         string terraWallet,
         [Service] MyGatewayPoolService service,
@@ -240,6 +249,7 @@ public class Query
         return data;
     }
 
+    [Trace]
     public async Task<FxRateGraph> GetFxRates(
         FxRateQuery[] rates,
         [Service] FxRatesService fxRatesService,
@@ -254,7 +264,8 @@ public class Query
         };
     }
 
-    public async Task<List<MyGatewayPoolDetailsGraph>> GetGetMyGatewayPoolsDetails(
+    [Trace]
+    public async Task<List<MyGatewayPoolDetailsGraph>> GetMyGatewayPoolsDetails(
         string terraWallet,
         string poolContractId,
         [Service] MyGatewayPoolService service,
