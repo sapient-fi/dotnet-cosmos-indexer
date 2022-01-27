@@ -48,7 +48,23 @@ public class MineStakingDataFetcher
                            TerraStakingContracts.MINE_STAKING_CONTRACT,
                            stoppingToken))
         {
-            if (tx.Id == latestRow?.TransactionId)
+            if (fullResync)
+            {
+                var exists = await db.SingleAsync(
+                    db.From<TerraMineStakingEntity>()
+                        .Where(q => q.TransactionId == tx.Id && q.CreatedAt == tx.CreatedAt)
+                        .Take(1),
+                    token: stoppingToken
+                );
+                if (exists != default)
+                {
+                    _logger.LogInformation(
+                        "Transaction with id {TxId} and hash {TxHash} already exists, skipping during full resync",
+                        tx.Id, tx.TransactionHash);
+                    continue;
+                }
+            }
+            else if (tx.Id == latestRow?.TransactionId)
             {
                 _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, aborting", tx.Id,
                     tx.TransactionHash);
@@ -108,6 +124,14 @@ public class MineStakingDataFetcher
 
                 if (properMsg.Value.ExecuteMessage.Send != null)
                 {
+                    if (!properMsg.Value.ExecuteMessage.Send.Contract.EqualsIgnoreCase(TerraStakingContracts
+                            .MINE_STAKING_CONTRACT))
+                    {
+                        _logger.LogDebug("Send to contract that is not MINE governance, skipping ");
+                        continue;
+                    }
+                    
+                    
                     amount = Convert.ToDecimal(properMsg.Value.ExecuteMessage.Send.Amount) / 1_000_000m;
                 }
                 // SPEC farm does funky stuff

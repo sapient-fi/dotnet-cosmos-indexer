@@ -76,11 +76,12 @@ public class TerraTransactionEnumerator
                 yield return (tx, msg);
             }
             stopwatch.Stop();
-                
-            if (stopwatch.Elapsed.TotalSeconds < 6d)
+
+            var expectedWallTime = 3d;
+            if (stopwatch.Elapsed.TotalSeconds < expectedWallTime)
             {
-                var nappieTime = TimeSpan.FromSeconds(6-stopwatch.Elapsed.TotalSeconds);
-                _logger.LogDebug("Rate limiting, less than 6 seconds was spent on processing by the consumer. Napping for {Sleep}", nappieTime.ToString("g"));
+                var nappieTime = TimeSpan.FromSeconds(expectedWallTime-stopwatch.Elapsed.TotalSeconds);
+                _logger.LogDebug("Rate limiting, less than 3 seconds was spent on processing by the consumer. Napping for {Sleep}", nappieTime.ToString("g"));
                 await Task.Delay(nappieTime, stoppingToken);
             }
             _logger.LogDebug("waiting for next http result-set");
