@@ -22,6 +22,7 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddSingleton<IGatewayPoolsConfig>(config);
         services.AddSingleton<ICorsConfig>(config);
         services.AddSingleton<IFeatureConfig>(config);
+        services.AddSingleton<ITelegramConfig>(config);
 
         services.AddSingleton<IDistributedAppLockProvider>(c => new NoopDistributedAppLockProvider());
         services.AddSingleton<IdGenerator>(c => new IdGenerator(new IdGen.IdGenerator(0)));
@@ -45,7 +46,7 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddTransient<LowLevelPoolFetcher>();
 
         services.AddSingleton<ArbNotifier>();
-        services.AddSingleton<ITelegramBotClient>(c => new TelegramBotClient("5008024993:AAHbSuGs__0YvSxoKkMQ0qPlwwTi6Pj7CVI"));
+        services.AddSingleton<ITelegramBotClient>(c => new TelegramBotClient(c.GetRequiredService<ITelegramConfig>().TelegramBotToken));
         
         return services;
     }
