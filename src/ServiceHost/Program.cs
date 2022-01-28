@@ -2,8 +2,6 @@ using Pylonboard.ServiceHost;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL;
 using Pylonboard.ServiceHost.Endpoints;
-using Pylonboard.ServiceHost.Extensions;
-using Pylonboard.ServiceHost.Hubs;
 using Pylonboard.ServiceHost.ServiceCollectionExtensions;
 using RapidCore.Migration;
 using Serilog;
@@ -90,8 +88,6 @@ try
         await cronJobs.RegisterJobsIfRequiredAsync();
     }
     
-    app.MapHub<ArbitrageHub>("/arb-hub");
-
     app.Run();
 }
 catch (Exception e)
