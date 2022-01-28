@@ -2,7 +2,7 @@ using RapidCore.Configuration;
 
 namespace Pylonboard.ServiceHost.Config;
 
-public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig, ICorsConfig, IFeatureConfig
+public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig, ICorsConfig, IFeatureConfig, ITelegramConfig
 {
     private readonly IConfiguration _config;
 
@@ -46,4 +46,7 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayP
     
     bool IFeatureConfig.TriggerMineStakingFullResync => _config.Get("PYLONBOARD_TRIGGER_MINE_STAKING_FULL_RESYNC", false);
     bool IFeatureConfig.TriggerMineBuyBackFullResync  => _config.Get("PYLONBOARD_TRIGGER_MINE_BUYBACK_FULL_RESYNC", false);
+    
+    string ITelegramConfig.TelegramBotToken => _config.Get("PYLONBOARD_TELEGRAM_BOT_TOKEN", "");
+    string ITelegramConfig.ChatId => _config.Get("PYLONBOARD_TELEGRAM_BOT_CHAT_ID", "");
 }

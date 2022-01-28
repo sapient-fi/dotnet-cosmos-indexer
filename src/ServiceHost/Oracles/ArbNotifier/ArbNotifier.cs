@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.Endpoints.Arbitraging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -9,6 +10,7 @@ public class ArbNotifier
 {
     private readonly ITelegramBotClient _botClient;
     private readonly ArbitrageService _arbitrageService;
+    private readonly ITelegramConfig _telegramConfig;
     private readonly ILogger<ArbNotifier> _logger;
     private readonly ChatId _chatId;
     private ArbDirection _arbDirection;
@@ -17,13 +19,15 @@ public class ArbNotifier
     public ArbNotifier(
         ITelegramBotClient botClient,
         ArbitrageService arbitrageService,
+        ITelegramConfig telegramConfig,
         ILogger<ArbNotifier> logger
     )
     {
         _botClient = botClient;
         _arbitrageService = arbitrageService;
+        _telegramConfig = telegramConfig;
         _logger = logger;
-        _chatId = new ChatId(-796208526);
+        _chatId = new ChatId(long.Parse(telegramConfig.ChatId));
         _notificationTimer = new Stopwatch();
     }
 
