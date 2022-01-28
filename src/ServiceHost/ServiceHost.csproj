@@ -18,7 +18,6 @@
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.2" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.3.0" />
     <PackageReference Include="MassTransit.Grpc" Version="7.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="NewRelic.Agent.Api" Version="9.2.0" />
     <PackageReference Include="NewRelic.LogEnrichers.Serilog" Version="1.0.1" />

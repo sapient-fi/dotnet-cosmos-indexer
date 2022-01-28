@@ -1,14 +1,10 @@
 using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.Kernel.IdGeneration;
 using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.Hubs;
 using Pylonboard.ServiceHost.Oracles;
 using Pylonboard.ServiceHost.Oracles.ArbNotifier;
-using Pylonboard.ServiceHost.Oracles.ExchangeRates.Fiat;
-using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra.LowLevel;
 using Pylonboard.ServiceHost.Oracles.TerraFcd;
-using Pylonboard.ServiceHost.RecurringJobs;
 using Pylonboard.ServiceHost.TerraDataFetchers;
 using Pylonboard.ServiceHost.TerraDataFetchers.Internal.PylonPools;
 using RapidCore.Locking;
@@ -50,8 +46,7 @@ public static class TerraMoneyServiceCollectionExtensions
 
         services.AddSingleton<ArbNotifier>();
         services.AddSingleton<ITelegramBotClient>(c => new TelegramBotClient("5008024993:AAHbSuGs__0YvSxoKkMQ0qPlwwTi6Pj7CVI"));
-
-        services.AddTransient<ArbitrageHub>();
+        
         return services;
     }
 }
