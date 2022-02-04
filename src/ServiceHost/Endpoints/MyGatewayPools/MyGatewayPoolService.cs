@@ -53,6 +53,7 @@ public class MyGatewayPoolService
             {
                 switch (action.Operation)
                 {
+                    case TerraPylonPoolOperation.Buy:
                     case TerraPylonPoolOperation.Deposit:
                     {
                         graph.TotalDepositAmount = action.Amount;
@@ -63,6 +64,7 @@ public class MyGatewayPoolService
                         graph.TotalClaimedAmount = action.Amount;
                         break;
                     }
+                    case TerraPylonPoolOperation.Sell:
                     case TerraPylonPoolOperation.Withdraw:
                         graph.TotalWithdrawnAmount = action.Amount;
                         break;
