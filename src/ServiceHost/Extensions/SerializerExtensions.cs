@@ -15,6 +15,16 @@ namespace Pylonboard.ServiceHost.Extensions;
 
 public static class SerializerExtensions
 {
+    private static readonly JsonSerializerOptions Options  = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        Converters =
+        {
+            new JsonNumberToStringConverter()
+        }
+    };
+
+    
     public static T ToObject<T>(this JsonElement element)
     {
         var json = element.GetRawText();
@@ -23,13 +33,13 @@ public static class SerializerExtensions
             json = Encoding.UTF8.GetString(Convert.FromBase64String(json));
         }
             
-        return JsonSerializer.Deserialize<T>(json);
+        return JsonSerializer.Deserialize<T>(json, Options);
     }
 
     public static T ToObject<T>(this JsonDocument document)
     {
         var json = document.RootElement.GetRawText();
-        return JsonSerializer.Deserialize<T>(json);
+        return JsonSerializer.Deserialize<T>(json, Options);
     }
 
     public static T ToObject<T>(this Dictionary<string, JsonElement> dict, string key)
@@ -47,6 +57,16 @@ public static class SerializerExtensions
         return val.ToObject<T>();
     }
 
+    public static T? ToObject<T>(this string json)
+    {
+        return JsonSerializer.Deserialize<T>(json, Options);
+    }
+
+    public static T? ToObjectFromBase64<T>(this string base64StringMessage)
+    {
+        return JsonSerializer.Deserialize<T>(Convert.FromBase64String(base64StringMessage), Options);
+    }
+    
     public static List<IMsg> FromCoreStdTxMessage(this Dictionary<string, JsonElement> dict,
         string key,
         string chainId, 
@@ -81,7 +101,7 @@ public static class SerializerExtensions
         return toRet;
     }
 
-    public static IMsg FromCoreStdTxMessage(this TxMsg msg, string chainId)
+    public static IMsg? FromCoreStdTxMessage(this TxMsg msg, string chainId)
     {
         return msg.Type switch
         {
