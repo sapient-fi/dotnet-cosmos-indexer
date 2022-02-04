@@ -24,6 +24,9 @@ public static class TerraDenominators
     public const string Glow = "GLOW";
     public const string Sayve = "SAYVE";
     public const string Xdefi = "XDEFI";
+    public const string BpsiDP_24m = "bPSIDP-24m";
+    public const string Kuji = "KUJI";
+    private const string Astro = "ASTRO";
 
     public static readonly Dictionary<string, string> AssetTokenAddressToDenominator = new()
     {
@@ -40,8 +43,24 @@ public static class TerraDenominators
         { TerraTokenContracts.APOLLO, Apollo },
         { TerraTokenContracts.NETH, nEth },
         { TerraTokenContracts.XDEFI, Xdefi }, //whXDEFI - this is what the Pylon contracts are using
+        { TerraTokenContracts.USD, Ust},
+        { TerraTokenContracts.BPSI_DP_24M, BpsiDP_24m},
+        { TerraTokenContracts.ULUNA, Luna},
+        { TerraTokenContracts.LUNAX, Luna},
+        { TerraTokenContracts.KUJI, Kuji},
+        { TerraTokenContracts.ASTRO, Astro},
     };
 
+    /// <summary>
+    /// Try to get a known denom from the token address.
+    /// Returns the contract addr as fallback
+    /// </summary>
+    /// <param name="contractAddr"></param>
+    /// <returns></returns>
+    public static string TryGetDenominator(string contractAddr)
+    {
+        return !AssetTokenAddressToDenominator.TryGetValue(contractAddr, out var denom) ? contractAddr : denom;
+    }
 
     public static decimal GetDenomOrTokenDivisor(string denomOrToken)
     {
