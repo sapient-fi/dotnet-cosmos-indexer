@@ -1,9 +1,7 @@
 using Polly;
 using Pylonboard.Kernel;
-using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL.Exchanges;
-using Pylonboard.ServiceHost.Oracles.ArbNotifier;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -15,21 +13,18 @@ public class PsiPoolArbJob
     private readonly ILogger<PsiPoolArbJob> _logger;
     private readonly TerraExchangeRateOracle _exchangeRateOracle;
     private readonly IDbConnectionFactory _dbConnectionFactory;
-    private readonly ArbNotifier _notifier;
     private readonly IEnabledServiceRolesConfig _serviceRolesConfig;
 
     public PsiPoolArbJob(
         ILogger<PsiPoolArbJob> logger,
         TerraExchangeRateOracle exchangeRateOracle,
         IDbConnectionFactory dbConnectionFactory,
-        ArbNotifier notifier,
         IEnabledServiceRolesConfig serviceRolesConfig
     )
     {
         _logger = logger;
         _exchangeRateOracle = exchangeRateOracle;
         _dbConnectionFactory = dbConnectionFactory;
-        _notifier = notifier;
         _serviceRolesConfig = serviceRolesConfig;
     }
 
@@ -70,8 +65,6 @@ public class PsiPoolArbJob
                         CloseTime = toUst.closedAt,
                     }, token: stoppingToken);
                 }
-
-                await _notifier.HandlePotentialArbAsync(TerraDenominators.bPsiDP, endResult, stoppingToken);
             });
     }
 }
