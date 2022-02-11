@@ -2,7 +2,6 @@ using Pylonboard.Kernel.Hosting.BackgroundWorkers;
 using Pylonboard.Kernel.IdGeneration;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.Oracles;
-using Pylonboard.ServiceHost.Oracles.ArbNotifier;
 using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra.LowLevel;
 using Pylonboard.ServiceHost.Oracles.TerraFcd;
 using Pylonboard.ServiceHost.TerraDataFetchers;
@@ -45,7 +44,6 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddTransient<PylonPoolsDataFether>();
         services.AddTransient<LowLevelPoolFetcher>();
 
-        services.AddSingleton<ArbNotifier>();
         services.AddSingleton<ITelegramBotClient>(c => new TelegramBotClient(c.GetRequiredService<ITelegramConfig>().TelegramBotToken));
         
         return services;
