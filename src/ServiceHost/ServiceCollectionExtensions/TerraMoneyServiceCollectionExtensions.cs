@@ -8,7 +8,6 @@ using Pylonboard.ServiceHost.TerraDataFetchers;
 using Pylonboard.ServiceHost.TerraDataFetchers.Internal.PylonPools;
 using RapidCore.Locking;
 using Refit;
-using Telegram.Bot;
 
 namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
 
@@ -43,8 +42,6 @@ public static class TerraMoneyServiceCollectionExtensions
 
         services.AddTransient<PylonPoolsDataFether>();
         services.AddTransient<LowLevelPoolFetcher>();
-
-        services.AddSingleton<ITelegramBotClient>(c => new TelegramBotClient(c.GetRequiredService<ITelegramConfig>().TelegramBotToken));
         
         return services;
     }
