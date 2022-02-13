@@ -7,9 +7,7 @@ public class TerraRawTransactionEntity
 {
     [PrimaryKey]
     public long Id { get; set; }
-        
-    [NotNull]
-        
+    
     public DateTimeOffset CreatedAt { get; set; }
         
     [Unique]
