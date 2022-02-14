@@ -16,8 +16,8 @@
     <PackageReference Include="Hangfire.Core" Version="1.7.28" />
     <PackageReference Include="Hangfire.InMemory" Version="0.3.4" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="12.3.2" />
-    <PackageReference Include="MassTransit.AspNetCore" Version="7.3.0" />
-    <PackageReference Include="MassTransit.Grpc" Version="7.3.0" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.3.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="NewRelic.Agent.Api" Version="9.2.0" />
     <PackageReference Include="NewRelic.LogEnrichers.Serilog" Version="1.0.1" />

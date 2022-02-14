@@ -1,8 +1,9 @@
 using RapidCore.Configuration;
+using ServiceStack.Messaging;
 
 namespace Pylonboard.ServiceHost.Config;
 
-public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig, ICorsConfig, IFeatureConfig, ITelegramConfig
+public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig, ICorsConfig, IFeatureConfig, ITelegramConfig, IMessageTransportConfig
 {
     private readonly IConfiguration _config;
 
@@ -49,4 +50,5 @@ public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayP
     
     string ITelegramConfig.TelegramBotToken => _config.Get("PYLONBOARD_TELEGRAM_BOT_TOKEN", "");
     string ITelegramConfig.ChatId => _config.Get("PYLONBOARD_TELEGRAM_BOT_CHAT_ID", "");
+    string IMessageTransportConfig.TransportUri => _config.Get("PYLONBOARD_MESSAGE_TRANSPORT_URI", "amqp://guest:guest@localhost:5672");
 }

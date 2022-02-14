@@ -31,16 +31,14 @@ public static class MessageBusServiceExtensions
                 );
             }
                 
-            x.UsingGrpc((context, cfg) =>
+            x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host(h =>
-                {
-                    //TODO Hosts from config 
-                    h.Host = "127.0.0.1";
-                    h.Port = 19796;
-                });
+                var config = new PylonboardConfig(configuration);
+
+                cfg.Host(new Uri((config as IMessageTransportConfig).TransportUri));
 
                 cfg.ConfigureEndpoints(context);
+
             });
         });
         services.AddMassTransitHostedService();

@@ -15,6 +15,17 @@ services:
       - .docker/postgres/init:/docker-entrypoint-initdb.d
       - .docker/postgres/data:/var/lib/postgresql/data
   
+  rabbitmq:
+    image: masstransit/rabbitmq:3.9
+    environment:
+      # default user + pass is "guest"
+      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  
   redis:
     image: redis:4
     ports:
