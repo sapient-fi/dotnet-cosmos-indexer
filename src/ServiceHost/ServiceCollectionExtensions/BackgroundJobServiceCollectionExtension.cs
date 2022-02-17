@@ -1,17 +1,7 @@
-using System.Configuration;
-using System.Reflection;
 using Hangfire;
 using Hangfire.InMemory;
-using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.DAL;
-using Pylonboard.ServiceHost.DAL.Exchanges;
-using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
+using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
 using Pylonboard.ServiceHost.RecurringJobs;
-using RapidCore.DependencyInjection;
-using RapidCore.Migration;
-using RapidCore.PostgreSql.Migration;
-using ServiceStack.Data;
-using ServiceStack.OrmLite;
 
 namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
 

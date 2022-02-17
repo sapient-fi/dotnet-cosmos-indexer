@@ -1,5 +1,6 @@
 using Hangfire;
 using Hangfire.Common;
+using Pylonboard.Kernel.Config;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.RecurringJobs;
 

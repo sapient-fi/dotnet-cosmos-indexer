@@ -1,12 +1,13 @@
 using MassTransit;
 using NewRelic.Api.Agent;
 using Pylonboard.Kernel;
-using Pylonboard.ServiceHost.Consumers;
-using Pylonboard.ServiceHost.DAL.TerraMoney;
-using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
+using Pylonboard.Kernel.Contracts.Exchanges;
+using Pylonboard.Kernel.DAL.Entities.Terra;
+using Pylonboard.Kernel.DAL.Entities.Terra.Views;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using TerraDotnet;
 
 namespace Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
 

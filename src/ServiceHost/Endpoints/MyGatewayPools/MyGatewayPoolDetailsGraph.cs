@@ -1,4 +1,4 @@
-using Pylonboard.ServiceHost.DAL.TerraMoney;
+using Pylonboard.Kernel.DAL.Entities.Terra;
 
 namespace Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
 

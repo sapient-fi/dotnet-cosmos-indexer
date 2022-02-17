@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceHost", "src\ServiceHost\ServiceHost.csproj", "{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\Contracts\Contracts.csproj", "{105FF596-032D-4CE2-92AC-9A93CD478421}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel", "src\Kernel\Kernel.csproj", "{6F87E178-4BE5-4255-9633-44DD480ED2EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3A83C03C-9C54-4A7E-B59E-D2960566F45F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NarrowIntegrationTests", "src\NarrowIntegrationTests\NarrowIntegrationTests.csproj", "{0BAC667D-B551-47AA-8022-EFB5D729CA22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NarrowIntegrationTests", "test\NarrowIntegrationTests\NarrowIntegrationTests.csproj", "{7DDB36EC-00C2-419B-A921-02127F5ACE3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraDotnet", "src\TerraDotnet\TerraDotnet.csproj", "{1C0F529F-3902-4957-8378-97092D45DB58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,20 +28,24 @@ Global
 		{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B1C66B4-EF15-47A6-A34B-35DA5D53BF8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{105FF596-032D-4CE2-92AC-9A93CD478421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{105FF596-032D-4CE2-92AC-9A93CD478421}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{105FF596-032D-4CE2-92AC-9A93CD478421}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{105FF596-032D-4CE2-92AC-9A93CD478421}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F87E178-4BE5-4255-9633-44DD480ED2EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F87E178-4BE5-4255-9633-44DD480ED2EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F87E178-4BE5-4255-9633-44DD480ED2EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F87E178-4BE5-4255-9633-44DD480ED2EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BAC667D-B551-47AA-8022-EFB5D729CA22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BAC667D-B551-47AA-8022-EFB5D729CA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BAC667D-B551-47AA-8022-EFB5D729CA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BAC667D-B551-47AA-8022-EFB5D729CA22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DDB36EC-00C2-419B-A921-02127F5ACE3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DDB36EC-00C2-419B-A921-02127F5ACE3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DDB36EC-00C2-419B-A921-02127F5ACE3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DDB36EC-00C2-419B-A921-02127F5ACE3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C0F529F-3902-4957-8378-97092D45DB58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C0F529F-3902-4957-8378-97092D45DB58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C0F529F-3902-4957-8378-97092D45DB58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C0F529F-3902-4957-8378-97092D45DB58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0BAC667D-B551-47AA-8022-EFB5D729CA22} = {3A83C03C-9C54-4A7E-B59E-D2960566F45F}
+		{7DDB36EC-00C2-419B-A921-02127F5ACE3B} = {3A83C03C-9C54-4A7E-B59E-D2960566F45F}
 	EndGlobalSection
 EndGlobal

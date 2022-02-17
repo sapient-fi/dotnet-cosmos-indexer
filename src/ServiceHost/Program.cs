@@ -1,3 +1,4 @@
+using Pylonboard.Kernel.Config;
 using Pylonboard.ServiceHost;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL;

@@ -1,5 +1,5 @@
 using MassTransit;
-using Pylonboard.ServiceHost.Consumers;
+using Pylonboard.Kernel.Contracts.Exchanges;
 
 namespace Pylonboard.ServiceHost.Endpoints.FxRates;
 

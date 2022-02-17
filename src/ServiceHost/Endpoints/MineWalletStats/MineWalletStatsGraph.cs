@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints;
+namespace Pylonboard.ServiceHost.Endpoints.MineWalletStats;
 
 public class MineWalletStatsGraph
 {

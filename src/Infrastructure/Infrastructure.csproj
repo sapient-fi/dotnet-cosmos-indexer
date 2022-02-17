@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Pylonboard.Infrastructure</AssemblyName>
+    <RootNamespace>Pylonboard.Infrastructure</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Kernel\Kernel.csproj" />
+    <ProjectReference Include="..\TerraDotnet\TerraDotnet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="7.3.1" />
+    <PackageReference Include="NewRelic.Agent.Api" Version="9.5.1" />
+    <PackageReference Include="RapidCore" Version="0.27.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ServiceStack.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\ServiceHost\bin\Debug\net6.0\ServiceStack.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

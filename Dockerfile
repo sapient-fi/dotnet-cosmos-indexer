@@ -2,8 +2,9 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0-focal as builder
 
 # copy the somewhat static csproj file to
 # enable caching of the restore
+COPY ./src/TerraDotnet/TerraDotnet.csproj ./TerraDotnet/TerraDotnet.csproj
 COPY ./src/Kernel/Kernel.csproj ./Kernel/Kernel.csproj
-COPY ./src/Contracts/Contracts.csproj ./Contracts/Contracts.csproj
+COPY ./src/Infrastructure/Infrastructure.csproj ./Infrastructure/Infrastructure.csproj
 COPY ./src/ServiceHost/ServiceHost.csproj ./ServiceHost/ServiceHost.csproj
 
 
@@ -11,8 +12,9 @@ COPY ./src/ServiceHost/ServiceHost.csproj ./ServiceHost/ServiceHost.csproj
 RUN dotnet restore ./ServiceHost/ServiceHost.csproj
 
 # copy it all 
+COPY ./src/TerraDotnet ./TerraDotnet
 COPY ./src/Kernel ./Kernel
-COPY ./src/Contracts ./Contracts
+COPY ./src/Infrastructure ./Infrastructure
 COPY ./src/ServiceHost ./ServiceHost
 
 # Build and publish

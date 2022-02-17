@@ -8,6 +8,7 @@ using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
 using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
+using Pylonboard.ServiceHost.Endpoints.MineWalletStats;
 using Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Caching;

@@ -1,10 +1,9 @@
 using NewRelic.Api.Agent;
-using Pylonboard.ServiceHost.DAL.TerraMoney;
-using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
+using Pylonboard.Kernel.DAL.Entities.Terra.Views;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.ServiceHost.Endpoints;
+namespace Pylonboard.ServiceHost.Endpoints.MineWalletStats;
 
 public class MineWalletStatsService
 {

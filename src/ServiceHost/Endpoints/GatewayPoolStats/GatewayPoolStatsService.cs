@@ -1,9 +1,9 @@
 using System.Data;
-using System.Text;
 using NewRelic.Api.Agent;
+using Pylonboard.Kernel.Config;
+using Pylonboard.Kernel.DAL.Entities.Terra;
+using Pylonboard.Kernel.DAL.Entities.Terra.Views;
 using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.DAL.TerraMoney;
-using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Data;
