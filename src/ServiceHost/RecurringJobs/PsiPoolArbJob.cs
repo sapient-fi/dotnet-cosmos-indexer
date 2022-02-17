@@ -1,10 +1,12 @@
 using Polly;
+using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
 using Pylonboard.Kernel;
+using Pylonboard.Kernel.Config;
+using Pylonboard.Kernel.DAL.Entities.Exchanges;
 using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.DAL.Exchanges;
-using Pylonboard.ServiceHost.Oracles.ExchangeRates.Terra;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using TerraDotnet;
 
 namespace Pylonboard.ServiceHost.RecurringJobs;
 

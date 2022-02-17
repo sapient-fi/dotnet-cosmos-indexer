@@ -1,8 +1,9 @@
 using Pylonboard.Kernel;
-using Pylonboard.ServiceHost.DAL.Exchanges;
+using Pylonboard.Kernel.DAL.Entities.Exchanges;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using TerraDotnet;
 
 namespace Pylonboard.ServiceHost.Endpoints.Arbitraging;
 

@@ -1,6 +1,6 @@
 using System.Data;
 using NewRelic.Api.Agent;
-using Pylonboard.ServiceHost.DAL.TerraMoney;
+using Pylonboard.Kernel.DAL.Entities.Terra;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 

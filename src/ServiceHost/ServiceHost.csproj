@@ -37,12 +37,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Oracles\ExchangeRates" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\Kernel\Kernel.csproj" />
+    <ProjectReference Include="..\TerraDotnet\TerraDotnet.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Contracts\Contracts.csproj" />
-    <ProjectReference Include="..\Kernel\Kernel.csproj" />
+    <Folder Include="Extensions" />
   </ItemGroup>
 
 </Project>

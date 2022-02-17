@@ -1,7 +1,9 @@
 using System.Reflection;
+using Pylonboard.Infrastructure.DAL;
+using Pylonboard.Infrastructure.DAL.Repositories;
+using Pylonboard.Kernel.Config;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL;
-using Pylonboard.ServiceHost.DAL.Exchanges;
 using RapidCore.DependencyInjection;
 using RapidCore.Migration;
 using RapidCore.PostgreSql.Migration;

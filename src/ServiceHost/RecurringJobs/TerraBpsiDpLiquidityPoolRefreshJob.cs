@@ -1,21 +1,16 @@
-using System.Data;
 using System.Text.Json;
 using Hangfire;
 using MassTransit;
 using NewRelic.Api.Agent;
-using Pylonboard.Kernel;
+using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
+using Pylonboard.Kernel.Config;
+using Pylonboard.Kernel.Contracts.Terra;
+using Pylonboard.Kernel.DAL.Entities.Terra;
 using Pylonboard.Kernel.IdGeneration;
 using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.Consumers.Terra;
-using Pylonboard.ServiceHost.DAL.TerraMoney;
-using Pylonboard.ServiceHost.Extensions;
-using Pylonboard.ServiceHost.Oracles;
-using Pylonboard.ServiceHost.Oracles.TerraFcd.Messages;
-using Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
-using Pylonboard.ServiceHost.TerraDataFetchers;
-using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
+using TerraDotnet;
 
 namespace Pylonboard.ServiceHost.RecurringJobs;
 

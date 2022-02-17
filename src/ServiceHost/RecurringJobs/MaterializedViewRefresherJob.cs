@@ -1,7 +1,7 @@
 using System.Data;
-using Pylonboard.Kernel.Hosting.BackgroundWorkers;
+using Pylonboard.Kernel.Config;
+using Pylonboard.Kernel.DAL.Entities.Terra.Views;
 using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.DAL.TerraMoney.Views;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 

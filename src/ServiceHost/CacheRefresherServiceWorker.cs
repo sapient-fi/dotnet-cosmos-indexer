@@ -1,12 +1,15 @@
 using System.Diagnostics;
 using NewRelic.Api.Agent;
-using Pylonboard.Kernel.Hosting.BackgroundWorkers;
+using Pylonboard.Infrastructure.Hosting.BackgroundWorkers;
+using Pylonboard.Kernel.Config;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.Endpoints;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
 using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
 using Pylonboard.ServiceHost.Endpoints.MineRankings;
+using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
+using Pylonboard.ServiceHost.Endpoints.MineWalletStats;
 using ServiceStack.Caching;
 
 namespace Pylonboard.ServiceHost;
