@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Pylonboard.ServiceHost.Extensions;
 
 namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
 
@@ -11,13 +12,9 @@ public record WasmMsgExecuteContractValueCol4 : IWasmMsgExecuteContractValue
 
     [JsonPropertyName("contract")] public string Contract { get; set; }
 
-    WasmExecuteMessage IWasmMsgExecuteContractValue.ExecuteMessage
+    WasmExecuteMessage? IWasmMsgExecuteContractValue.ExecuteMessage
     {
-        get
-        {
-            var rawJson = Convert.FromBase64String(ExecuteMessageRaw);
-            return JsonSerializer.Deserialize<WasmExecuteMessage>(rawJson.AsSpan());
-        }
+        get => ExecuteMessageRaw.ToObject<WasmExecuteMessage>();
         set => ExecuteMessageRaw = Convert.ToBase64String(JsonSerializer.SerializeToUtf8Bytes(value));
     }
 

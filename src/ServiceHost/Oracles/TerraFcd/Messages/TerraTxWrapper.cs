@@ -46,9 +46,6 @@ public record TerraTxWrapper
     [JsonPropertyName("code")]
     public int Code { get; set; }
 
-    [JsonPropertyName("raw_log")]
-    public string RawLog { get; set; }
-
     [JsonPropertyName("logs")]
     public List<TxLog> Logs { get; set; }
 }

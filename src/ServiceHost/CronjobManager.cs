@@ -59,6 +59,13 @@ public class CronjobManager
             "43 * * * *"
         );
 
+        _jobManager.AddOrUpdate(
+            "terra-money-bpsi-lp",
+            Job.FromExpression<TerraBpsiDpLiquidityPoolRefreshJob>(job => job.DoWorkAsync(CancellationToken.None)),
+            "53 * * * *"
+        );
+        
+        
         if (_featureConfig.TriggerGatewayPoolFullResync
             || _featureConfig.TriggerMineStakingFullResync
             || _featureConfig.TriggerMineBuyBackFullResync

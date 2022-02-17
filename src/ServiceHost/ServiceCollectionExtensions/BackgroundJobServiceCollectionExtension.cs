@@ -40,6 +40,7 @@ public static class BackgroundJobServiceCollectionExtension
         services.AddSingleton<PsiPoolArbJob>();
         services.AddTransient<MaterializedViewRefresherJob>();
         services.AddTransient<FxRateDownloadJob>();
+        services.AddTransient<TerraBpsiDpLiquidityPoolRefreshJob>();
 
         services.AddTransient<CronjobManager>();
         services.AddTransient<RecurringJobManager>();

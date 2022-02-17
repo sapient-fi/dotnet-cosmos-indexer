@@ -33,7 +33,7 @@ public class MineStakingDataFetcher
         _dbFactory = dbFactory;
     }
 
-    [Transaction]
+    [Trace]
     public async Task FetchDataAsync(CancellationToken stoppingToken, bool fullResync = false)
 
     {

@@ -5,62 +5,64 @@ namespace Pylonboard.ServiceHost.Oracles.TerraFcd.Messages.Wasm;
 public record WasmExecuteMessage
 {
     [JsonPropertyName("send")] 
-    public WasmExecuteMsgSend Send { get; set; }
+    public WasmExecuteMsgSend? Send { get; set; }
         
     [JsonPropertyName("withdraw_voting_tokens")]
-    public WasmExecuteMsgWithdrawVotingTokens WithdrawVotingTokens { get; set; }
+    public WasmExecuteMsgWithdrawVotingTokens? WithdrawVotingTokens { get; set; }
         
     [JsonPropertyName("deposit")] 
-    public WasmExecuteMsgDeposit Deposit { get; set; }
+    public WasmExecuteMsgDeposit? Deposit { get; set; }
         
     [JsonPropertyName("deposit_stable")]
-    public WasmExecuteMsgDepositStable DepositStable { get; set; }
+    public WasmExecuteMsgDepositStable? DepositStable { get; set; }
 
-    [JsonPropertyName("swap")]
-    public WasmExecuteMsgSwap Swap { get; set; }
+    [JsonPropertyName("swap")] public WasmExecuteMsgSwap? Swap { get; set; } = null;
 
     [JsonPropertyName("unbond")]
-    public WasmExecuteMsgUnbond Unbond { get; set; }
+    public WasmExecuteMsgUnbond? Unbond { get; set; }
         
     [JsonPropertyName("claim")]
-    public WasmExecuteMsgClaim Claim { get; set; }
+    public WasmExecuteMsgClaim? Claim { get; set; }
 
     [JsonPropertyName("withdraw")]
-    public WasmExecuteMsgWithdraw Withdraw { get; set; }
+    public WasmExecuteMsgWithdraw? Withdraw { get; set; }
         
     [JsonPropertyName("auto_stake")] 
-    public WasmExecuteMsgProvideLiquidity AutoStake { get; set; }
+    public WasmExecuteMsgProvideLiquidity? AutoStake { get; set; }
         
     [JsonPropertyName("provide_liquidity")] 
-    public WasmExecuteMsgProvideLiquidity ProvideLiquidity { get; set; }
+    public WasmExecuteMsgProvideLiquidity? ProvideLiquidity { get; set; }
         
     [JsonPropertyName("cast_vote")] 
-    public WasmExecuteMsgCastVote CastVote { get; set; }
+    public WasmExecuteMsgCastVote? CastVote { get; set; }
         
     [JsonPropertyName("mint")]
-    public WasmExecuteMsgMint Mint { get; set; }
+    public WasmExecuteMsgMint? Mint { get; set; }
 
     [JsonPropertyName("compound")]
-    public WasmExecuteMsgCompound Compound { get; set; }
+    public WasmExecuteMsgCompound? Compound { get; set; }
 
     [JsonPropertyName("sweep")]
-    public WasmExecuteMsgSweep Sweep { get; set; }
+    public WasmExecuteMsgSweep? Sweep { get; set; }
 
     [JsonPropertyName("earn")]
-    public WasmExecuteMsgEarn Earn { get; set; }
+    public WasmExecuteMsgEarn? Earn { get; set; }
         
     [JsonPropertyName("update_config")]
-    public WasmExecuteMsgUpdateConfig UpdateConfig { get; set; }
+    public WasmExecuteMsgUpdateConfig? UpdateConfig { get; set; }
 
     [JsonPropertyName("transfer")]
-    public WasmExecuteMsgTransfer Transfer { get; set; }
+    public WasmExecuteMsgTransfer? Transfer { get; set; }
 
     [JsonPropertyName("end_poll")]
-    public WasmExecuteMsgEndPoll EndPoll { get; set; }
+    public WasmExecuteMsgEndPoll? EndPoll { get; set; }
         
     [JsonPropertyName("staking")]
-    public WasmExecuteMsgStaking Staking { get; set; }
+    public WasmExecuteMsgStaking? Staking { get; set; }
 
     [JsonPropertyName("airdrop")]
-    public WasmExecuteMsgAirdrop Airdrop { get; set; }
+    public WasmExecuteMsgAirdrop? Airdrop { get; set; }
+
+    [JsonPropertyName("execute_swap_operations")]
+    public WasmExecuteMsgExecuteSwapOperations? ExecuteSwapOperations { get; set; }
 }

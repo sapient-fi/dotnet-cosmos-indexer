@@ -65,9 +65,29 @@ public enum TerraPylonPoolFriendlyName
 
 public enum TerraPylonPoolOperation
 {
+    /// <summary>
+    /// Deposit funds to start accumulating rewards
+    /// </summary>
     Deposit,
         
+    /// <summary>
+    /// Claim accumulated rewards
+    /// </summary>
     Claim,
         
-    Withdraw
+    /// <summary>
+    /// Withdrawal of funds from a pool
+    /// </summary>
+    Withdraw,
+    
+    /// <summary>
+    /// A user has bought a position on the market, i.e on bPSI-DP-24m
+    /// </summary>
+    Buy,
+    
+    
+    /// <summary>
+    /// A user has sold their position on the market, i.e. bPSI-DP-24m
+    /// </summary>
+    Sell
 }

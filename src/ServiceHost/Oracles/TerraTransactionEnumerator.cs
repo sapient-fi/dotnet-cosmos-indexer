@@ -77,11 +77,11 @@ public class TerraTransactionEnumerator
             }
             stopwatch.Stop();
 
-            var expectedWallTime = 3d;
+            var expectedWallTime = 2d;
             if (stopwatch.Elapsed.TotalSeconds < expectedWallTime)
             {
                 var nappieTime = TimeSpan.FromSeconds(expectedWallTime-stopwatch.Elapsed.TotalSeconds);
-                _logger.LogDebug("Rate limiting, less than 3 seconds was spent on processing by the consumer. Napping for {Sleep}", nappieTime.ToString("g"));
+                _logger.LogDebug("Rate limiting, less than 2 seconds was spent on processing by the consumer. Napping for {Sleep}", nappieTime.ToString("g"));
                 await Task.Delay(nappieTime, stoppingToken);
             }
             _logger.LogDebug("waiting for next http result-set");
