@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TerraDotnet", "src\TerraDot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "test\UnitTests\UnitTests.csproj", "{AD6C4CC6-756D-43A8-8B66-147C0FAE5A96}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,8 +46,13 @@ Global
 		{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51395D8F-FC15-4510-AEE3-F3F8CC72A96B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD6C4CC6-756D-43A8-8B66-147C0FAE5A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD6C4CC6-756D-43A8-8B66-147C0FAE5A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD6C4CC6-756D-43A8-8B66-147C0FAE5A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD6C4CC6-756D-43A8-8B66-147C0FAE5A96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7DDB36EC-00C2-419B-A921-02127F5ACE3B} = {3A83C03C-9C54-4A7E-B59E-D2960566F45F}
+		{AD6C4CC6-756D-43A8-8B66-147C0FAE5A96} = {3A83C03C-9C54-4A7E-B59E-D2960566F45F}
 	EndGlobalSection
 EndGlobal

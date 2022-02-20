@@ -24,8 +24,8 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
 
     public BpsiDpLiquidityPoolConsumer(
         ILogger<BpsiDpLiquidityPoolConsumer> logger,
-        IdGenerator idGenerator,
-        IDbConnectionFactory dbFactory
+        IDbConnectionFactory dbFactory,
+        IdGenerator idGenerator
     )
     {
         _logger = logger;
@@ -38,25 +38,49 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
         using var db = _dbFactory.OpenDbConnection();
         var terraTxId = context.Message.TransactionId;
         var terraDbTx = await db.SingleByIdAsync<TerraRawTransactionEntity>(terraTxId);
-
-        var terraTx = terraDbTx.RawTx.ToObject<TerraTxWrapper>();
-        var msg = TerraTransactionValueFactory.GetIt(terraTx);
         
         using var tx = db.OpenTransaction();
         var exists = await db.SingleAsync<long?>(db.From<TerraLiquidityPoolEntity>()
-            .Where(q => q.TransactionId == terraTx.Id)
+            .Where(q => q.TransactionId == terraTxId)
             .Take(1)
             .Select(e => 
             new
             {
                 e.Id
             }));
-
         if (exists.HasValue)
         {
             return;
         }
 
+        var terraTx = terraDbTx.RawTx.ToObject<TerraTxWrapper>();
+        var msg = TerraTransactionValueFactory.GetIt(terraTx);
+        var cancellationToken = context.CancellationToken;
+        
+        var results = ParseTransaction(msg, terraTx);
+
+        if (!results.Any())
+        {
+            tx.Rollback();
+            return;
+        }
+        
+        foreach (var result in results)
+        {
+            await db.InsertAsync(result, token: cancellationToken);
+            await HandleGatewayPoolInsertAsync(db, result, cancellationToken);
+        }
+
+        tx.Commit();
+    }
+
+    public List<TerraLiquidityPoolEntity> ParseTransaction(
+        CoreStdTx msg, 
+        TerraTxWrapper terraTx
+    )
+    {
+        var results = new List<TerraLiquidityPoolEntity>();
+        
         foreach (var properMsg in msg.Messages.Select(innerMsg => innerMsg as WasmMsgExecuteContract))
         {
             if (properMsg == default)
@@ -68,8 +92,8 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
 
             // Regular "send" message, meaning someone swapping bPSI -> PSI pr bPSI -> UST
             // This depends on the base64 encoded data in msg on the execute message
-            // TODO Additionally check with the embedded message, because it could also be a "route swap" send to sell from bPSI -> UST
-            var executeSend = properMsg.Value.ExecuteMessage.Send;
+            var executeSend = properMsg.Value.ExecuteMessage?.Send;
+
             if (executeSend?.Contract != null)
             {
                 // send example:
@@ -91,46 +115,49 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
 
                 if (nestedMessageSwapOperations?.Operations != null)
                 {
-                    await HandleSwapOperationsAsync(terraTx, db, properMsg, nestedMessageSwapOperations,
-                        context.CancellationToken);
+                    var result = HandleSwapOperationsAsync(terraTx, properMsg, nestedMessageSwapOperations);
+                    if (result != null) results.Add(result);
+                    
                     continue;
                 }
 
-                var nestedSwap = executeSend.Message.ToObjectFromBase64<WasmExecuteMsgSwap>();
+                var nestedSwap = executeSend.Message.ToObjectFromBase64<WasmExecuteMessage>()?.Swap;
                 if (nestedSwap?.BeliefPrice != null || nestedSwap?.MaxSpread != null)
                 {
-                    await HandleSwapAsync(terraTx, db, properMsg, msg, properMsg, context.CancellationToken);
+                    var result = HandleSwapAsync(terraTx, properMsg, msg, properMsg);
+                    if (result != null) results.Add(result);
                     continue;
                 }
             }
 
-            var routeSwap = properMsg.Value.ExecuteMessage.ExecuteSwapOperations;
+            var routeSwap = properMsg.Value.ExecuteMessage?.ExecuteSwapOperations;
             if (routeSwap?.Operations != null)
             {
-                await HandleSwapOperationsAsync(terraTx, db, properMsg, routeSwap, context.CancellationToken);
+                var result = HandleSwapOperationsAsync(terraTx, properMsg, routeSwap);
+                if (result != null) results.Add(result);
                 continue;
             }
 
-            var swap = properMsg.Value.ExecuteMessage.Swap;
+            var swap = properMsg.Value.ExecuteMessage?.Swap;
             if (swap?.BeliefPrice != null || swap?.MaxSpread != null)
             {
-                await HandleSwapAsync(terraTx, db, properMsg, msg, properMsg, context.CancellationToken);
+                var result = HandleSwapAsync(terraTx, properMsg, msg, properMsg);
+                if (result != null) results.Add(result);
+
                 continue;
             }
 
             _logger.LogWarning("Unhandled situation for LP handler on tx has: {TxHash}", terraTx.TransactionHash);
         }
 
-        tx.Commit();
+        return results;
     }
 
-    private async Task HandleSwapAsync(
+    private TerraLiquidityPoolEntity? HandleSwapAsync(
         TerraTxWrapper tx,
-        IDbConnection db,
         WasmMsgExecuteContract executeContract,
         CoreStdTx msg,
-        WasmMsgExecuteContract properMsg,
-        CancellationToken stoppingToken
+        WasmMsgExecuteContract properMsg
     )
     {
         var offerAsset = msg.Logs
@@ -146,7 +173,7 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
             && !offerAsset.Value.EqualsIgnoreCase(TerraTokenContracts.BPSI_DP_24M))
         {
             _logger.LogInformation("trade is not asking or offering bPSI, irrelevant");
-            return;
+            return default;
         }
 
         var entity = new TerraLiquidityPoolEntity
@@ -162,16 +189,13 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
             TransactionId = tx.Id
         };
 
-        await db.InsertAsync(entity, token: stoppingToken);
-        await HandleGatewayPoolInsertAsync(db, entity, stoppingToken);
+        return entity;
     }
 
-    private async Task HandleSwapOperationsAsync(
+    private TerraLiquidityPoolEntity? HandleSwapOperationsAsync(
         TerraTxWrapper tx,
-        IDbConnection db,
         WasmMsgExecuteContract executeContract,
-        WasmExecuteMsgExecuteSwapOperations swapOperations,
-        CancellationToken cancellationToken
+        WasmExecuteMsgExecuteSwapOperations swapOperations
     )
     {
         var offerAsset = swapOperations.Operations.First(op => op.TerraSwap != default).TerraSwap?.OfferAssetInfo;
@@ -191,7 +215,7 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
             && !offerAssetContract.EqualsIgnoreCase(TerraTokenContracts.BPSI_DP_24M))
         {
             _logger.LogInformation("trade is not asking or offering bPSI, irrelevant");
-            return;
+            return default;
         }
 
         if (!tx.Logs.QueryTxLogsForAttributes("from_contract", attribute => attribute.Key.EqualsIgnoreCase("to")).Any(
@@ -215,9 +239,7 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
             SenderAddr = executeContract.Value.Sender
         };
 
-        await db.InsertAsync(entity, token: cancellationToken);
-
-        await HandleGatewayPoolInsertAsync(db, entity, cancellationToken);
+        return entity;
     }
 
     private async Task HandleGatewayPoolInsertAsync(
