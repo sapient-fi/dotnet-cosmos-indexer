@@ -42,6 +42,14 @@
     <Content Include="Infrastructure\Consumers\Terra\TestFiles\ancust_lp_deposit.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Remove="Infrastructure\Consumers\Terra\TestFiles\bpsi_send_sell_to_psi.json" />
+    <Content Include="Infrastructure\Consumers\Terra\TestFiles\bpsi_send_sell_to_psi.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Infrastructure\Consumers\Terra\TestFiles\bpsi_route_swap_to_ust.json" />
+    <Content Include="Infrastructure\Consumers\Terra\TestFiles\bpsi_route_swap_to_ust.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
