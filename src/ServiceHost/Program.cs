@@ -7,6 +7,8 @@ using Pylonboard.ServiceHost.ServiceCollectionExtensions;
 using RapidCore.Migration;
 using Serilog;
 
+ServiceStack.Licensing.RegisterLicense("OSS MIT 2022 https://github.com/pylonboard/dotnet-pylonboard-monolith UgSDQqrNk1uD12MhR04DQogTC/hqGtwW44By+pXTmOl/YuMFf6fINN9DVFJwQU/zoZ8AkM1phq/soc95pHgfqWBMIzAQ1XTC7mUPfHcHxzGSb9am9ps46Y//YpVGQ07mXQxKhmdzYy2nP7Z8CNffS3YaFxOmOQJQO5FZ0dH4988=");
+
 var builder = WebApplication
     .CreateBuilder(args);
 
