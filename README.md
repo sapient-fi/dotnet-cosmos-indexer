@@ -49,7 +49,7 @@ by Microsoft.
     - Terra data fetchers
     - API integrations
     
-- **Web types**
+- **ServiceHost types**
     - GraphQL resolvers/mutations and types
     - MassTransit configuration
     - Startup
