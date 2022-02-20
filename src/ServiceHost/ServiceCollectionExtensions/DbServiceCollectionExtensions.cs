@@ -3,7 +3,7 @@ using Pylonboard.Infrastructure.DAL;
 using Pylonboard.Infrastructure.DAL.Repositories;
 using Pylonboard.Kernel.Config;
 using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.DAL;
+using Pylonboard.ServiceHost.DAL.Migrations;
 using RapidCore.DependencyInjection;
 using RapidCore.Migration;
 using RapidCore.PostgreSql.Migration;
@@ -22,7 +22,7 @@ public static class DbServiceCollectionExtensions
 
         AddPostgresMigrationRunner(services, new[]
         {
-            typeof(TerraMoneyServiceCollectionExtensions).Assembly,
+            typeof(Migration_20211019_201600_TerraMoneyMine).Assembly,
         });
 
         services.AddTransient<DbConnectionHealthCheck>();
