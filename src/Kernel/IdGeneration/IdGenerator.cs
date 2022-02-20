@@ -9,7 +9,7 @@ public class IdGenerator
         _snowflakeGenerator = snowflakeGenerator;
     }
 
-    public long Snowflake()
+    public virtual long Snowflake()
     {
         return _snowflakeGenerator.CreateId();
     }
