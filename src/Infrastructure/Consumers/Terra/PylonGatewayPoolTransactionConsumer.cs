@@ -156,7 +156,7 @@ public class PylonGatewayPoolTransactionConsumer : IConsumer<PylonGatewayPoolTra
 
                 var amount = new TerraAmount(
                     claimAmountStr.Value,
-                    TerraDenominators.AssetTokenAddressToDenominator[denominatorAddrStr.Value]
+                    TerraDenominators.TryGetDenominator(denominatorAddrStr.Value)
                 );
 
                 var data = new TerraPylonPoolEntity
@@ -175,7 +175,7 @@ public class PylonGatewayPoolTransactionConsumer : IConsumer<PylonGatewayPoolTra
                 continue;
             }
 
-            _logger.LogError("Pylon Pool fetcher: unknown situation for tx: {TxHash}.... ", terraTx.TransactionHash);
+            _logger.LogWarning("Pylon Pool fetcher: unknown situation for tx: {TxHash}.... ", terraTx.TransactionHash);
         }
 
         return results;

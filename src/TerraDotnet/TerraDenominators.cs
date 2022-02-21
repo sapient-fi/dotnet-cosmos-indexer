@@ -49,6 +49,7 @@ public static class TerraDenominators
         { TerraTokenContracts.LUNAX, Luna},
         { TerraTokenContracts.KUJI, Kuji},
         { TerraTokenContracts.ASTRO, Astro},
+        { TerraTokenContracts.WHALE, Whale},
     };
 
     /// <summary>
