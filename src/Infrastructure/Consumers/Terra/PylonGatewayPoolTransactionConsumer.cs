@@ -156,7 +156,7 @@ public class PylonGatewayPoolTransactionConsumer : IConsumer<PylonGatewayPoolTra
 
                 var amount = new TerraAmount(
                     claimAmountStr.Value,
-                    TerraDenominators.AssetTokenAddressToDenominator[denominatorAddrStr.Value]
+                    TerraDenominators.TryGetDenominator(denominatorAddrStr.Value)
                 );
 
                 var data = new TerraPylonPoolEntity
