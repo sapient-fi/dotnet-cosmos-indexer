@@ -175,7 +175,7 @@ public class PylonGatewayPoolTransactionConsumer : IConsumer<PylonGatewayPoolTra
                 continue;
             }
 
-            _logger.LogError("Pylon Pool fetcher: unknown situation for tx: {TxHash}.... ", terraTx.TransactionHash);
+            _logger.LogWarning("Pylon Pool fetcher: unknown situation for tx: {TxHash}.... ", terraTx.TransactionHash);
         }
 
         return results;
