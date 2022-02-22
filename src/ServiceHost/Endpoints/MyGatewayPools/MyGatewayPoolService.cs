@@ -149,8 +149,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.WhiteWhale1:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 11, 22, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(9);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(18);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1637672400 + 23328000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1637672400 + 46656000);
                 graph.RewardDenominator = TerraDenominators.Whale;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WHALE).Divisor;
                 break;
@@ -158,8 +158,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.WhiteWhale2:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 11, 22, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(6);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1637672400 + 15552000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1637672400 + 31104000);
                 graph.RewardDenominator = TerraDenominators.Whale;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WHALE).Divisor;
                 break;
@@ -167,8 +167,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.WhiteWhale3:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 11, 22, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(3);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1637672400 + 7776000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1637672400 + 15552000);
                 graph.RewardDenominator = TerraDenominators.Whale;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WHALE).Divisor;
                 break;
@@ -176,8 +176,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.Loop1:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 8, 13, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(9);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(18);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1628836200 + 23328000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1628836200 + 46656000);;
                 graph.RewardDenominator = TerraDenominators.Loop;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.LOOP).Divisor;
                 break;
@@ -185,8 +185,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.Loop2:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 8, 13, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(6);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1628836200 + 15552000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1628836200 + 31104000);
                 graph.RewardDenominator = TerraDenominators.Loop;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.LOOP).Divisor;
                 break;
@@ -194,8 +194,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.Loop3:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 8, 13, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(3);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1628836200 + 7776000);
+                graph.WithdrawAt =  DateTimeOffset.FromUnixTimeSeconds(1628836200 + 15552000);
                 graph.RewardDenominator = TerraDenominators.Loop;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.LOOP).Divisor;
                 break;
@@ -203,8 +203,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.Orion:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 11, 1, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(1);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.ClaimAt =  DateTimeOffset.FromUnixTimeSeconds(1635858000 + 2592000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1635858000 + 31104000);
                 graph.RewardDenominator = TerraDenominators.Orion;
                 // While the ORION token contract is in fact registred with a multiplier/divisor of 100M the pylon contracts are doing some magic
                 // when returning pending rewards. Since the FE is using this divisor to convert the pending rewards into "human readable form"
@@ -215,8 +215,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.Valkyrie1:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 10, 8, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(9);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(18);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1633737600 + 23328000);
+                graph.WithdrawAt =  DateTimeOffset.FromUnixTimeSeconds(1633737600 + 46656000);
                 graph.RewardDenominator = TerraDenominators.Vkr;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.VKR).Divisor;
                 break;
@@ -224,8 +224,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.Valkyrie2:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 10, 8, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(6);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1633737600 + 15552000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1633737600 + 31104000);
                 graph.RewardDenominator = TerraDenominators.Vkr;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.VKR).Divisor;
                 break;
@@ -233,8 +233,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.Valkyrie3:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 10, 8, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(3);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1633737600 + 7776000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1633737600 + 15552000);
                 graph.RewardDenominator = TerraDenominators.Vkr;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.VKR).Divisor;
                 break;
@@ -242,8 +242,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.TerraWorld1:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 8, 22, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(9);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(18);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1629603000 + 23328000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1629603000 + 46656000);
                 graph.RewardDenominator = TerraDenominators.Twd;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.TWD).Divisor;
                 break;
@@ -251,8 +251,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.TerraWorld2:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 8, 22, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(6);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1629603000 + 15552000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1629603000 + 31104000);
                 graph.RewardDenominator = TerraDenominators.Twd;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.TWD).Divisor;
                 break;
@@ -260,8 +260,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.TerraWorld3:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 8, 22, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(3);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1629603000 + 7776000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1629603000 + 15552000);
                 graph.RewardDenominator = TerraDenominators.Twd;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.TWD).Divisor;
                 break;
@@ -269,8 +269,8 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.Mine1:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 07, 02, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(9);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(18);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1625194800 + 23328000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1625194800 + 46656000);
                 graph.RewardDenominator = TerraDenominators.Mine;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.MINE).Divisor;
                 break;
@@ -279,8 +279,8 @@ public class MyGatewayPoolService
             {
                 graph.RewardDenominator = TerraDenominators.Mine;
                 graph.StartedAt = new DateTimeOffset(2021, 07, 02, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(6);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1625194800 + 15552000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1625194800 + 31104000);
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.MINE).Divisor;
                 break;
             }
@@ -288,97 +288,99 @@ public class MyGatewayPoolService
             {
                 graph.RewardDenominator = TerraDenominators.Mine;
                 graph.StartedAt = new DateTimeOffset(2021, 07, 02, 03, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(3);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1625194800 + 7776000);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1625194800 + 15552000);
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.MINE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Nexus:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 10, 5, 03, 00, 00, TimeSpan.Zero);
+                // 4'th december 2022
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1638622800);
                 graph.ClaimAt = graph.StartedAt;
-                graph.WithdrawAt = graph.StartedAt.AddMonths(24);
+                // 2 years later
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1701694800);
                 graph.RewardDenominator = TerraDenominators.Psi;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.PSI).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Glow1:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 19, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(9);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(18);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1639918800);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1663592400);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1687179600);
                 graph.RewardDenominator = TerraDenominators.Glow;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.GLOW).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Glow2:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 19, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(6);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1639918800);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1655643600);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1671454800);
                 graph.RewardDenominator = TerraDenominators.Glow;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.GLOW).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Glow3:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 19, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(3);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1639918800);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1647694800);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1655643600);
                 graph.RewardDenominator = TerraDenominators.Glow;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.GLOW).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Sayve1:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 21, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(9);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(18);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1640091600);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1663765200);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1687352400);
                 graph.RewardDenominator = TerraDenominators.Sayve;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.SAYVE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Sayve2:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 21, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(6);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1640091600);
+                graph.ClaimAt =  DateTimeOffset.FromUnixTimeSeconds(1655816400);
+                graph.WithdrawAt =  DateTimeOffset.FromUnixTimeSeconds(1671627600);
                 graph.RewardDenominator = TerraDenominators.Sayve;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.SAYVE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Sayve3:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 21, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(3);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1640091600);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1647867600);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1655816400);
                 graph.RewardDenominator = TerraDenominators.Sayve;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.SAYVE).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Xdefi1:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 22, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(8);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(24);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1640264400);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1661259600);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1703336400);
                 graph.RewardDenominator = TerraDenominators.Xdefi;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.XDEFI).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Xdefi2:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 22, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(4);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(12);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1640264400);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1650718800);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1671800400);
                 graph.RewardDenominator = TerraDenominators.Xdefi;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.XDEFI).Divisor;
                 break;
             }
             case TerraPylonPoolFriendlyName.Xdefi3:
             {
-                graph.StartedAt = new DateTimeOffset(2021, 12, 22, 14, 00, 00, TimeSpan.Zero);
-                graph.ClaimAt = graph.StartedAt.AddMonths(2);
-                graph.WithdrawAt = graph.StartedAt.AddMonths(6);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1640264400);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1640264400);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1640264400);
                 graph.RewardDenominator = TerraDenominators.Xdefi;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.XDEFI).Divisor;
                 break;
@@ -445,7 +447,7 @@ public class MyGatewayPoolService
                         p.Denominator,
                         t.TxHash
                     })
-                ,
+            ,
             token: cancellationToken);
 
         return data;
