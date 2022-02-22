@@ -206,7 +206,10 @@ public class MyGatewayPoolService
                 graph.ClaimAt = graph.StartedAt.AddMonths(1);
                 graph.WithdrawAt = graph.StartedAt.AddMonths(12);
                 graph.RewardDenominator = TerraDenominators.Orion;
-                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.ORION).Divisor;
+                // While the ORION token contract is in fact registred with a multiplier/divisor of 100M the pylon contracts are doing some magic
+                // when returning pending rewards. Since the FE is using this divisor to convert the pending rewards into "human readable form"
+                // We have to return an incorrect divisor here, otherwise rewards are mis-represented.
+                graph.RewardUAmountDivisor = 1_000_000m;
                 break;
             }
             case TerraPylonPoolFriendlyName.Valkyrie1:
