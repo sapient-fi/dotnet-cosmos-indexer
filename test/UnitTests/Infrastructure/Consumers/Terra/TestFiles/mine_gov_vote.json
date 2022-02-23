@@ -1,0 +1,149 @@
+{
+  "Id": 221941412,
+  "Tx": {
+    "Type": "core/StdTx",
+    "Value": {
+      "fee": {
+        "gas": "329161",
+        "amount": [
+          {
+            "denom": "uusd",
+            "amount": "49375"
+          }
+        ]
+      },
+      "msg": [
+        {
+          "type": "wasm/MsgExecuteContract",
+          "value": {
+            "coins": [],
+            "sender": "terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9",
+            "contract": "terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp",
+            "execute_msg": {
+              "poll": {
+                "cast_vote": {
+                  "vote": "yes",
+                  "amount": "9597000000",
+                  "poll_id": 17
+                }
+              }
+            }
+          }
+        }
+      ],
+      "memo": "",
+      "signatures": [
+        {
+          "pub_key": {
+            "type": "tendermint/PubKeySecp256k1",
+            "value": "AySzYmTTja9sOkpvkQvReVjWQVMErect0yEqVx8DqM41"
+          },
+          "signature": "daDt1m3zVYW/HRM4KHV/85nGuHzzIdEL49rXsnuFHLYfEaFbzxL+RSUwRBlxwsf/ZCbtLbf04O9kJfGpxcoP8g=="
+        }
+      ],
+      "timeout_height": "0"
+    }
+  },
+  "code": 0,
+  "logs": [
+    {
+      "events": [
+        {
+          "type": "execute_contract",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9"
+            },
+            {
+              "key": "contract_address",
+              "value": "terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp"
+            }
+          ]
+        },
+        {
+          "type": "from_contract",
+          "attributes": [
+            {
+              "key": "contract_address",
+              "value": "terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp"
+            },
+            {
+              "key": "action",
+              "value": "cast_vote"
+            },
+            {
+              "key": "poll_id",
+              "value": "17"
+            },
+            {
+              "key": "amount",
+              "value": "9597000000"
+            },
+            {
+              "key": "voter",
+              "value": "terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9"
+            },
+            {
+              "key": "vote_option",
+              "value": "yes"
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "/terra.wasm.v1beta1.MsgExecuteContract"
+            },
+            {
+              "key": "module",
+              "value": "wasm"
+            },
+            {
+              "key": "sender",
+              "value": "terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9"
+            }
+          ]
+        },
+        {
+          "type": "wasm",
+          "attributes": [
+            {
+              "key": "contract_address",
+              "value": "terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp"
+            },
+            {
+              "key": "action",
+              "value": "cast_vote"
+            },
+            {
+              "key": "poll_id",
+              "value": "17"
+            },
+            {
+              "key": "amount",
+              "value": "9597000000"
+            },
+            {
+              "key": "voter",
+              "value": "terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9"
+            },
+            {
+              "key": "vote_option",
+              "value": "yes"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "height": "6377395",
+  "txhash": "93C90E06DA877E5CA109702EEDA3AAF22B556B52D9F35505CCA9CAC977F8B5C3",
+  "ChainId": "columbus-5",
+  "raw_log": "[{\"events\":[{\"type\":\"execute_contract\",\"attributes\":[{\"key\":\"sender\",\"value\":\"terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9\"},{\"key\":\"contract_address\",\"value\":\"terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp\"}]},{\"type\":\"from_contract\",\"attributes\":[{\"key\":\"contract_address\",\"value\":\"terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp\"},{\"key\":\"action\",\"value\":\"cast_vote\"},{\"key\":\"poll_id\",\"value\":\"17\"},{\"key\":\"amount\",\"value\":\"9597000000\"},{\"key\":\"voter\",\"value\":\"terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9\"},{\"key\":\"vote_option\",\"value\":\"yes\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/terra.wasm.v1beta1.MsgExecuteContract\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9\"}]},{\"type\":\"wasm\",\"attributes\":[{\"key\":\"contract_address\",\"value\":\"terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp\"},{\"key\":\"action\",\"value\":\"cast_vote\"},{\"key\":\"poll_id\",\"value\":\"17\"},{\"key\":\"amount\",\"value\":\"9597000000\"},{\"key\":\"voter\",\"value\":\"terra1nmarayrnwvl885qkjfjyn5ssf4vxaswjc9mvy9\"},{\"key\":\"vote_option\",\"value\":\"yes\"}]}]}]",
+  "gas_used": "198473",
+  "timestamp": "2022-02-06T19:28:23+00:00",
+  "gas_wanted": "329161"
+}

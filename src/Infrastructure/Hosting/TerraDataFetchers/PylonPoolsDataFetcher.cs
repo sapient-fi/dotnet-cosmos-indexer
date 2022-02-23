@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using NewRelic.Api.Agent;
 using Pylonboard.Infrastructure.Hosting.TerraDataFetchers.Internal.PylonPools;
 using Pylonboard.Kernel.DAL.Entities.Terra;
+using TerraDotnet;
 
 namespace Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
 

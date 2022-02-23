@@ -50,6 +50,18 @@
     <Content Include="Infrastructure\Consumers\Terra\TestFiles\bpsi_route_swap_to_ust.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Remove="Infrastructure\Consumers\Terra\TestFiles\mine_gov_stake.json" />
+    <Content Include="Infrastructure\Consumers\Terra\TestFiles\mine_gov_stake.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Infrastructure\Consumers\Terra\TestFiles\mine_gov_unstake.json" />
+    <Content Include="Infrastructure\Consumers\Terra\TestFiles\mine_gov_unstake.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Infrastructure\Consumers\Terra\TestFiles\mine_gov_vote.json" />
+    <Content Include="Infrastructure\Consumers\Terra\TestFiles\mine_gov_vote.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

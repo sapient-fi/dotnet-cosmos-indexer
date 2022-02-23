@@ -1,4 +1,4 @@
-namespace Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
+namespace TerraDotnet;
 
 public static class TerraStakingContracts
 {
