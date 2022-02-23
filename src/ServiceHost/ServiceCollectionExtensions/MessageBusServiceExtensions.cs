@@ -1,4 +1,5 @@
 using MassTransit;
+using Pylonboard.Infrastructure.Consumers.Terra;
 using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
 using Pylonboard.Kernel.Config;
 using Pylonboard.ServiceHost.Config;
@@ -29,7 +30,7 @@ public static class MessageBusServiceExtensions
             if (enabledServiceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
             {
                 x.AddConsumers(
-                    typeof(TerraAirdropContracts).Assembly
+                    typeof(MineStakingTransactionConsumer).Assembly
                 );
             }
                 
