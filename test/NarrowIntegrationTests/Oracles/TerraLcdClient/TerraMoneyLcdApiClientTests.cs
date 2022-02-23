@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
 using Refit;
+using TerraDotnet;
 using TerraDotnet.TerraLcd;
 using TerraDotnet.TerraLcd.Messages;
 using Xunit;

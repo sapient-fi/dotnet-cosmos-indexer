@@ -2,6 +2,7 @@ using MassTransit;
 using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
 using Pylonboard.Kernel.Config;
 using Pylonboard.ServiceHost.Config;
+using TerraDotnet;
 
 namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
 
