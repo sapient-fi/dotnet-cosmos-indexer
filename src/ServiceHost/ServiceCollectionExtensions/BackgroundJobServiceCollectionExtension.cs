@@ -1,6 +1,10 @@
 using Hangfire;
 using Hangfire.InMemory;
+using Medallion.Threading;
+using Medallion.Threading.Postgres;
 using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
+using Pylonboard.Kernel.Config;
+using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.RecurringJobs;
 
 namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
@@ -23,7 +27,7 @@ public static class BackgroundJobServiceCollectionExtension
 
         // Add the processing server as IHostedService
         services.AddHangfireServer();
-        
+
         // Add our jobs
         services.AddTransient<TerraExchangeRateOracle>();
         services.AddTransient<TerraMoneyRefreshJob>();
@@ -34,6 +38,11 @@ public static class BackgroundJobServiceCollectionExtension
 
         services.AddTransient<CronjobManager>();
         services.AddTransient<RecurringJobManager>();
+
+        services.AddSingleton<IDistributedLockProvider>(_ =>
+            new PostgresDistributedSynchronizationProvider((new PylonboardConfig(configuration) as IDbConfig)
+                .ConnectionString));
+
         return services;
     }
 }

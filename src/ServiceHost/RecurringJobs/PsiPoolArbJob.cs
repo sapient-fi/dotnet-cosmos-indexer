@@ -1,3 +1,4 @@
+using Medallion.Threading;
 using Polly;
 using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
 using Pylonboard.Kernel;
@@ -16,18 +17,21 @@ public class PsiPoolArbJob
     private readonly TerraExchangeRateOracle _exchangeRateOracle;
     private readonly IDbConnectionFactory _dbConnectionFactory;
     private readonly IEnabledServiceRolesConfig _serviceRolesConfig;
+    private readonly IDistributedLockProvider _lockProvider;
 
     public PsiPoolArbJob(
         ILogger<PsiPoolArbJob> logger,
         TerraExchangeRateOracle exchangeRateOracle,
         IDbConnectionFactory dbConnectionFactory,
-        IEnabledServiceRolesConfig serviceRolesConfig
+        IEnabledServiceRolesConfig serviceRolesConfig,
+        IDistributedLockProvider lockProvider
     )
     {
         _logger = logger;
         _exchangeRateOracle = exchangeRateOracle;
         _dbConnectionFactory = dbConnectionFactory;
         _serviceRolesConfig = serviceRolesConfig;
+        _lockProvider = lockProvider;
     }
 
     public async Task DoWorkAsync(CancellationToken stoppingToken)
@@ -37,7 +41,14 @@ public class PsiPoolArbJob
             _logger.LogInformation("Background worker role not active, not starting arb bot");
             return;
         }
-        
+        await using var theLock = await _lockProvider.TryAcquireLockAsync("locks:job:psi-pool-arb", TimeSpan.Zero,
+            cancellationToken: stoppingToken);
+        if (theLock == default)
+        {
+            // the lock is a null instance meaning that we FAILED to acquire it... Abort basically
+            _logger.LogWarning("Another psi pool arb refresh job is holding the lock, aborting");
+            return;
+        }
         var now = DateTimeOffset.Now;
         await Policy
             .Handle<Exception>()

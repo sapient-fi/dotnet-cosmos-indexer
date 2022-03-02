@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DistributedLock.Postgres" Version="1.0.2" />
     <PackageReference Include="MassTransit" Version="7.3.1" />
     <PackageReference Include="NewRelic.Agent.Api" Version="9.5.1" />
     <PackageReference Include="RapidCore" Version="0.27.2" />
