@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Pylonboard.ServiceHost</AssemblyName>
     <RootNamespace>Pylonboard.ServiceHost</RootNamespace>
-  <Version>0.12.5</Version></PropertyGroup>
+  <Version>0.13.0</Version></PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.HealthChecks.Npgsql" Version="6.0.1" />
