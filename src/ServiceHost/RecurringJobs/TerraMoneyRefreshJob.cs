@@ -1,3 +1,4 @@
+using Medallion.Threading;
 using Polly;
 using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
 using Pylonboard.Kernel.Config;
@@ -12,13 +13,15 @@ public class TerraMoneyRefreshJob
     private readonly MineBuybackDataFetcher _mineBuybackDataFetcher;
     private readonly PylonPoolsDataFether _pylonPoolsDataFether;
     private readonly IEnabledServiceRolesConfig _serviceRolesConfig;
+    private readonly IDistributedLockProvider _lockProvider;
 
     public TerraMoneyRefreshJob(
         ILogger<TerraMoneyRefreshJob> logger,
         MineStakingDataFetcher mineStakingDataFetcher,
         MineBuybackDataFetcher mineBuybackDataFetcher,
         PylonPoolsDataFether pylonPoolsDataFether,
-        IEnabledServiceRolesConfig serviceRolesConfig
+        IEnabledServiceRolesConfig serviceRolesConfig,
+        IDistributedLockProvider lockProvider
     )
     {
         _logger = logger;
@@ -26,11 +29,12 @@ public class TerraMoneyRefreshJob
         _mineBuybackDataFetcher = mineBuybackDataFetcher;
         _pylonPoolsDataFether = pylonPoolsDataFether;
         _serviceRolesConfig = serviceRolesConfig;
+        _lockProvider = lockProvider;
     }
 
     public async Task DoWorkAsync(
-        CancellationToken stoppingToken, 
-        bool gatewayPoolfullResync = false, 
+        CancellationToken stoppingToken,
+        bool gatewayPoolfullResync = false,
         bool mineStakingFullResync = false,
         bool mineBuybackFullResync = false
     )
@@ -39,6 +43,15 @@ public class TerraMoneyRefreshJob
         {
             _logger.LogInformation("Service role {Role} is not enabled, will not start it",
                 ServiceRoles.BACKGROUND_WORKER);
+            return;
+        }
+
+        await using var theLock = await _lockProvider.TryAcquireLockAsync("locks:job:terra-refresh", TimeSpan.Zero,
+            cancellationToken: stoppingToken);
+        if (theLock == default)
+        {
+            // the lock is a null instance meaning that we FAILED to acquire it... Abort basically
+            _logger.LogWarning("Another terra refresh job is holding the lock, aborting");
             return;
         }
 
