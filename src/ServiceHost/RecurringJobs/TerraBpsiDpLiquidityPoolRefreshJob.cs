@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Hangfire;
 using MassTransit;
+using Medallion.Threading;
 using NewRelic.Api.Agent;
 using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
 using Pylonboard.Kernel.Config;
@@ -22,6 +23,7 @@ public class TerraBpsiDpLiquidityPoolRefreshJob
     private readonly IdGenerator _idGenerator;
     private readonly IDbConnectionFactory _dbFactory;
     private readonly IBus _bus;
+    private readonly IDistributedLockProvider _lockProvider;
 
     public TerraBpsiDpLiquidityPoolRefreshJob(
         ILogger<TerraBpsiDpLiquidityPoolRefreshJob> logger,
@@ -29,7 +31,8 @@ public class TerraBpsiDpLiquidityPoolRefreshJob
         TerraTransactionEnumerator transactionEnumerator,
         IdGenerator idGenerator,
         IDbConnectionFactory dbFactory,
-        IBus bus
+        IBus bus,
+        IDistributedLockProvider lockProvider
     )
     {
         _logger = logger;
@@ -38,6 +41,7 @@ public class TerraBpsiDpLiquidityPoolRefreshJob
         _idGenerator = idGenerator;
         _dbFactory = dbFactory;
         _bus = bus;
+        _lockProvider = lockProvider;
     }
 
     [Trace]
@@ -53,6 +57,15 @@ public class TerraBpsiDpLiquidityPoolRefreshJob
             return;
         }
 
+        await using var theLock = await _lockProvider.TryAcquireLockAsync("locks:job:bpsi-liquid", TimeSpan.Zero,
+            cancellationToken: stoppingToken);
+        if (theLock == default)
+        {
+            // the lock is a null instance meaning that we FAILED to acquire it... Abort basically
+            _logger.LogWarning("Another bpsi dp refresh job is holding the lock, aborting");
+            return;
+        }
+        
         _logger.LogInformation("Fetching fresh bPSI DP liquidity pool data");
         using var db = _dbFactory.OpenDbConnection();
 
