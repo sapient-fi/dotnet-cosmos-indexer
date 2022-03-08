@@ -39,6 +39,7 @@ public static class TerraMoneyServiceCollectionExtensions
 
         services.AddTransient<MineBuybackDataFetcher>();
         services.AddTransient<MineStakingDataFetcher>();
+        services.AddTransient<MineTreasuryDataFetcher>();
 
         services.AddTransient<PylonPoolsDataFether>();
         services.AddTransient<LowLevelPoolFetcher>();

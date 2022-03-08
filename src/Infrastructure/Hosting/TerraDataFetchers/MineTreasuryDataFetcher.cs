@@ -8,6 +8,7 @@ using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using TerraDotnet;
+using TerraDotnet.Extensions;
 using TerraDotnet.TerraFcd.Messages;
 
 namespace Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
@@ -17,15 +18,15 @@ namespace Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
 ///
 /// This is being kept around as a reference, and to allow "full resyncs" to happen for the staking data.
 /// </summary>
-public class MineBuybackDataFetcher
+public class MineTreasuryDataFetcher
 {
-    private readonly ILogger<MineBuybackDataFetcher> _logger;
+    private readonly ILogger<MineTreasuryDataFetcher> _logger;
     private readonly TerraTransactionEnumerator _transactionEnumerator;
     private readonly IdGenerator _idGenerator;
     private readonly IDbConnectionFactory _dbFactory;
 
-    public MineBuybackDataFetcher(
-        ILogger<MineBuybackDataFetcher> logger,
+    public MineTreasuryDataFetcher(
+        ILogger<MineTreasuryDataFetcher> logger,
         TerraTransactionEnumerator transactionEnumerator,
         IdGenerator idGenerator,
         IDbConnectionFactory dbFactory)
@@ -57,7 +58,7 @@ public class MineBuybackDataFetcher
         await foreach (var (tx, stdTx) in _transactionEnumerator.EnumerateTransactionsAsync(
                            offset,
                            100,
-                           TerraStakingContracts.MINE_BUYBACK_CONTRACT,
+                           TerraStakingContracts.MINE_TREASURY_CONTRACT,
                            stoppingToken
                        ))
         {
@@ -77,10 +78,11 @@ public class MineBuybackDataFetcher
                 token: stoppingToken
             );
             
+            // See if we can find any events in the logs where it indicates that a "buyback strategy" has been applied 
             var events = tx.Logs
                 .SelectMany(l => l.Events)
                 .Where(evt =>
-                    evt.Attributes.Contains(new TxLogEventAttribute() { Key = "action", Value = "sweep" }) &&
+                    evt.Attributes.Contains(new TxLogEventAttribute() { Key = "action", Value = "strategy_buyback" }) &&
                     evt.Type.EqualsIgnoreCase("from_contract")
                 ).ToList();
 
@@ -91,10 +93,10 @@ public class MineBuybackDataFetcher
 
             foreach (var evt in events)
             {
-                _logger.LogDebug("Have sweep event: {Event}", evt);
+                _logger.LogDebug("Have buyback strategy event: {Event}", evt);
                 var distributeMineAmountStr =
                     evt.Attributes.First(attrib => 
-                        attrib.Key.EqualsIgnoreCase("distribute_amount")).Value;
+                        attrib.Key.EqualsIgnoreCase("return_amount")).Value;
                 var mineAmount = distributeMineAmountStr.ToInt64();
                 var offerAmountUstStr =
                     evt.Attributes.First(attribute =>
@@ -118,7 +120,7 @@ public class MineBuybackDataFetcher
         var sortedBuyBacks = buyBacks.OrderBy(buyBack => buyBack.CreatedAt);
         foreach (var buyBack in sortedBuyBacks)
         {
-            _logger.LogInformation("Distributing buy-backs for sweep {TxHash} w. total MINE amount {TerraAmount}",
+            _logger.LogInformation("Distributing buy-backs for buyback_strategy {TxHash} w. total MINE amount {TerraAmount}",
                 buyBack.TxHash, buyBack.AmountInU / 1_000_000m);
             using var dbTx = db.BeginTransaction();
             var query = db.From<TerraMineStakingEntity>()
