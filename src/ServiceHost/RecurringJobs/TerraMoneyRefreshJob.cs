@@ -12,6 +12,7 @@ public class TerraMoneyRefreshJob
     private readonly MineStakingDataFetcher _mineStakingDataFetcher;
     private readonly MineBuybackDataFetcher _mineBuybackDataFetcher;
     private readonly PylonPoolsDataFether _pylonPoolsDataFether;
+    private readonly MineTreasuryDataFetcher _mineTreasuryDataFetcher;
     private readonly IEnabledServiceRolesConfig _serviceRolesConfig;
     private readonly IDistributedLockProvider _lockProvider;
 
@@ -20,6 +21,7 @@ public class TerraMoneyRefreshJob
         MineStakingDataFetcher mineStakingDataFetcher,
         MineBuybackDataFetcher mineBuybackDataFetcher,
         PylonPoolsDataFether pylonPoolsDataFether,
+        MineTreasuryDataFetcher mineTreasuryDataFetcher,
         IEnabledServiceRolesConfig serviceRolesConfig,
         IDistributedLockProvider lockProvider
     )
@@ -28,6 +30,7 @@ public class TerraMoneyRefreshJob
         _mineStakingDataFetcher = mineStakingDataFetcher;
         _mineBuybackDataFetcher = mineBuybackDataFetcher;
         _pylonPoolsDataFether = pylonPoolsDataFether;
+        _mineTreasuryDataFetcher = mineTreasuryDataFetcher;
         _serviceRolesConfig = serviceRolesConfig;
         _lockProvider = lockProvider;
     }
