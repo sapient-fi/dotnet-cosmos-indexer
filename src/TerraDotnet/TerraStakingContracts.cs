@@ -4,7 +4,7 @@ public static class TerraStakingContracts
 {
     public const string MINE_STAKING_CONTRACT = "terra1xu8utj38xuw6mjwck4n97enmavlv852zkcvhgp";
     public const string MINE_BUYBACK_CONTRACT = "terra1dwyfj2m3e3lcyzu6haznqnj57pl769n6947vgv";
-    public const string MINE_TREASURY_CONTRACT = "terra1dwyfj2m3e3lcyzu6haznqnj57pl769n6947vgv";
+    public const string MINE_TREASURY_CONTRACT = "terra1s354cy63ygs0ydzwxwj0v3x0k8mxzmasgwkqg3";
     public const string TWD_STAKING_CONTRACT = "terra1l709gpyzpwukpq3g55j7n8kqyzataxlg4swg96";
         
     public const string SPEC_PYLON_FARM = "terra1r3675psl7s2fe0sfh0vut5z4hrywgyyfdrzg95";

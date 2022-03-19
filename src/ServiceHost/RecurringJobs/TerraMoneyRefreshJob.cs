@@ -78,5 +78,6 @@ public class TerraMoneyRefreshJob
         await retryPolicy.ExecuteAsync(async () => await _pylonPoolsDataFether.FetchDataAsync(stoppingToken, gatewayPoolfullResync));
         await retryPolicy.ExecuteAsync(async () => await _mineStakingDataFetcher.FetchDataAsync(stoppingToken, mineStakingFullResync));
         await retryPolicy.ExecuteAsync(async () => await _mineBuybackDataFetcher.FetchDataAsync(stoppingToken, mineBuybackFullResync));
+        await retryPolicy.ExecuteAsync(async () => await _mineTreasuryDataFetcher.FetchDataAsync(stoppingToken, mineBuybackFullResync));
     }
 }
