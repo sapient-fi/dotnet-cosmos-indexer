@@ -10,6 +10,7 @@ using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
 using Pylonboard.ServiceHost.Endpoints.MineTreasury;
 using Pylonboard.ServiceHost.Endpoints.MineWalletStats;
 using Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
+using Pylonboard.ServiceHost.Endpoints.MyPylonStake;
 using Pylonboard.ServiceHost.Endpoints.Types;
 using ServiceStack.Caching;
 
@@ -280,7 +281,27 @@ public class Query
         if (data == default)
         {
             data = await service.GetGatewayPoolDetailsAsync(terraWallet, poolContractId, cancellationToken);
-            cacheClient.Set(cacheKey, data);
+            cacheClient.Set(cacheKey, data, TimeSpan.FromMinutes(60));
+        }
+
+        return data;
+    }
+
+    [Trace]
+    public async Task<MyPylonStakeGraph> GetMyPylonStake(
+        string terraWallet,
+        [Service] MyPylonStakeService service,
+        [Service] ICacheClient cacheClient,
+        CancellationToken cancellationToken
+    )
+    {
+        var cacheKey = $"cache:pylon-stake:{terraWallet}";
+        var data = cacheClient.Get<MyPylonStakeGraph>(cacheKey);
+
+        if (data == default)
+        {
+            data = await service.GetMyPylonStakeAsync(terraWallet, cancellationToken);
+            cacheClient.Set(cacheKey, data, TimeSpan.FromMinutes(30));
         }
 
         return data;
