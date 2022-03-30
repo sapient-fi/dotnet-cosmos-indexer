@@ -378,9 +378,9 @@ public class MyGatewayPoolService
             }
             case TerraPylonPoolFriendlyName.Xdefi3:
             {
-                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1640264400);
-                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1640264400);
-                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1640264400);
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1640178000);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1645621200);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1655989200);
                 graph.RewardDenominator = TerraDenominators.Xdefi;
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.XDEFI).Divisor;
                 break;
