@@ -57,17 +57,17 @@ public class MyGatewayPoolService
                     case TerraPylonPoolOperation.Buy:
                     case TerraPylonPoolOperation.Deposit:
                     {
-                        graph.TotalDepositAmount = action.Amount;
+                        graph.TotalDepositAmount += action.Amount;
                         break;
                     }
                     case TerraPylonPoolOperation.Claim:
                     {
-                        graph.TotalClaimedAmount = action.Amount;
+                        graph.TotalClaimedAmount += action.Amount;
                         break;
                     }
                     case TerraPylonPoolOperation.Sell:
                     case TerraPylonPoolOperation.Withdraw:
-                        graph.TotalWithdrawnAmount = action.Amount;
+                        graph.TotalWithdrawnAmount += action.Amount;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
