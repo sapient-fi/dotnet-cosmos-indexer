@@ -416,6 +416,33 @@ public class MyGatewayPoolService
                 graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.ARTS).Divisor;
                 break;
             }
+            case TerraPylonPoolFriendlyName.Wcoin1:
+            {
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1650632280);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1674392400);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1697979600);
+                graph.RewardDenominator = TerraDenominators.WCoin;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WCOIN).Divisor;
+                break;
+            }
+            case TerraPylonPoolFriendlyName.Wcoin2:
+            {
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1650632280);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1666443600);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1682168400);
+                graph.RewardDenominator = TerraDenominators.WCoin;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WCOIN).Divisor;
+                break;
+            }
+            case TerraPylonPoolFriendlyName.Wcoin3:
+            {
+                graph.StartedAt = DateTimeOffset.FromUnixTimeSeconds(1650632280);
+                graph.ClaimAt = DateTimeOffset.FromUnixTimeSeconds(1658494800);
+                graph.WithdrawAt = DateTimeOffset.FromUnixTimeSeconds(1666443600);
+                graph.RewardDenominator = TerraDenominators.WCoin;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.WCOIN).Divisor;
+                break;
+            }
             case TerraPylonPoolFriendlyName.DeviantsFactions:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 10, 10, 14, 00, 00, TimeSpan.Zero);

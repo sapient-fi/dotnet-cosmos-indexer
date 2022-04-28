@@ -66,6 +66,9 @@ public enum TerraPylonPoolFriendlyName
     GalaticPunks,
     LunaBulls,
     TerraBots,
+    Wcoin1,
+    Wcoin2,
+    Wcoin3
 }
 
 public enum TerraPylonPoolOperation

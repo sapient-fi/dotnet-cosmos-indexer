@@ -28,6 +28,7 @@ public static class TerraDenominators
     public const string Kuji = "KUJI";
     private const string Astro = "ASTRO";
     public const string Arts = "ARTS";
+    public const string WCoin = "WCOIN";
 
     public static readonly Dictionary<string, string> AssetTokenAddressToDenominator = new()
     {
@@ -51,6 +52,8 @@ public static class TerraDenominators
         { TerraTokenContracts.KUJI, Kuji},
         { TerraTokenContracts.ASTRO, Astro},
         { TerraTokenContracts.WHALE, Whale},
+        { TerraTokenContracts.ARTS, Arts},
+        { TerraTokenContracts.WCOIN, WCoin},
     };
 
 

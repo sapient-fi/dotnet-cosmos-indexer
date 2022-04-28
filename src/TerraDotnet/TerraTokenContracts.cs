@@ -25,4 +25,5 @@ public static class TerraTokenContracts
     public const string KUJI = "terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn";
     public const string ASTRO = "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3";
     public const string ARTS = "terra1g0pm8xm5c2dq4qtv8j9a80hg4mhe5ndy8qad07";
+    public const string WCOIN = "terra1laczhlpxlgmrwr9un9ds74qxd2fj4754nf82dn";
 }

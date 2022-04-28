@@ -17,4 +17,5 @@ public enum GatewayPoolIdentifier
     LunaBulls,
     TerraBots,
     Arts,
+    Wcoin
 }

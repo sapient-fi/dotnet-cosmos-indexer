@@ -320,6 +320,12 @@ ORDER BY (sum(pool.amount)) DESC;
                 TerraPylonPoolFriendlyName.Arts2,  
                 TerraPylonPoolFriendlyName.Arts3,  
             },
+            GatewayPoolIdentifier.Wcoin => new []
+            {
+                TerraPylonPoolFriendlyName.Wcoin1,  
+                TerraPylonPoolFriendlyName.Wcoin2,  
+                TerraPylonPoolFriendlyName.Wcoin3,  
+            },
             GatewayPoolIdentifier.DeviantsFactions => new []
             {
                 TerraPylonPoolFriendlyName.DeviantsFactions,
