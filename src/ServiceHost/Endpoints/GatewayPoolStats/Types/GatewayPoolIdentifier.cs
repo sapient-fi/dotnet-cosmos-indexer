@@ -14,4 +14,5 @@ public enum GatewayPoolIdentifier
     Xdefi,
     DeviantsFactions,
     GalacticPunks,
+    LunaBulls
 }
