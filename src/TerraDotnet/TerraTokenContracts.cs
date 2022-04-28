@@ -24,4 +24,5 @@ public static class TerraTokenContracts
     public const string LUNAX = "terra17y9qkl8dfkeg4py7n0g5407emqnemc3yqk5rup";
     public const string KUJI = "terra1xfsdgcemqwxp4hhnyk4rle6wr22sseq7j07dnn";
     public const string ASTRO = "terra1xj49zyqrwpv5k928jwfpfy2ha668nwdgkwlrg3";
+    public const string ARTS = "terra1g0pm8xm5c2dq4qtv8j9a80hg4mhe5ndy8qad07";
 }

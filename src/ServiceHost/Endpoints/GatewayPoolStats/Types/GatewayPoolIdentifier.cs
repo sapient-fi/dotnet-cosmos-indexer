@@ -15,5 +15,6 @@ public enum GatewayPoolIdentifier
     DeviantsFactions,
     GalacticPunks,
     LunaBulls,
-    TerraBots
+    TerraBots,
+    Arts,
 }

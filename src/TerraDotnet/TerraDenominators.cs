@@ -27,6 +27,7 @@ public static class TerraDenominators
     public const string BpsiDP_24m = "bPSIDP-24m";
     public const string Kuji = "KUJI";
     private const string Astro = "ASTRO";
+    public const string Arts = "ARTS";
 
     public static readonly Dictionary<string, string> AssetTokenAddressToDenominator = new()
     {
@@ -51,6 +52,7 @@ public static class TerraDenominators
         { TerraTokenContracts.ASTRO, Astro},
         { TerraTokenContracts.WHALE, Whale},
     };
+
 
     /// <summary>
     /// Try to get a known denom from the token address.

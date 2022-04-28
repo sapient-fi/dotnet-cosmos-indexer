@@ -47,6 +47,10 @@ public static class TerraPylonGatewayContracts
     public const string XDEFI_2 = "terra14e0g6gqldl2ruyt6ps72gwl2xc6lvxh7mz02lw";
     public const string XDEFI_3 = "terra1r9we2p8knhzxn0gk0ak667fcxdv26x4tp46l4k";
     
+    public const string ARTS_1 = "terra1ssq90m5juvxwukdxjjsd5un0sql7858wpa6h87";
+    public const string ARTS_2 = "terra19ky7jkpzkdner969tmpd9ury6y59sp0qs6pu9e";
+    public const string ARTS_3 = "terra1l3ajy0cq5vskww5jee7cg33qu455j8lg8cy9wv";
+    
     public const string DEVIANTS_FACTIONS = "terra1nata7lxk6ylx7ttu56jgp2s57g3fucl8saz0qw";
 
     public const string GALATIC_PUNKS = "terra10jrv8wy6s06mku9t6yawt2yr09wjlqsw0qk0vf";

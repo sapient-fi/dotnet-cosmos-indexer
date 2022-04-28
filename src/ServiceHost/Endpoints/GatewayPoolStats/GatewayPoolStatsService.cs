@@ -314,6 +314,12 @@ ORDER BY (sum(pool.amount)) DESC;
                 TerraPylonPoolFriendlyName.Xdefi2,
                 TerraPylonPoolFriendlyName.Xdefi3,
             },
+            GatewayPoolIdentifier.Arts => new []
+            {
+                TerraPylonPoolFriendlyName.Arts1,  
+                TerraPylonPoolFriendlyName.Arts2,  
+                TerraPylonPoolFriendlyName.Arts3,  
+            },
             GatewayPoolIdentifier.DeviantsFactions => new []
             {
                 TerraPylonPoolFriendlyName.DeviantsFactions,

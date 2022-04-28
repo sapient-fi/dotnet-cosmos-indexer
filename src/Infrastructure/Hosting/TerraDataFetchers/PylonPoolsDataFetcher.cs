@@ -62,6 +62,10 @@ public class PylonPoolsDataFether
         await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.XDEFI_2, TerraPylonPoolFriendlyName.Xdefi2, stoppingToken, fullResync);
         await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.XDEFI_3, TerraPylonPoolFriendlyName.Xdefi3, stoppingToken, fullResync);
         
+        await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.ARTS_1, TerraPylonPoolFriendlyName.Arts1, stoppingToken, fullResync);
+        await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.ARTS_2, TerraPylonPoolFriendlyName.Arts2, stoppingToken, fullResync);
+        await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.ARTS_3, TerraPylonPoolFriendlyName.Arts3, stoppingToken, fullResync);
+        
         await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.DEVIANTS_FACTIONS, TerraPylonPoolFriendlyName.DeviantsFactions, stoppingToken, fullResync);
         
         await _poolFetcher.FetchPoolDataAsync(TerraPylonGatewayContracts.GALATIC_PUNKS, TerraPylonPoolFriendlyName.GalaticPunks, stoppingToken, fullResync);
