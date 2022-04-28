@@ -326,6 +326,10 @@ ORDER BY (sum(pool.amount)) DESC;
             {
                 TerraPylonPoolFriendlyName.LunaBulls
             },
+            GatewayPoolIdentifier.TerraBots => new []
+            {
+                TerraPylonPoolFriendlyName.TerraBots
+            },
             _ => throw new ArgumentOutOfRangeException(nameof(gatewayPoolIdentifier), gatewayPoolIdentifier, null)
         };
     }

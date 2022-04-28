@@ -136,6 +136,10 @@ public class MyGatewayPoolService
                 return GatewayPoolIdentifier.DeviantsFactions;
             case TerraPylonPoolFriendlyName.GalaticPunks:
                 return GatewayPoolIdentifier.GalacticPunks;
+            case TerraPylonPoolFriendlyName.LunaBulls:
+                return GatewayPoolIdentifier.LunaBulls;
+            case TerraPylonPoolFriendlyName.TerraBots:
+                return GatewayPoolIdentifier.TerraBots;
             default:
                 throw new ArgumentOutOfRangeException(nameof(firstFriendlyName), firstFriendlyName, null);
         }
@@ -397,6 +401,24 @@ public class MyGatewayPoolService
             case TerraPylonPoolFriendlyName.GalaticPunks:
             {
                 graph.StartedAt = new DateTimeOffset(2021, 10, 27, 14, 00, 00, TimeSpan.Zero);
+                graph.ClaimAt = graph.StartedAt;
+                graph.WithdrawAt = graph.StartedAt;
+                graph.RewardDenominator = TerraDenominators.Ust;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.USD).Divisor;
+                break;
+            }
+            case TerraPylonPoolFriendlyName.LunaBulls:
+            {
+                graph.StartedAt = new DateTimeOffset(2022, 2, 28, 14, 00, 00, TimeSpan.Zero);
+                graph.ClaimAt = graph.StartedAt;
+                graph.WithdrawAt = graph.StartedAt;
+                graph.RewardDenominator = TerraDenominators.Ust;
+                graph.RewardUAmountDivisor = new TerraAmount("1", TerraTokenContracts.USD).Divisor;
+                break;
+            }
+            case TerraPylonPoolFriendlyName.TerraBots:
+            {
+                graph.StartedAt = new DateTimeOffset(2022, 3, 15, 14, 00, 00, TimeSpan.Zero);
                 graph.ClaimAt = graph.StartedAt;
                 graph.WithdrawAt = graph.StartedAt;
                 graph.RewardDenominator = TerraDenominators.Ust;

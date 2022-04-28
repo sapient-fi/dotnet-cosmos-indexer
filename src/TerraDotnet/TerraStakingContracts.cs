@@ -52,6 +52,8 @@ public static class TerraPylonGatewayContracts
     public const string GALATIC_PUNKS = "terra10jrv8wy6s06mku9t6yawt2yr09wjlqsw0qk0vf";
     
     public const string LUNA_BULLS = "terra1qt4wtj528s35kdk5zdylmwvt4nh7te5ets033t";
+    
+    public const string TERRA_BOTS = "terra1cl8r8srtkj6k65kc8jalfnx5u5eewyq5wg2u5u";
 }
 
 public static class TerraLpFarmingContracts
