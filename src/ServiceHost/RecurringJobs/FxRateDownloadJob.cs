@@ -66,6 +66,9 @@ public class FxRateDownloadJob
             await FetchAndStoreRateAsync(TerraDenominators.Vkr, TerraDenominators.Ust, db, stoppingToken);
             await FetchAndStoreRateAsync(TerraDenominators.Whale, TerraDenominators.Ust, db, stoppingToken);
             await FetchAndStoreRateAsync(TerraDenominators.Xdefi, TerraDenominators.Ust, db, stoppingToken);
+            await FetchAndStoreRateAsync(TerraDenominators.Arts, TerraDenominators.Ust, db, stoppingToken);
+            await FetchAndStoreRateAsync(TerraDenominators.WCoin, TerraDenominators.Ust, db, stoppingToken);
+            await FetchAndStoreRateAsync(TerraDenominators.Sayve, TerraDenominators.Ust, db, stoppingToken);
         }
         _logger.LogInformation("FX rate downloader completed");
     }
