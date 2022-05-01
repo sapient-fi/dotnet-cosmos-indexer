@@ -140,6 +140,14 @@ public class MyGatewayPoolService
                 return GatewayPoolIdentifier.LunaBulls;
             case TerraPylonPoolFriendlyName.TerraBots:
                 return GatewayPoolIdentifier.TerraBots;
+            case TerraPylonPoolFriendlyName.Arts1:
+            case TerraPylonPoolFriendlyName.Arts2:
+            case TerraPylonPoolFriendlyName.Arts3:
+                return GatewayPoolIdentifier.Arts;
+            case TerraPylonPoolFriendlyName.Wcoin1:
+            case TerraPylonPoolFriendlyName.Wcoin2:
+            case TerraPylonPoolFriendlyName.Wcoin3:
+                return GatewayPoolIdentifier.Wcoin;
             default:
                 throw new ArgumentOutOfRangeException(nameof(firstFriendlyName), firstFriendlyName, null);
         }
