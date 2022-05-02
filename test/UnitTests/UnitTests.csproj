@@ -62,6 +62,14 @@
     <Content Include="Infrastructure\Consumers\Terra\TestFiles\mine_gov_vote.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Remove="Infrastructure\Consumers\Terra\TestFiles\astroport_mine_lp_pair_provide.json" />
+    <Content Include="Infrastructure\Consumers\Terra\TestFiles\astroport_mine_lp_pair_provide.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Infrastructure\Consumers\Terra\TestFiles\astroport_mine_lp_pair_withdraw.json" />
+    <Content Include="Infrastructure\Consumers\Terra\TestFiles\astroport_mine_lp_pair_withdraw.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

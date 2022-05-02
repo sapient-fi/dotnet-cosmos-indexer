@@ -40,7 +40,7 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
         var terraDbTx = await db.SingleByIdAsync<TerraRawTransactionEntity>(terraTxId);
         
         using var tx = db.OpenTransaction();
-        var exists = await db.SingleAsync<long?>(db.From<TerraLiquidityPoolEntity>()
+        var exists = await db.SingleAsync<long?>(db.From<TerraLiquidityPoolTradesEntity>()
             .Where(q => q.TransactionId == terraTxId)
             .Take(1)
             .Select(e => 
@@ -72,14 +72,14 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
         }
 
         tx.Commit();
-    }
+    }  
 
-    public List<TerraLiquidityPoolEntity> ParseTransaction(
+    public List<TerraLiquidityPoolTradesEntity> ParseTransaction(
         CoreStdTx msg, 
         TerraTxWrapper terraTx
     )
     {
-        var results = new List<TerraLiquidityPoolEntity>();
+        var results = new List<TerraLiquidityPoolTradesEntity>();
         
         foreach (var properMsg in msg.Messages.Select(innerMsg => innerMsg as WasmMsgExecuteContract))
         {
@@ -153,7 +153,7 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
         return results;
     }
 
-    private TerraLiquidityPoolEntity? HandleSwapAsync(
+    private TerraLiquidityPoolTradesEntity? HandleSwapAsync(
         TerraTxWrapper tx,
         WasmMsgExecuteContract executeContract,
         CoreStdTx msg,
@@ -176,7 +176,7 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
             return default;
         }
 
-        var entity = new TerraLiquidityPoolEntity
+        var entity = new TerraLiquidityPoolTradesEntity
         {
             Id = _idGenerator.Snowflake(),
             AskAmount = new TerraAmount(returnAmount.Value, askAsset.Value).Value,
@@ -192,7 +192,7 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
         return entity;
     }
 
-    private TerraLiquidityPoolEntity? HandleSwapOperationsAsync(
+    private TerraLiquidityPoolTradesEntity? HandleSwapOperationsAsync(
         TerraTxWrapper tx,
         WasmMsgExecuteContract executeContract,
         WasmExecuteMsgExecuteSwapOperations swapOperations
@@ -226,7 +226,7 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
                 $"Handling tx {tx.TransactionHash} and cannot find the bPSI DB contract in `to` on the logs");
         }
 
-        var entity = new TerraLiquidityPoolEntity
+        var entity = new TerraLiquidityPoolTradesEntity
         {
             Id = _idGenerator.Snowflake(),
             AskAmount = returnAmount.Value,
@@ -243,42 +243,42 @@ public class BpsiDpLiquidityPoolConsumer : IConsumer<BPsiTerraTransactionMessage
     }
 
     private async Task HandleGatewayPoolInsertAsync(
-        IDbConnection db, TerraLiquidityPoolEntity entity,
+        IDbConnection db, TerraLiquidityPoolTradesEntity tradesEntity,
         CancellationToken cancellationToken)
     {
         // If a swap is _asking_ for bPSI someone is buying bPSI
-        if (entity.AskAsset.EqualsIgnoreCase(TerraTokenContracts.BPSI_DP_24M))
+        if (tradesEntity.AskAsset.EqualsIgnoreCase(TerraTokenContracts.BPSI_DP_24M))
         {
             await db.InsertAsync(new TerraPylonPoolEntity
             {
                 Id = _idGenerator.Snowflake(),
-                Amount = entity.AskAmount,
-                Depositor = entity.SenderAddr,
+                Amount = tradesEntity.AskAmount,
+                Depositor = tradesEntity.SenderAddr,
                 FriendlyName = TerraPylonPoolFriendlyName.Nexus,
-                CreatedAt = entity.CreatedAt,
+                CreatedAt = tradesEntity.CreatedAt,
                 Operation = TerraPylonPoolOperation.Buy,
                 PoolContract = TerraPylonGatewayContracts.NEXUS,
-                TransactionId = entity.TransactionId,
-                Denominator = TerraDenominators.TryGetDenominator(entity.OfferAsset)
+                TransactionId = tradesEntity.TransactionId,
+                Denominator = TerraDenominators.TryGetDenominator(tradesEntity.OfferAsset)
             }, token: cancellationToken);
 
             return;
         }
 
         // If a swap is not asking for BPSI they must be selling it
-        if (entity.OfferAsset.EqualsIgnoreCase(TerraTokenContracts.BPSI_DP_24M))
+        if (tradesEntity.OfferAsset.EqualsIgnoreCase(TerraTokenContracts.BPSI_DP_24M))
         {
             await db.InsertAsync(new TerraPylonPoolEntity
             {
                 Id = _idGenerator.Snowflake(),
-                Amount = -1 * entity.OfferAmount,
-                Depositor = entity.SenderAddr,
+                Amount = -1 * tradesEntity.OfferAmount,
+                Depositor = tradesEntity.SenderAddr,
                 Operation = TerraPylonPoolOperation.Sell,
-                CreatedAt = entity.CreatedAt,
+                CreatedAt = tradesEntity.CreatedAt,
                 FriendlyName = TerraPylonPoolFriendlyName.Nexus,
                 PoolContract = TerraPylonGatewayContracts.NEXUS,
-                TransactionId = entity.TransactionId,
-                Denominator = TerraDenominators.AssetTokenAddressToDenominator[entity.OfferAsset],
+                TransactionId = tradesEntity.TransactionId,
+                Denominator = TerraDenominators.AssetTokenAddressToDenominator[tradesEntity.OfferAsset],
             }, token: cancellationToken);
 
             return;

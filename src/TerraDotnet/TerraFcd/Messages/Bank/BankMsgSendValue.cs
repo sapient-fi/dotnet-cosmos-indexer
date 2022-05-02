@@ -12,4 +12,5 @@ public record BankMsgSendValue
         
     [JsonPropertyName("from_address")]
     public string FromAddress { get; set; }
+
 }

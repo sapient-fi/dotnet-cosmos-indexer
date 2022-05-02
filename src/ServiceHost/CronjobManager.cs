@@ -1,8 +1,10 @@
 using Hangfire;
 using Hangfire.Common;
+using Pylonboard.Kernel;
 using Pylonboard.Kernel.Config;
 using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.RecurringJobs;
+using TerraDotnet;
 
 namespace Pylonboard.ServiceHost;
 
@@ -62,11 +64,28 @@ public class CronjobManager
 
         _jobManager.AddOrUpdate(
             "terra-money-bpsi-lp",
-            Job.FromExpression<TerraBpsiDpLiquidityPoolRefreshJob>(job => job.DoWorkAsync(CancellationToken.None)),
+            Job.FromExpression<TerraBpsiDpLiquidityPoolTradesRefreshJob>(job => job.DoWorkAsync(CancellationToken.None)),
             "53 * * * *"
         );
+
+        _jobManager.AddOrUpdate(
+            "terra-money-mine-astro-lp",
+            Job.FromExpression<TerraLiquidityPoolPairRefreshJob>(job =>
+                job.DoWorkAsync(
+                    AstroportLpFarmingContracts.PYLON_MINE_UST_FARM,
+                    DecentralizedExchange.Astroport,
+                    CancellationToken.None)),
+            "56 * * * *");
         
-        
+        _jobManager.AddOrUpdate(
+            "terra-money-mine-terraswap-lp",
+            Job.FromExpression<TerraLiquidityPoolPairRefreshJob>(job =>
+                job.DoWorkAsync(
+                    TerraswapLpFarmingContracts.PYLON_MINE_UST_FARM,
+                    DecentralizedExchange.TerraSwap,
+                    CancellationToken.None)),
+            "59 * * * *");
+
         if (_featureConfig.TriggerGatewayPoolFullResync
             || _featureConfig.TriggerMineStakingFullResync
             || _featureConfig.TriggerMineBuyBackFullResync

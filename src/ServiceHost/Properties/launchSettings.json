@@ -16,7 +16,8 @@
       "applicationUrl": "https://localhost:7047;http://localhost:5064",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "PYLONBOARD_SERVICE_ROLES_ENABLED": "API"
+        "PYLONBOARD_SERVICE_ROLES_ENABLED": "API,BACKGROUND_WORKER",
+        "PYLONBOARD_TRIGGER_MINE_STAKING_FULL_RESYNC": "false"
       }
     },
     "IIS Express": {

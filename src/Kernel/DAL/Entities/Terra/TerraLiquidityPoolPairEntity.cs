@@ -2,7 +2,7 @@ using ServiceStack.DataAnnotations;
 
 namespace Pylonboard.Kernel.DAL.Entities.Terra;
 
-public class TerraLpFarmEntity
+public class TerraLiquidityPoolPairEntity
 {
     [PrimaryKey] public long Id { get; set; }
         
@@ -25,6 +25,13 @@ public class TerraLpFarmEntity
         
     [Index]
     public string Farm { get; set; }
+    
+    [Index]
+    [Required]
+    public DecentralizedExchange Dex { get; set; }
         
     public DateTimeOffset CreatedAt { get; set; }
+    
+    [Index]
+    public string Wallet { get; set; }
 }

@@ -59,6 +59,11 @@ public static class SerializerExtensions
 
     public static T? ToObject<T>(this string json)
     {
+        if (json.IsBase64String())
+        {
+            return ToObjectFromBase64<T>(json);
+        }
+        
         return JsonSerializer.Deserialize<T>(json, Options);
     }
 

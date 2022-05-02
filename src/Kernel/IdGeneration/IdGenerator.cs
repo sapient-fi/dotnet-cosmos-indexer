@@ -4,6 +4,13 @@ public class IdGenerator
 {
     private readonly IdGen.IdGenerator _snowflakeGenerator;
 
+    /// <summary>
+    /// for mocking/ faking
+    /// </summary>
+    protected IdGenerator()
+    {
+        
+    }
     public IdGenerator(IdGen.IdGenerator snowflakeGenerator)
     {
         _snowflakeGenerator = snowflakeGenerator;

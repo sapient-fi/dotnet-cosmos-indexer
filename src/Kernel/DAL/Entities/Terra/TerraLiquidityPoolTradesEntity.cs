@@ -2,7 +2,7 @@ using ServiceStack.DataAnnotations;
 
 namespace Pylonboard.Kernel.DAL.Entities.Terra;
 
-public record TerraLiquidityPoolEntity
+public record TerraLiquidityPoolTradesEntity
 {
     [PrimaryKey]
     public long Id { get; set; }

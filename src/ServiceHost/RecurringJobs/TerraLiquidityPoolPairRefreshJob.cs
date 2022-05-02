@@ -1,9 +1,9 @@
 using System.Text.Json;
 using Hangfire;
 using MassTransit;
-using Medallion.Threading;
 using NewRelic.Api.Agent;
 using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
+using Pylonboard.Kernel;
 using Pylonboard.Kernel.Config;
 using Pylonboard.Kernel.Contracts.Terra;
 using Pylonboard.Kernel.DAL.Entities.Terra;
@@ -15,24 +15,22 @@ using TerraDotnet;
 
 namespace Pylonboard.ServiceHost.RecurringJobs;
 
-public class TerraBpsiDpLiquidityPoolRefreshJob
+public class TerraLiquidityPoolPairRefreshJob
 {
-    private readonly ILogger<TerraBpsiDpLiquidityPoolRefreshJob> _logger;
+    private readonly ILogger<TerraLiquidityPoolPairRefreshJob> _logger;
     private readonly IEnabledServiceRolesConfig _serviceRolesConfig;
     private readonly TerraTransactionEnumerator _transactionEnumerator;
     private readonly IdGenerator _idGenerator;
     private readonly IDbConnectionFactory _dbFactory;
     private readonly IBus _bus;
-    private readonly IDistributedLockProvider _lockProvider;
 
-    public TerraBpsiDpLiquidityPoolRefreshJob(
-        ILogger<TerraBpsiDpLiquidityPoolRefreshJob> logger,
+    public TerraLiquidityPoolPairRefreshJob(
+        ILogger<TerraLiquidityPoolPairRefreshJob> logger,
         IEnabledServiceRolesConfig serviceRolesConfig,
         TerraTransactionEnumerator transactionEnumerator,
         IdGenerator idGenerator,
         IDbConnectionFactory dbFactory,
-        IBus bus,
-        IDistributedLockProvider lockProvider
+        IBus bus
     )
     {
         _logger = logger;
@@ -41,12 +39,13 @@ public class TerraBpsiDpLiquidityPoolRefreshJob
         _idGenerator = idGenerator;
         _dbFactory = dbFactory;
         _bus = bus;
-        _lockProvider = lockProvider;
     }
 
     [Trace]
     [AutomaticRetry(Attempts = 0)]
     public async Task DoWorkAsync(
+        string lpPairTokenAddress,
+        DecentralizedExchange dex,
         CancellationToken stoppingToken
     )
     {
@@ -57,34 +56,27 @@ public class TerraBpsiDpLiquidityPoolRefreshJob
             return;
         }
 
-        await using var theLock = await _lockProvider.TryAcquireLockAsync("locks:job:bpsi-liquid", TimeSpan.Zero,
-            cancellationToken: stoppingToken);
-        if (theLock == default)
-        {
-            // the lock is a null instance meaning that we FAILED to acquire it... Abort basically
-            _logger.LogWarning("Another bpsi dp refresh job is holding the lock, aborting");
-            return;
-        }
-        
-        _logger.LogInformation("Fetching fresh bPSI DP liquidity pool data");
+        _logger.LogInformation("Fetching fresh terra liquidity pool pair data for {PairAddress}", lpPairTokenAddress);
         using var db = _dbFactory.OpenDbConnection();
 
         var latestRow = await db.SingleAsync(
-            db.From<TerraLiquidityPoolEntity>()
+            db.From<TerraLiquidityPoolPairEntity>()
                 .OrderByDescending(q => q.CreatedAt), token: stoppingToken);
-
+        
         await foreach (var (terraTx, msg) in _transactionEnumerator.EnumerateTransactionsAsync(
                            0,
                            100,
-                           TerraLiquidityPoolContracts.BPSI_DP_CONTRACT,
+                           lpPairTokenAddress,
                            stoppingToken))
         {
             if (terraTx.Id == latestRow?.TransactionId)
             {
-                _logger.LogInformation("Transaction with id {TxId} and hash {TxHash} already exists, no futher bus publishes", terraTx.Id,
+                _logger.LogInformation(
+                    "Transaction with id {TxId} and hash {TxHash} already exists, no further action", terraTx.Id,
                     terraTx.TransactionHash);
                 break;
             }
+
             await db.SaveAsync(obj: new TerraRawTransactionEntity
                 {
                     Id = terraTx.Id,
@@ -95,9 +87,10 @@ public class TerraBpsiDpLiquidityPoolRefreshJob
                 token: stoppingToken
             );
 
-            await _bus.Publish(new BPsiTerraTransactionMessage
+            await _bus.Publish(new TerraLiquidityPoolPairTransactionMessage
             {
                 TransactionId = terraTx.Id,
+                Dex = dex
             }, stoppingToken);
         }
     }
