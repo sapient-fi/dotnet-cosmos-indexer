@@ -49,10 +49,14 @@ spec:
             httpGet:
               path: /health
               port: http
-          readinessProbe:
+            failureThreshold: 1
+            periodSeconds: 10
+          startupProbe:
             httpGet:
               path: /health
               port: http
+            failureThreshold: 90
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
