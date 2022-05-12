@@ -43,9 +43,9 @@ public static class TerraPylonGatewayContracts
     public const string SAYVE_2 = "terra1xgewsvsl2gff63fplma52smt8r76fyzvurfwcm";
     public const string SAYVE_3 = "terra1s9qs7r8aacs0auynhumdn4jtgju58kjlvrg6uw";
     
-    public const string XDEFI_1 = "terra1a9cu63vx3u0m386x5f74qsr7sw405zdj5uhpll";
+    public const string XDEFI_1 = "terra1r9we2p8knhzxn0gk0ak667fcxdv26x4tp46l4k";
     public const string XDEFI_2 = "terra14e0g6gqldl2ruyt6ps72gwl2xc6lvxh7mz02lw";
-    public const string XDEFI_3 = "terra1r9we2p8knhzxn0gk0ak667fcxdv26x4tp46l4k";
+    public const string XDEFI_3 = "terra1a9cu63vx3u0m386x5f74qsr7sw405zdj5uhpll";
     
     public const string ARTS_1 = "terra1ssq90m5juvxwukdxjjsd5un0sql7858wpa6h87";
     public const string ARTS_2 = "terra19ky7jkpzkdner969tmpd9ury6y59sp0qs6pu9e";
