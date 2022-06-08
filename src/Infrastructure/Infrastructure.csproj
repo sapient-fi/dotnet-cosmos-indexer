@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>Pylonboard.Infrastructure</AssemblyName>
-    <RootNamespace>Pylonboard.Infrastructure</RootNamespace>
+    <AssemblyName>Sapient.Infrastructure</AssemblyName>
+    <RootNamespace>Sapient.Infrastructure</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

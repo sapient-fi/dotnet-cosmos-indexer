@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>Pylonboard.Kernel</AssemblyName>
-    <RootNamespace>Pylonboard.Kernel</RootNamespace>
+    <AssemblyName>Sapient.Kernel</AssemblyName>
+    <RootNamespace>Sapient.Kernel</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
