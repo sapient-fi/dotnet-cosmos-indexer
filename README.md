@@ -1,6 +1,6 @@
-# Pylon Board API / Backend
+# Terra v2 data indexer
 
-This repository contains the API/backend and data synchronization code for Pylon Board
+Ths repository contains a Terra v2 block and transaction indexer
 
 ## Getting started
 
@@ -19,7 +19,8 @@ dotnet run --project src/ServiceHost/ServiceHost.csproj
 ```
 
 The default launch-settings _will not_ start downloading data, as this is both CPU and network heavy.
-If you want to download data, edit the file `src/ServiceHost/Properties/launchSettings.json` and add `BACKGROUND_WORKER` to the `PYLONBOARD_SERVICE_ROLES_ENABLED` config variable.
+If you want to download data, edit the file `src/ServiceHost/Properties/launchSettings.json` and add 
+`BACKGROUND_WORKER` to the `SAPIENT_SERVICE_ROLES_ENABLED` config variable.
 
 ## Code Structure
 
