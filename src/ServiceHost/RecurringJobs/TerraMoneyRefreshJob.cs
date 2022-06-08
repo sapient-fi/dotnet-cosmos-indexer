@@ -1,10 +1,9 @@
 using Medallion.Threading;
 using Polly;
-using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
-using Pylonboard.Kernel.Config;
-using Pylonboard.ServiceHost.Config;
+using Sapient.Infrastructure.Hosting.TerraDataFetchers;
+using Sapient.Kernel.Config;
 
-namespace Pylonboard.ServiceHost.RecurringJobs;
+namespace Sapient.ServiceHost.RecurringJobs;
 
 public class TerraMoneyRefreshJob
 {

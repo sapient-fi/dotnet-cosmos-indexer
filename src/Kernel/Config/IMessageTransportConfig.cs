@@ -1,4 +1,4 @@
-namespace Pylonboard.Kernel.Config;
+namespace Sapient.Kernel.Config;
 
 public interface IMessageTransportConfig
 {

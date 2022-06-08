@@ -3,7 +3,7 @@ using NewRelic.Api.Agent;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.ServiceHost.Endpoints.MineRankings;
+namespace Sapient.ServiceHost.Endpoints.MineRankings;
 
 public class MineRankingService
 {

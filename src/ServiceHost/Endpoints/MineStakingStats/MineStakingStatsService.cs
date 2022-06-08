@@ -1,9 +1,9 @@
 using NewRelic.Api.Agent;
-using Pylonboard.ServiceHost.Endpoints.Types;
+using Sapient.ServiceHost.Endpoints.Types;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.ServiceHost.Endpoints.MineStakingStats;
+namespace Sapient.ServiceHost.Endpoints.MineStakingStats;
 
 public class MineStakingStatsService
 {

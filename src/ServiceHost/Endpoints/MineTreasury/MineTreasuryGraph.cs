@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints.MineTreasury;
+namespace Sapient.ServiceHost.Endpoints.MineTreasury;
 
 public record MineTreasuryGraph
 {

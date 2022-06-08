@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NewRelic.Api.Agent;
-using Pylonboard.Kernel.DAL.Entities.Terra;
+using Sapient.Kernel.DAL.Entities.Terra;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.ServiceHost;
+namespace Sapient.ServiceHost;
 
 public class DbConnectionHealthCheck : IHealthCheck
 {

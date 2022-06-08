@@ -1,6 +1,6 @@
-using Pylonboard.Kernel.DAL.Entities.Terra;
+using Sapient.Kernel.DAL.Entities.Terra;
 
-namespace Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
+namespace Sapient.ServiceHost.Endpoints.MyGatewayPools;
 
 public record MyGatewayPoolDetailsGraph
 {

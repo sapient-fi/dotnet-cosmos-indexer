@@ -1,6 +1,6 @@
-using Pylonboard.Kernel.DAL.Entities.Terra;
+using Sapient.Kernel.DAL.Entities.Terra;
 
-namespace Pylonboard.Kernel.Contracts.Terra;
+namespace Sapient.Kernel.Contracts.Terra;
 
 public record PylonGatewayPoolTransactionMessage
 {

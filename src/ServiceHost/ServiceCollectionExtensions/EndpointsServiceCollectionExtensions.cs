@@ -1,16 +1,15 @@
-using Pylonboard.ServiceHost.Endpoints;
-using Pylonboard.ServiceHost.Endpoints.Arbitraging;
-using Pylonboard.ServiceHost.Endpoints.FxRates;
-using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats;
-using Pylonboard.ServiceHost.Endpoints.MineRankings;
-using Pylonboard.ServiceHost.Endpoints.MineStakingStats;
-using Pylonboard.ServiceHost.Endpoints.MineTreasury;
-using Pylonboard.ServiceHost.Endpoints.MineWalletStats;
-using Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
-using Pylonboard.ServiceHost.Endpoints.MyPylonStake;
+using Sapient.ServiceHost.Endpoints.Arbitraging;
+using Sapient.ServiceHost.Endpoints.FxRates;
+using Sapient.ServiceHost.Endpoints.GatewayPoolStats;
+using Sapient.ServiceHost.Endpoints.MineRankings;
+using Sapient.ServiceHost.Endpoints.MineStakingStats;
+using Sapient.ServiceHost.Endpoints.MineTreasury;
+using Sapient.ServiceHost.Endpoints.MineWalletStats;
+using Sapient.ServiceHost.Endpoints.MyGatewayPools;
+using Sapient.ServiceHost.Endpoints.MyPylonStake;
 using ServiceStack.Caching;
 
-namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
+namespace Sapient.ServiceHost.ServiceCollectionExtensions;
 
 public static class EndpointsServiceCollectionExtensions
 {

@@ -1,16 +1,16 @@
 using System.Reflection;
-using Pylonboard.Infrastructure.DAL;
-using Pylonboard.Infrastructure.DAL.Repositories;
-using Pylonboard.Kernel.Config;
-using Pylonboard.ServiceHost.Config;
 using Pylonboard.ServiceHost.DAL.Migrations;
 using RapidCore.DependencyInjection;
 using RapidCore.Migration;
 using RapidCore.PostgreSql.Migration;
+using Sapient.Infrastructure.DAL;
+using Sapient.Infrastructure.DAL.Repositories;
+using Sapient.Kernel.Config;
+using Sapient.ServiceHost.Config;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
+namespace Sapient.ServiceHost.ServiceCollectionExtensions;
 
 public static class DbServiceCollectionExtensions
 {

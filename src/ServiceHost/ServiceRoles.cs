@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost;
+namespace Sapient.ServiceHost;
 
 public static class ServiceRoles
 {

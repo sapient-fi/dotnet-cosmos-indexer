@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints.MineStakingStats;
+namespace Sapient.ServiceHost.Endpoints.MineStakingStats;
 
 public record DaysStakedStatEntry
 {

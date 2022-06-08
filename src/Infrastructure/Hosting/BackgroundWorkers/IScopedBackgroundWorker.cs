@@ -1,4 +1,4 @@
-namespace Pylonboard.Infrastructure.Hosting.BackgroundWorkers;
+namespace Sapient.Infrastructure.Hosting.BackgroundWorkers;
 
 public interface IScopedBackgroundServiceWorker
 {

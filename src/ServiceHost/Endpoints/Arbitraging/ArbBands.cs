@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints.Arbitraging;
+namespace Sapient.ServiceHost.Endpoints.Arbitraging;
 
 public record ArbBands
 {

@@ -1,16 +1,16 @@
-using Pylonboard.Infrastructure.Hosting.BackgroundWorkers;
-using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
-using Pylonboard.Infrastructure.Hosting.TerraDataFetchers.Internal.PylonPools;
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
-using Pylonboard.Kernel.Config;
-using Pylonboard.Kernel.IdGeneration;
-using Pylonboard.ServiceHost.Config;
 using RapidCore.Locking;
 using Refit;
+using Sapient.Infrastructure.Hosting.BackgroundWorkers;
+using Sapient.Infrastructure.Hosting.TerraDataFetchers;
+using Sapient.Infrastructure.Hosting.TerraDataFetchers.Internal.PylonPools;
+using Sapient.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
+using Sapient.Kernel.Config;
+using Sapient.Kernel.IdGeneration;
+using Sapient.ServiceHost.Config;
 using TerraDotnet;
 using TerraDotnet.TerraFcd;
 
-namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
+namespace Sapient.ServiceHost.ServiceCollectionExtensions;
 
 public static class TerraMoneyServiceCollectionExtensions
 {

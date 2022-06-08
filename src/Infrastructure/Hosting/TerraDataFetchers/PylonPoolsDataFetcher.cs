@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Logging;
 using NewRelic.Api.Agent;
-using Pylonboard.Infrastructure.Hosting.TerraDataFetchers.Internal.PylonPools;
-using Pylonboard.Kernel.DAL.Entities.Terra;
+using Sapient.Infrastructure.Hosting.TerraDataFetchers.Internal.PylonPools;
+using Sapient.Kernel.DAL.Entities.Terra;
 using TerraDotnet;
 
-namespace Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
+namespace Sapient.Infrastructure.Hosting.TerraDataFetchers;
 
 public class PylonPoolsDataFether
 {

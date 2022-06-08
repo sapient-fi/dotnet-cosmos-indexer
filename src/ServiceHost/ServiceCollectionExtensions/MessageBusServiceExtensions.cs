@@ -1,9 +1,9 @@
 using MassTransit;
-using Pylonboard.Infrastructure.Consumers.Terra;
-using Pylonboard.Kernel.Config;
-using Pylonboard.ServiceHost.Config;
+using Sapient.Infrastructure.Consumers.Terra;
+using Sapient.Kernel.Config;
+using Sapient.ServiceHost.Config;
 
-namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
+namespace Sapient.ServiceHost.ServiceCollectionExtensions;
 
 public static class MessageBusServiceExtensions
 {

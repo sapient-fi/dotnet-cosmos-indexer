@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
+namespace Sapient.ServiceHost.Endpoints.GatewayPoolStats.Types;
 
 public enum GatewayPoolIdentifier
 {

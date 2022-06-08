@@ -1,11 +1,11 @@
-using Pylonboard.Kernel;
-using Pylonboard.Kernel.DAL.Entities.Exchanges;
-using Pylonboard.ServiceHost.Endpoints.Types;
+using Sapient.Kernel;
+using Sapient.Kernel.DAL.Entities.Exchanges;
+using Sapient.ServiceHost.Endpoints.Types;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using TerraDotnet;
 
-namespace Pylonboard.ServiceHost.Endpoints.Arbitraging;
+namespace Sapient.ServiceHost.Endpoints.Arbitraging;
 
 public class ArbitrageService
 {

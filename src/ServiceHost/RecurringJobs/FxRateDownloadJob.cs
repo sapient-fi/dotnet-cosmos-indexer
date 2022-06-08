@@ -1,15 +1,14 @@
 using System.Data;
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
-using Pylonboard.Kernel;
-using Pylonboard.Kernel.Config;
-using Pylonboard.Kernel.DAL.Entities.Exchanges;
-using Pylonboard.Kernel.IdGeneration;
-using Pylonboard.ServiceHost.Config;
+using Sapient.Infrastructure.Oracles.ExchangeRates.Terra;
+using Sapient.Kernel;
+using Sapient.Kernel.Config;
+using Sapient.Kernel.DAL.Entities.Exchanges;
+using Sapient.Kernel.IdGeneration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using TerraDotnet;
 
-namespace Pylonboard.ServiceHost.RecurringJobs;
+namespace Sapient.ServiceHost.RecurringJobs;
 
 public class FxRateDownloadJob
 {

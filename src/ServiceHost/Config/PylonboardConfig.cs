@@ -1,7 +1,7 @@
-using Pylonboard.Kernel.Config;
 using RapidCore.Configuration;
+using Sapient.Kernel.Config;
 
-namespace Pylonboard.ServiceHost.Config;
+namespace Sapient.ServiceHost.Config;
 
 public class PylonboardConfig : IEnabledServiceRolesConfig, IDbConfig, IGatewayPoolsConfig, ICorsConfig, IFeatureConfig, IMessageTransportConfig
 {

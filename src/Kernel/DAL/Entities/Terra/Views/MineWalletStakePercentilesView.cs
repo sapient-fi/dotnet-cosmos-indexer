@@ -1,6 +1,6 @@
 using ServiceStack.DataAnnotations;
 
-namespace Pylonboard.Kernel.DAL.Entities.Terra.Views;
+namespace Sapient.Kernel.DAL.Entities.Terra.Views;
 
 [Alias("mv_wallet_stake_percentiles")]
 public record MineWalletStakePercentilesView

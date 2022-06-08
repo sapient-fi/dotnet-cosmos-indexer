@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using NarrowIntegrationTests.Endpoints.Arbitraging;
-using Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
+using Sapient.ServiceHost.Endpoints.MyGatewayPools;
 using Xunit;
 
 namespace NarrowIntegrationTests.Endpoints.MyGatewayPools;

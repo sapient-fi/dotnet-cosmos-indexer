@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Logging;
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
+using Sapient.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
 using ServiceStack;
 using ServiceStack.Data;
 using TerraDotnet;
 
-namespace Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
+namespace Sapient.Infrastructure.Oracles.ExchangeRates.Terra;
 
 public class TerraExchangeRateOracle
 {

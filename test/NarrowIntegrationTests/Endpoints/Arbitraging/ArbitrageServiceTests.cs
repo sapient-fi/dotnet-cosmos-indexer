@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Pylonboard.ServiceHost.Endpoints.Arbitraging;
+using Sapient.ServiceHost.Endpoints.Arbitraging;
 using Xunit;
 
 namespace NarrowIntegrationTests.Endpoints.Arbitraging;

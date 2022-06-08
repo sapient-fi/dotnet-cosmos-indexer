@@ -1,4 +1,4 @@
-namespace Pylonboard.Kernel;
+namespace Sapient.Kernel;
 
 public enum DecentralizedExchange
 {

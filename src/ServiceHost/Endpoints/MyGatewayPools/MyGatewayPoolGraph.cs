@@ -1,7 +1,7 @@
-using Pylonboard.Kernel.DAL.Entities.Terra;
-using Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
+using Sapient.Kernel.DAL.Entities.Terra;
+using Sapient.ServiceHost.Endpoints.GatewayPoolStats.Types;
 
-namespace Pylonboard.ServiceHost.Endpoints.MyGatewayPools;
+namespace Sapient.ServiceHost.Endpoints.MyGatewayPools;
 
 public record MyGatewayPoolGraph
 {

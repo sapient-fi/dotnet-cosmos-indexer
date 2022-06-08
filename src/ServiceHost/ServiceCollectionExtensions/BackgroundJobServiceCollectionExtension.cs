@@ -2,12 +2,12 @@ using Hangfire;
 using Hangfire.InMemory;
 using Medallion.Threading;
 using Medallion.Threading.Postgres;
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
-using Pylonboard.Kernel.Config;
-using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.RecurringJobs;
+using Sapient.Infrastructure.Oracles.ExchangeRates.Terra;
+using Sapient.Kernel.Config;
+using Sapient.ServiceHost.Config;
+using Sapient.ServiceHost.RecurringJobs;
 
-namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
+namespace Sapient.ServiceHost.ServiceCollectionExtensions;
 
 public static class BackgroundJobServiceCollectionExtension
 {

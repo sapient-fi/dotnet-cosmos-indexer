@@ -7,7 +7,7 @@ using ServiceStack.Data;
 using TerraDotnet.TerraLcd;
 using TerraDotnet.TerraLcd.Messages;
 
-namespace Pylonboard.Infrastructure.Oracles;
+namespace Sapient.Infrastructure.Oracles;
 
 public class TerraMoneyLcdOracle
 {

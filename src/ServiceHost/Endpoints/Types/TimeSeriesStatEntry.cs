@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints.Types;
+namespace Sapient.ServiceHost.Endpoints.Types;
 
 public class TimeSeriesStatEntry
 {

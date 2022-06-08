@@ -1,8 +1,8 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Pylonboard.Kernel.Contracts.Terra;
-using Pylonboard.Kernel.DAL.Entities.Terra;
-using Pylonboard.Kernel.IdGeneration;
+using Sapient.Kernel.Contracts.Terra;
+using Sapient.Kernel.DAL.Entities.Terra;
+using Sapient.Kernel.IdGeneration;
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -12,7 +12,7 @@ using TerraDotnet.TerraFcd;
 using TerraDotnet.TerraFcd.Messages;
 using TerraDotnet.TerraFcd.Messages.Wasm;
 
-namespace Pylonboard.Infrastructure.Consumers.Terra;
+namespace Sapient.Infrastructure.Consumers.Terra;
 
 public class MineStakingTransactionConsumer : IConsumer<MineStakingTransactionMessage>
 {

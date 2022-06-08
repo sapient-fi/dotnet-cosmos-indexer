@@ -1,4 +1,4 @@
-namespace Pylonboard.Kernel.IdGeneration;
+namespace Sapient.Kernel.IdGeneration;
 
 public class IdGenerator
 {

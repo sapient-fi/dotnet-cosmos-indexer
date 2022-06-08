@@ -1,6 +1,6 @@
-using Pylonboard.ServiceHost.Endpoints.Types;
+using Sapient.ServiceHost.Endpoints.Types;
 
-namespace Pylonboard.ServiceHost.Endpoints.Arbitraging;
+namespace Sapient.ServiceHost.Endpoints.Arbitraging;
 
 public class ArbitrageGraph
 {

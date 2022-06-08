@@ -1,4 +1,4 @@
-namespace Pylonboard.Kernel.Contracts.Terra;
+namespace Sapient.Kernel.Contracts.Terra;
 
 public record MineStakingTransactionMessage
 {

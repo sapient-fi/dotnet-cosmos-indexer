@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pylonboard.ServiceHost.ServiceCollectionExtensions;
+using Sapient.ServiceHost.ServiceCollectionExtensions;
 
 namespace NarrowIntegrationTests;
 

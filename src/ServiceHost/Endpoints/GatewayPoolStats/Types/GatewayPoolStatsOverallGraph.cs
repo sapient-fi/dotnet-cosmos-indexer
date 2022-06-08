@@ -1,6 +1,6 @@
-using Pylonboard.ServiceHost.Endpoints.Types;
+using Sapient.ServiceHost.Endpoints.Types;
 
-namespace Pylonboard.ServiceHost.Endpoints.GatewayPoolStats.Types;
+namespace Sapient.ServiceHost.Endpoints.GatewayPoolStats.Types;
 
 public record GatewayPoolStatsOverallGraph
 {

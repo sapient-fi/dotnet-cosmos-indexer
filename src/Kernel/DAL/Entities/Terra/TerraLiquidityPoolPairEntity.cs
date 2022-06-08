@@ -1,6 +1,6 @@
 using ServiceStack.DataAnnotations;
 
-namespace Pylonboard.Kernel.DAL.Entities.Terra;
+namespace Sapient.Kernel.DAL.Entities.Terra;
 
 public class TerraLiquidityPoolPairEntity
 {

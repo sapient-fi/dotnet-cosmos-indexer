@@ -3,17 +3,15 @@ using Hangfire;
 using MassTransit;
 using Medallion.Threading;
 using NewRelic.Api.Agent;
-using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
-using Pylonboard.Kernel.Config;
-using Pylonboard.Kernel.Contracts.Terra;
-using Pylonboard.Kernel.DAL.Entities.Terra;
-using Pylonboard.Kernel.IdGeneration;
-using Pylonboard.ServiceHost.Config;
+using Sapient.Kernel.Config;
+using Sapient.Kernel.Contracts.Terra;
+using Sapient.Kernel.DAL.Entities.Terra;
+using Sapient.Kernel.IdGeneration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using TerraDotnet;
 
-namespace Pylonboard.ServiceHost.RecurringJobs;
+namespace Sapient.ServiceHost.RecurringJobs;
 
 public class TerraBpsiDpLiquidityPoolTradesRefreshJob
 {

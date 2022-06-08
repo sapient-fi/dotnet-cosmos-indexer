@@ -2,15 +2,15 @@ using System.Text.RegularExpressions;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using NewRelic.Api.Agent;
-using Pylonboard.Infrastructure.DAL.Repositories;
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
-using Pylonboard.Kernel;
-using Pylonboard.Kernel.Contracts.Exchanges;
+using Sapient.Infrastructure.DAL.Repositories;
+using Sapient.Infrastructure.Oracles.ExchangeRates.Terra;
+using Sapient.Kernel;
+using Sapient.Kernel.Contracts.Exchanges;
 using ServiceStack;
 using ServiceStack.Caching;
 using TerraDotnet;
 
-namespace Pylonboard.Infrastructure.Consumers.ExchangeRates;
+namespace Sapient.Infrastructure.Consumers.ExchangeRates;
 
 public class LatestExchangeRateConsumer : IConsumer<GetLatestExchangeRateRequest>
 {

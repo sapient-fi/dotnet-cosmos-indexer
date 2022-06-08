@@ -1,4 +1,4 @@
-namespace Pylonboard.Kernel.DAL.Entities.Terra;
+namespace Sapient.Kernel.DAL.Entities.Terra;
 
 public record TerraMineBuybackEntity
 {

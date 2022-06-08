@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints.FxRates;
+namespace Sapient.ServiceHost.Endpoints.FxRates;
 
 public class FxRateQuery
 {

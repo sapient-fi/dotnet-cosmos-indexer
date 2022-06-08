@@ -1,4 +1,4 @@
-namespace Pylonboard.ServiceHost.Endpoints;
+namespace Sapient.ServiceHost.Endpoints.MyPylonStake;
 
 public record MyPylonStakeGraph
 {

@@ -1,8 +1,8 @@
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
-using Pylonboard.Kernel;
-using Pylonboard.Kernel.DAL.Entities.Exchanges;
 using RapidCore.Migration;
 using RapidCore.PostgreSql.Migration;
+using Sapient.Infrastructure.Oracles.ExchangeRates.Terra;
+using Sapient.Kernel;
+using Sapient.Kernel.DAL.Entities.Exchanges;
 using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.Dapper;
 using TerraDotnet;

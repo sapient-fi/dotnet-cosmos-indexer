@@ -1,4 +1,4 @@
-namespace Pylonboard.Infrastructure.Hosting.TerraDataFetchers.Internal;
+namespace Sapient.Infrastructure.Hosting.TerraDataFetchers.Internal;
 
 public record TerraMineBuyBack
 {

@@ -3,7 +3,7 @@ using RapidCore.DependencyInjection;
 using RapidCore.Locking;
 using RapidCore.Migration;
 
-namespace Pylonboard.Infrastructure.DAL;
+namespace Sapient.Infrastructure.DAL;
 
 public class PylonboardMigrationRunner : MigrationRunner
 {

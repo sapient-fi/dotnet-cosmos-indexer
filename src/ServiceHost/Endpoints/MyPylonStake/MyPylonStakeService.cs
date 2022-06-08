@@ -1,9 +1,9 @@
 using NewRelic.Api.Agent;
-using Pylonboard.Kernel.DAL.Entities.Terra.Views;
+using Sapient.Kernel.DAL.Entities.Terra.Views;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.ServiceHost.Endpoints.MyPylonStake;
+namespace Sapient.ServiceHost.Endpoints.MyPylonStake;
 
 public class MyPylonStakeService
 {

@@ -1,10 +1,10 @@
 using System.Data;
 using NewRelic.Api.Agent;
-using Pylonboard.Kernel.DAL.Entities.Terra;
+using Sapient.Kernel.DAL.Entities.Terra;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.ServiceHost.Endpoints.MineTreasury;
+namespace Sapient.ServiceHost.Endpoints.MineTreasury;
 
 public class MineTreasuryService
 {

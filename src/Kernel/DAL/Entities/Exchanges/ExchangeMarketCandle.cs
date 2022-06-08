@@ -1,6 +1,6 @@
 using ServiceStack.DataAnnotations;
 
-namespace Pylonboard.Kernel.DAL.Entities.Exchanges;
+namespace Sapient.Kernel.DAL.Entities.Exchanges;
 
 public class ExchangeMarketCandle
 {
