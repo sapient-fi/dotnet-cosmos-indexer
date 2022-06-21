@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "cbaf1aa4-1573-4f81-ab22-b92d94de0c84",
+    "name": "Phoenix-1 LCD",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-06-21T12:33:38.458Z",
+    "modified": "2022-06-21T12:34:35.718Z",
+    "data": [
+      {
+        "name": "terra2BaseUrl",
+        "value": "https://phoenix-lcd.terra.dev"
+      }
+    ]
+  }
+]

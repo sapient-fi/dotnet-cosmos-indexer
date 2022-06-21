@@ -59,3 +59,8 @@ by Microsoft.
 ## The origin of the project
 
 This project started life as the `Pylon Board` (which was also created by us), but since the crash of Terra Classic, we have decided to branch out and make this a `Cosmos` thing instead.
+
+
+## Thunder Client
+
+This repository contains a `thunder-tests` folder, which contains definitions from the `Visual Studio Code` plugin called `thunder-client`. These definitions can be used to dig around in the various APIs that this service uses.

@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "d2f745ff-bb7d-483f-b331-65ae532ffc66",
+    "colId": "6404331f-4dc7-4360-8741-960c7fb00bc1",
+    "containerId": "",
+    "name": "Transactions from specific block",
+    "url": "{{terra2BaseUrl}}/cosmos/tx/v1beta1/txs/block/352708",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-06-21T12:35:09.514Z",
+    "modified": "2022-06-21T12:35:44.158Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]
