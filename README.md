@@ -55,3 +55,7 @@ by Microsoft.
     - MassTransit configuration
     - Startup
     - Configuration parsing and setup
+
+## The origin of the project
+
+This project started life as the `Pylon Board` (which was also created by us), but since the crash of Terra Classic, we have decided to branch out and make this a `Cosmos` thing instead.
