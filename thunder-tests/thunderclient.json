@@ -12,5 +12,72 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "c7bcf9a9-78f0-4b92-95c2-e8c6ee38cb44",
+    "colId": "6404331f-4dc7-4360-8741-960c7fb00bc1",
+    "containerId": "",
+    "name": "Transactions before block",
+    "url": "{{terra2BaseUrl}}/cosmos/tx/v1beta1/txs?events=tx.height<=100",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-06-22T08:23:40.974Z",
+    "modified": "2022-06-22T08:24:17.802Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "events",
+        "value": "tx.height<=100",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "467681eb-c185-486c-9b27-0569f8c89102",
+    "colId": "6404331f-4dc7-4360-8741-960c7fb00bc1",
+    "containerId": "",
+    "name": "Transactions in block window",
+    "url": "{{terra2BaseUrl}}/cosmos/tx/v1beta1/txs?events=tx.height>=200&events=tx.height<=300&pagination.limit=3&pagination.offset=6",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2022-06-22T08:24:27.911Z",
+    "modified": "2022-06-22T09:11:08.871Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "events",
+        "value": "tx.height>=200",
+        "isPath": false
+      },
+      {
+        "name": "events",
+        "value": "tx.height<=300",
+        "isPath": false
+      },
+      {
+        "name": "pagination.limit",
+        "value": "3",
+        "isPath": false
+      },
+      {
+        "name": "pagination.offset",
+        "value": "6",
+        "isPath": false
+      },
+      {
+        "name": "pagination.key",
+        "value": "",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "order_by",
+        "value": "ORDER_BY_ASC",
+        "isDisabled": true,
+        "isPath": false
+      }
+    ],
+    "tests": []
   }
 ]

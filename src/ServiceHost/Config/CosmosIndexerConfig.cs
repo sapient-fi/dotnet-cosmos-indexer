@@ -28,9 +28,9 @@ public class CosmosIndexerConfig : IEnabledServiceRolesConfig, IDbConfig, IGatew
         "User ID=sapientfi_indexer_user;Password=sapientfi_indexer_user_pass;Host=localhost;Port=35432;Database=sapientfi_indexer;Pooling=true;Minimum Pool Size=10;Maximum Pool Size=100;"
     );
 
-    bool IDbConfig.DisableMigrationsDuringBoot => _config.Get(
-        "SAPIENTFI_DB_DISABLE_MIGRATIONS_ON_BOOT",
-        false
+    bool IDbConfig.RunMigrationsDuringBoot => _config.Get(
+        "SAPIENTFI_DB_RUN_MIGRATIONS_ON_BOOT",
+        true
     );
 
     int IGatewayPoolsConfig.NumberOfElementsInDepositsPrWallet => _config.Get(

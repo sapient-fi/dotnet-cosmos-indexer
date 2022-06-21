@@ -1,8 +1,9 @@
 using ServiceStack.DataAnnotations;
+using TerraDotnet.TerraLcd.Messages;
 
-namespace SapientFi.Kernel.DAL.Entities.Terra;
+namespace SapientFi.Infrastructure.Terra2.Storage;
 
-public class TerraRawTransactionEntity
+public class Terra2RawTransactionEntity
 {
     [PrimaryKey]
     public long Id { get; set; }
@@ -13,5 +14,8 @@ public class TerraRawTransactionEntity
     public string TxHash { get; set; } = string.Empty;
 
     [PgSqlJsonB]
-    public string RawTx { get; set; } = string.Empty;
+    public LcdTxResponse RawTx { get; set; } = new();
+    
+    [Index]
+    public int Height { get; set; }
 }

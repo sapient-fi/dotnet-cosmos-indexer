@@ -1,23 +1,24 @@
-using System.Diagnostics;
 using System.Net;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
 using NewRelic.Api.Agent;
 using Polly;
 using Refit;
-using TerraDotnet.TerraFcd;
-using TerraDotnet.TerraFcd.Messages;
+using TerraDotnet.TerraLcd;
+using TerraDotnet.TerraLcd.Messages;
 
 namespace TerraDotnet;
 
 public class TerraTransactionEnumerator
 {
     private readonly ILogger<TerraTransactionEnumerator> _logger;
-    private readonly ITerraMoneyFcdApiClient _terraClient;
+    private readonly ITerraMoneyLcdApiClient _terraClient;
 
+    private const int SecondsPerBlock = 6;
+    
     public TerraTransactionEnumerator(
         ILogger<TerraTransactionEnumerator> logger,
-        ITerraMoneyFcdApiClient terraClient
+        ITerraMoneyLcdApiClient terraClient
     )
     {
         _logger = logger;
@@ -25,80 +26,115 @@ public class TerraTransactionEnumerator
     }
 
     [Trace]
-    public async IAsyncEnumerable<(TerraTxWrapper tx, CoreStdTx msg)> EnumerateTransactionsAsync(
-        long offset,
-        int limit,
-        string contract,
+    public async IAsyncEnumerable<LcdTxResponse> EnumerateTransactionsAsync(
+        int fromAndIncludingBlockHeight,
         [EnumeratorCancellation] CancellationToken stoppingToken
     )
     {
-        var response = await Policy
-            .Handle<ApiException>(exception => exception.StatusCode == HttpStatusCode.TooManyRequests)
-            .WaitAndRetryAsync(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
-                (_, span) =>
-                {
-                    _logger.LogWarning("Handling retry while enumerating Terra Transactions, waiting {Time:c}", span);
-                })
-            .ExecuteAsync(async () => await _terraClient.ListTxesAsync(offset, limit, contract));
-        var txes = response;
-        var next = txes.Next;
-        var stopwatch = new Stopwatch();
-        var doContinue = true;
-        do
+        var queryWindow = new QueryWindow
         {
-            if (next == 0)
-            {
-                doContinue = false;
-            }
-            
-            _logger.LogInformation("`next` continuation token: {Next}", next);
+            WindowBlockWidth = 100,
+            StartBlockHeight = fromAndIncludingBlockHeight,
+            PaginationLimit = 100,
+            PaginationOffset = 0
+        };
 
-            // NO await to perform background work
-            // Capture the async method as a func so we can invoke it again during retry
-            Func<Task<TerraTxesResponse>> listTxesAsync = () => _terraClient.ListTxesAsync(
-                txes.Next,
-                txes.Limit,
-                contract
-            );
-            var nextTxes = listTxesAsync();
-            stopwatch.Reset();
-            stopwatch.Start();
-            foreach (var tx in txes.Txs)
-            {
-                if (tx.Code != 0)
-                {
-                    _logger.LogInformation("Skipping tx with Id {Id} since code is {Code}", tx.Id, tx.Code);
-                    continue;
-                }
-
-                _logger.LogDebug("Processing transaction with id {Id}", tx.Id);
-
-                var msg = TerraTransactionValueFactory.GetIt(tx);
-                yield return (tx, msg);
-            }
-            stopwatch.Stop();
-
-            var expectedWallTime = 2d;
-            if (stopwatch.Elapsed.TotalSeconds < expectedWallTime)
-            {
-                var nappieTime = TimeSpan.FromSeconds(expectedWallTime-stopwatch.Elapsed.TotalSeconds);
-                _logger.LogDebug("Rate limiting, less than 2 seconds was spent on processing by the consumer. Napping for {Sleep}", nappieTime.ToString("g"));
-                await Task.Delay(nappieTime, stoppingToken);
-            }
-            _logger.LogDebug("waiting for next http result-set");
-
-            Policy.Handle<ApiException>(exception => exception.StatusCode == HttpStatusCode.TooManyRequests)
-                .WaitAndRetry(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
+        while (true)
+        {
+            var response = await Policy
+                .Handle<ApiException>(exception => exception.StatusCode == HttpStatusCode.TooManyRequests)
+                .WaitAndRetryAsync(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
                     (_, span) =>
                     {
                         _logger.LogWarning("Handling retry while enumerating Terra Transactions, waiting {Time:c}", span);
-                        nextTxes = listTxesAsync();
-                    })
-                .Execute(() => { Task.WaitAll(new Task[] { nextTxes }, cancellationToken: stoppingToken); });
+                    }
+                )
+                .ExecuteAsync(
+                    async () => await _terraClient.GetTransactionsMatchingQueryAsync(
+                        queryWindow.GetConditions(),
+                        queryWindow.PaginationLimit,
+                        queryWindow.PaginationOffset
+                    )
+                );
 
-            _logger.LogDebug("done, iterating");
-            txes = nextTxes.Result;
-            next = nextTxes.Result.Next;
-        } while (doContinue);
+
+            if (response.Pagination.TotalAsInt == 0)
+            {
+                // now we have to figure out if we went past the
+                // latest block, or whether we just hit a "dead period"
+                var latestBlockResponse = await _terraClient.GetLatestBlockAsync();
+
+                if (!latestBlockResponse.IsSuccessStatusCode)
+                {
+                    throw new Exception("latest block request went wrong... figure it out", latestBlockResponse.Error);
+                }
+
+                var latestBlockHeight = latestBlockResponse.Content.Block.Header.HeightAsInt;
+
+                if (queryWindow.EndBlockHeight >= latestBlockHeight)
+                {
+                    // we should wait a bit for some blocks to be formed
+                    await Task.Delay(TimeSpan.FromSeconds(queryWindow.WindowBlockWidth * SecondsPerBlock), stoppingToken);
+                    // do NOT advance the query window in this scenario, as we want to
+                    // retry the same window later
+                    continue;
+                }
+            }
+            else
+            {
+                foreach (var txResponse in response.TransactionResponses)
+                {
+                    yield return txResponse;
+                }
+            }
+            
+            
+            queryWindow.Advance(response.Pagination);
+
+            await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
+        }
+    }
+    
+    
+    private class QueryWindow
+    {
+        public int WindowBlockWidth { get; set; }
+        public int StartBlockHeight { get; set; }
+        public int EndBlockHeight => StartBlockHeight + WindowBlockWidth;
+        public int PaginationLimit { get; set; }
+        public int PaginationOffset { get; set; }
+
+        public string[] GetConditions()
+        {
+            return new[]
+            {
+                $"tx.height>={StartBlockHeight}",
+                $"tx.height<={EndBlockHeight}"
+            };
+        }
+
+        public void Advance(LcdPagination pagination)
+        {
+            //TODO Consider: should we check if we're at the end of the desired WindowBlockWidth?
+
+            // did we reach the final page of this "block window"?
+            if (IsFinalPage(pagination))
+            {
+                // advance to the next block window
+                StartBlockHeight += WindowBlockWidth;
+                PaginationOffset = 0;
+            }
+            else
+            {
+                // advance to the next page of transactions
+                // within the current block window
+                PaginationOffset += PaginationLimit;
+            }
+        }
+
+        private bool IsFinalPage(LcdPagination pagination)
+        {
+            return pagination.TotalAsInt < (PaginationOffset + PaginationLimit);
+        }
     }
 }

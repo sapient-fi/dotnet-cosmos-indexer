@@ -1,4 +1,3 @@
-using ServiceStack;
 using TerraDotnet.TerraFcd.Messages;
 
 namespace TerraDotnet.Extensions;
@@ -25,7 +24,7 @@ public static class TxLogExtensions
         return logs
             .SelectMany(l =>
                 l.Events)
-            .Where(e => e.Type.EqualsIgnoreCase(txLogEventPropToFind))
+            .Where(e => e.Type.Equals(txLogEventPropToFind, StringComparison.OrdinalIgnoreCase))
             .SelectMany(evt => evt.Attributes)
             .FirstOrDefault(
                 predicate
@@ -52,7 +51,7 @@ public static class TxLogExtensions
         return logs
             .SelectMany(l =>
                 l.Events)
-            .Where(e => e.Type.EqualsIgnoreCase(txLogEventPropToFind))
+            .Where(e => e.Type.Equals(txLogEventPropToFind, StringComparison.OrdinalIgnoreCase))
             .SelectMany(evt => evt.Attributes)
             .LastOrDefault(
                 predicate
@@ -67,7 +66,7 @@ public static class TxLogExtensions
         return logs
             .SelectMany(l =>
                 l.Events)
-            .Where(e => e.Type.EqualsIgnoreCase(txLogEventPropToFind))
+            .Where(e => e.Type.Equals(txLogEventPropToFind, StringComparison.OrdinalIgnoreCase))
             .SelectMany(evt => evt.Attributes)
             .Where(
                 predicate

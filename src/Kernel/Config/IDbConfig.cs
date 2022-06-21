@@ -4,5 +4,5 @@ public interface IDbConfig
 {
     public string ConnectionString { get; }
 
-    public bool DisableMigrationsDuringBoot { get; }
+    public bool RunMigrationsDuringBoot { get; }
 }

@@ -2,7 +2,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Serilog;
-using ServiceStack;
 using TerraDotnet.TerraFcd.Messages;
 using TerraDotnet.TerraFcd.Messages.Bank;
 using TerraDotnet.TerraFcd.Messages.Distributions;
@@ -113,7 +112,7 @@ public static class SerializerExtensions
             "wasm/MsgExecuteContract" => new WasmMsgExecuteContract
             {
                 Type = msg.Type,
-                Value = chainId.EqualsIgnoreCase("columbus-4")
+                Value = chainId.Equals("columbus-4", StringComparison.OrdinalIgnoreCase)
                     ? msg.Value.ToObject<WasmMsgExecuteContractValueCol4>() : msg.Value.ToObject<WasmMsgExecuteContractValueCol5>()
             },
             "wasm/MsgInstantiateContract" => new WasmMsgInstantiateContract

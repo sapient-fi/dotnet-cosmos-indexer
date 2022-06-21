@@ -27,10 +27,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Consumers\ExchangeRates" />
-    <Folder Include="Consumers\Terra" />
-    <Folder Include="Hosting\TerraDataFetchers" />
-  </ItemGroup>
-
 </Project>

@@ -10,6 +10,8 @@ public record TerraBlockHeader
     [JsonPropertyName("height")]
     public string Height { get; set; } = string.Empty;
 
+    public int HeightAsInt => int.Parse(Height);
+
     [JsonPropertyName("time")]
     public DateTimeOffset Time { get; set; }
 
