@@ -1,15 +1,14 @@
 using System.Data;
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
-using Pylonboard.Kernel;
-using Pylonboard.Kernel.Config;
-using Pylonboard.Kernel.DAL.Entities.Exchanges;
-using Pylonboard.Kernel.IdGeneration;
-using Pylonboard.ServiceHost.Config;
+using SapientFi.Infrastructure.Oracles.ExchangeRates.Terra;
+using SapientFi.Kernel;
+using SapientFi.Kernel.Config;
+using SapientFi.Kernel.DAL.Entities.Exchanges;
+using SapientFi.Kernel.IdGeneration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 using TerraDotnet;
 
-namespace Pylonboard.ServiceHost.RecurringJobs;
+namespace SapientFi.ServiceHost.RecurringJobs;
 
 public class FxRateDownloadJob
 {
@@ -17,28 +16,28 @@ public class FxRateDownloadJob
     private readonly IEnabledServiceRolesConfig _serviceRolesConfig;
     private readonly IDbConnectionFactory _dbConnectionFactory;
     private readonly TerraExchangeRateOracle _terraExchangeRateOracle;
-    private readonly IdGenerator _idGenerator;
+    private readonly IdProvider _idProvider;
 
     public FxRateDownloadJob(
         ILogger<FxRateDownloadJob> logger,
         IEnabledServiceRolesConfig serviceRolesConfig,
         IDbConnectionFactory dbConnectionFactory,
         TerraExchangeRateOracle terraExchangeRateOracle,
-        IdGenerator idGenerator
+        IdProvider idProvider
     )
     {
         _logger = logger;
         _serviceRolesConfig = serviceRolesConfig;
         _dbConnectionFactory = dbConnectionFactory;
         _terraExchangeRateOracle = terraExchangeRateOracle;
-        _idGenerator = idGenerator;
+        _idProvider = idProvider;
     }
 
     public async Task DoWorkAsync(CancellationToken stoppingToken)
     {
         if (!_serviceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
         {
-            _logger.LogInformation("Background worker role not active, not starting materialized view refrsher");
+            _logger.LogInformation("Background worker role not active, not starting materialized view refresher");
             return;
         }
 
@@ -77,14 +76,14 @@ public class FxRateDownloadJob
     {
         var (close, closeAt) =
             await _terraExchangeRateOracle.GetExchangeRateAsync(from, to, DateTimeOffset.UtcNow, interval: "15m");
-        await db.InsertAsync<ExchangeMarketCandle>(new ExchangeMarketCandle
+        await db.InsertAsync(new ExchangeMarketCandle
         {
             CloseTime = closeAt,
             OpenTime = closeAt.AddMinutes(-15),
             Close = close,
             Exchange = Exchange.Terra,
             Market = $"{from.ToUpperInvariant()}-{to.ToUpperInvariant()}",
-            Id = _idGenerator.Snowflake(),
+            Id = _idProvider.Snowflake(),
         }, token: stoppingToken);
     }
 }

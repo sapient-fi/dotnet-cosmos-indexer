@@ -1,4 +1,4 @@
-namespace Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
+namespace SapientFi.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
 
 public record TerraMoneyExchangeRateResponse 
 {

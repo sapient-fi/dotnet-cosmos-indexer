@@ -1,7 +1,6 @@
-using System.Diagnostics.CodeAnalysis;
 using ServiceStack.DataAnnotations;
 
-namespace Pylonboard.Kernel.DAL.Entities.Terra
+namespace SapientFi.Kernel.DAL.Entities.Terra
 {
     public class TerraRewardEntity
     {
@@ -13,20 +12,20 @@ namespace Pylonboard.Kernel.DAL.Entities.Terra
         public long TransactionId { get; set; }
 
         [Index] 
-        public string Wallet { get; set; }
+        public string Wallet { get; set; } = string.Empty;
 
         [Index] 
-        public string FromContract { get; set; }
+        public string FromContract { get; set; } = string.Empty;
 
         public decimal Amount { get; set; }
 
         public decimal? AmountUstAtClaim { get; set; }
 
         public decimal? AmountUstNow { get; set; }
-        public string Denominator { get; set; }
+        public string Denominator { get; set; } = string.Empty;
 
         public TerraRewardType RewardType { get; set; }
-        [NotNull] public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
 
         public DateTimeOffset UpdatedAt { get; set; }
     }
@@ -42,11 +41,6 @@ namespace Pylonboard.Kernel.DAL.Entities.Terra
         /// Native token rewards for staking 
         /// </summary>
         StakingReward,
-
-        /// <summary>
-        /// Rewards paid out from Pylon Pools (UST deposit => token rewards)
-        /// </summary>
-        GatewayPool,
 
         /// <summary>
         /// LP farming reward

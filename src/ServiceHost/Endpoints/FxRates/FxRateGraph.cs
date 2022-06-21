@@ -1,6 +1,6 @@
-namespace Pylonboard.ServiceHost.Endpoints.FxRates;
+namespace SapientFi.ServiceHost.Endpoints.FxRates;
 
 public record FxRateGraph
 {
-    public List<FxRateItemGraph> Rates { get; set; }
+    public List<FxRateItemGraph> Rates { get; set; } = new();
 }

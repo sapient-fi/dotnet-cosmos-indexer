@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Logging;
-using Pylonboard.Kernel;
-using Pylonboard.Kernel.DAL.Entities.Exchanges;
+using SapientFi.Kernel;
+using SapientFi.Kernel.DAL.Entities.Exchanges;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.Infrastructure.DAL.Repositories;
+namespace SapientFi.Infrastructure.DAL.Repositories;
 
 public class ExchangeMarketRepository
 {

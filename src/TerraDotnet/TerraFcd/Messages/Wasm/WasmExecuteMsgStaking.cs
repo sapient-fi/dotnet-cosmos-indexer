@@ -4,5 +4,6 @@ namespace TerraDotnet.TerraFcd.Messages.Wasm;
 
 public record WasmExecuteMsgStaking
 {
-    [JsonPropertyName("unstake")] public WasmExecuteMsgStakingUnstake Unstake { get; set; }
+    [JsonPropertyName("unstake")]
+    public WasmExecuteMsgStakingUnstake Unstake { get; set; } = new();
 }

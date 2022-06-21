@@ -5,5 +5,5 @@ namespace TerraDotnet.TerraLcd.Messages;
 public record TerraClaimableRewardsRequest
 {
     [JsonPropertyName("claimable_reward")]
-    public TerraClaimableRewardBody ClaimableReward { get; set; }
+    public TerraClaimableRewardBody ClaimableReward { get; set; } = new();
 }

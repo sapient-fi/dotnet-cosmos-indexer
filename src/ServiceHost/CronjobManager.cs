@@ -1,12 +1,9 @@
 using Hangfire;
 using Hangfire.Common;
-using Pylonboard.Kernel;
-using Pylonboard.Kernel.Config;
-using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.RecurringJobs;
-using TerraDotnet;
+using SapientFi.Kernel.Config;
+using SapientFi.ServiceHost.RecurringJobs;
 
-namespace Pylonboard.ServiceHost;
+namespace SapientFi.ServiceHost;
 
 public class CronjobManager
 {
@@ -28,18 +25,13 @@ public class CronjobManager
         _featureConfig = featureConfig;
     }
 
-    public virtual Task RegisterJobsIfRequiredAsync()
+    public virtual void RegisterJobsIfRequired()
     {
         if (!_rolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
         {
             _logger.LogInformation("Background worker role not enabled, not registering jobs");
         }
-
-        _jobManager.AddOrUpdate("psi-arbs",
-            Job.FromExpression<PsiPoolArbJob>((job => job.DoWorkAsync(CancellationToken.None))),
-            "*/5 * * * *"
-        );
-
+        
         _jobManager.AddOrUpdate("terra-money-1",
             Job.FromExpression<TerraMoneyRefreshJob>(
                 job => job.DoWorkAsync(CancellationToken.None, false, false, false)),
@@ -62,30 +54,6 @@ public class CronjobManager
             "43 * * * *"
         );
 
-        _jobManager.AddOrUpdate(
-            "terra-money-bpsi-lp",
-            Job.FromExpression<TerraBpsiDpLiquidityPoolTradesRefreshJob>(job => job.DoWorkAsync(CancellationToken.None)),
-            "53 * * * *"
-        );
-
-        _jobManager.AddOrUpdate(
-            "terra-money-mine-astro-lp",
-            Job.FromExpression<TerraLiquidityPoolPairRefreshJob>(job =>
-                job.DoWorkAsync(
-                    AstroportLpFarmingContracts.PYLON_MINE_UST_FARM,
-                    DecentralizedExchange.Astroport,
-                    CancellationToken.None)),
-            "56 * * * *");
-        
-        _jobManager.AddOrUpdate(
-            "terra-money-mine-terraswap-lp",
-            Job.FromExpression<TerraLiquidityPoolPairRefreshJob>(job =>
-                job.DoWorkAsync(
-                    TerraswapLpFarmingContracts.PYLON_MINE_UST_FARM,
-                    DecentralizedExchange.TerraSwap,
-                    CancellationToken.None)),
-            "59 * * * *");
-
         if (_featureConfig.TriggerGatewayPoolFullResync
             || _featureConfig.TriggerMineStakingFullResync
             || _featureConfig.TriggerMineBuyBackFullResync
@@ -100,7 +68,5 @@ public class CronjobManager
                 )
             );
         }
-
-        return Task.CompletedTask;
     }
 }

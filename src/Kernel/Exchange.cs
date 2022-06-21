@@ -1,4 +1,4 @@
-namespace Pylonboard.Kernel;
+namespace SapientFi.Kernel;
 
 public enum Exchange
 {

@@ -5,8 +5,8 @@ namespace TerraDotnet.TerraFcd.Messages.Wasm;
 public record WasmExecuteMessageAsset
 {
     [JsonPropertyName("info")]
-    public WasmExecuteMessageAssetInfo Info { get; set; }
+    public WasmExecuteMessageAssetInfo Info { get; set; } = new();
 
     [JsonPropertyName("amount")]
-    public string Amount { get; set; }
+    public string Amount { get; set; } = string.Empty;
 }

@@ -1,10 +1,10 @@
-namespace Pylonboard.ServiceHost.Endpoints.FxRates;
+namespace SapientFi.ServiceHost.Endpoints.FxRates;
 
 public class FxRateItemGraph
 {
-    public string From { get; set; }
+    public string From { get; set; } = string.Empty;
 
-    public string To { get; set; }
+    public string To { get; set; } = string.Empty;
 
     public decimal Converted { get; set; }
 }

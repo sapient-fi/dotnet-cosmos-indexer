@@ -1,6 +1,6 @@
-# Pylon Board API / Backend
+# Cosmos data indexer
 
-This repository contains the API/backend and data synchronization code for Pylon Board
+Ths repository contains a Cosmos block and transaction indexer.
 
 ## Getting started
 
@@ -19,7 +19,8 @@ dotnet run --project src/ServiceHost/ServiceHost.csproj
 ```
 
 The default launch-settings _will not_ start downloading data, as this is both CPU and network heavy.
-If you want to download data, edit the file `src/ServiceHost/Properties/launchSettings.json` and add `BACKGROUND_WORKER` to the `PYLONBOARD_SERVICE_ROLES_ENABLED` config variable.
+If you want to download data, edit the file `src/ServiceHost/Properties/launchSettings.json` and add 
+`BACKGROUND_WORKER` to the `SAPIENT_SERVICE_ROLES_ENABLED` config variable.
 
 ## Code Structure
 
@@ -29,7 +30,7 @@ as [Common web application architectures](https://docs.microsoft.com/en-us/dotne
 by Microsoft.
 
 - **terra dotnet**
-   - To be separate repository down the road with everything related to parsing Terra transactions / messages
+    - To be separate repository down the road with everything related to parsing Terra transactions / messages
 
 - **Kernel types**
     - Entities (business model classes that are persisted)
@@ -48,9 +49,13 @@ by Microsoft.
     - MassTransit Consumers
     - Terra data fetchers
     - API integrations
-    
+
 - **ServiceHost types**
     - GraphQL resolvers/mutations and types
     - MassTransit configuration
     - Startup
     - Configuration parsing and setup
+
+## The origin of the project
+
+This project started life as the `Pylon Board` (which was also created by us), but since the crash of Terra Classic, we have decided to branch out and make this a `Cosmos` thing instead.

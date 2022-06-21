@@ -8,5 +8,5 @@ public record TerraBlockIdParts
     public int Total { get; set; }
 
     [JsonPropertyName("hash")]
-    public string Hash { get; set; }
+    public string Hash { get; set; } = string.Empty;
 }

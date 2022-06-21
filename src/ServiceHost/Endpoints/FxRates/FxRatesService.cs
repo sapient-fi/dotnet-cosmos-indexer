@@ -1,7 +1,7 @@
 using MassTransit;
-using Pylonboard.Kernel.Contracts.Exchanges;
+using SapientFi.Kernel.Contracts.Exchanges;
 
-namespace Pylonboard.ServiceHost.Endpoints.FxRates;
+namespace SapientFi.ServiceHost.Endpoints.FxRates;
 
 public class FxRatesService
 {

@@ -1,9 +1,9 @@
-using Pylonboard.Kernel.Config;
-using Pylonboard.ServiceHost;
-using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.Endpoints;
-using Pylonboard.ServiceHost.ServiceCollectionExtensions;
 using RapidCore.Migration;
+using SapientFi.Kernel.Config;
+using SapientFi.ServiceHost;
+using SapientFi.ServiceHost.Config;
+using SapientFi.ServiceHost.Endpoints;
+using SapientFi.ServiceHost.ServiceCollectionExtensions;
 using Serilog;
 
 ServiceStack.Licensing.RegisterLicense("OSS MIT 2022 https://github.com/pylonboard/dotnet-pylonboard-monolith UgSDQqrNk1uD12MhR04DQogTC/hqGtwW44By+pXTmOl/YuMFf6fINN9DVFJwQU/zoZ8AkM1phq/soc95pHgfqWBMIzAQ1XTC7mUPfHcHxzGSb9am9ps46Y//YpVGQ07mXQxKhmdzYy2nP7Z8CNffS3YaFxOmOQJQO5FZ0dH4988=");
@@ -23,16 +23,15 @@ var loggerConfiguration = new LoggerConfiguration()
 Log.Logger = loggerConfiguration.CreateLogger();
 
 builder.Services.AddControllers();
-builder.Services.AddHealthChecks()
-    .AddCheck<DbConnectionHealthCheck>("database");
+builder.Services.AddHealthChecks();
 builder.Services.AddSignalR();
 
 
 builder.Services.AddCors(options =>
 {
-    var config = new PylonboardConfig(builder.Configuration) as ICorsConfig;
+    var config = new CosmosIndexerConfig(builder.Configuration) as ICorsConfig;
     
-    options.AddPolicy(name: "board-cors",
+    options.AddPolicy(name: "cosmos-indexer-cors",
         corsPolicyBuilder =>
         {
             corsPolicyBuilder
@@ -48,7 +47,7 @@ builder.Services.AddCors(options =>
         });
 });
 builder.Services.AddTerraMoney(builder.Configuration);
-builder.Services.AddMessageBus(new PylonboardConfig(builder.Configuration), builder.Configuration);
+builder.Services.AddMessageBus(new CosmosIndexerConfig(builder.Configuration), builder.Configuration);
 builder.Services.AddDbStack(builder.Configuration);
 builder.Services.AddBackgroundJobStack(builder.Configuration);
 builder.Services.AddEndpointServices();
@@ -59,7 +58,7 @@ builder.Services.AddGraphQLServer()
     .AddApolloTracing(); // https://chillicream.com/docs/hotchocolate/server/instrumentation#on-demand
 
 var app = builder.Build();
-app.UseCors("board-cors");
+app.UseCors("cosmos-indexer-cors");
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -87,7 +86,7 @@ try
             await migrator.UpgradeAsync();
         }
         var cronJobs = app.Services.GetRequiredService<CronjobManager>();
-        await cronJobs.RegisterJobsIfRequiredAsync();
+        cronJobs.RegisterJobsIfRequired();
     }
     
     app.Run();
@@ -96,7 +95,6 @@ catch (Exception e)
 {
     Log.ForContext("FatalException", e)
         .Fatal(e, "Application has crashed unexpectedly!");
-    // SentrySdk.CaptureException(e);
     throw;
 }
 finally

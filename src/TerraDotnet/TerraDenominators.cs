@@ -1,3 +1,6 @@
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
+
 namespace TerraDotnet;
 
 public static class TerraDenominators

@@ -3,12 +3,12 @@ using RapidCore.DependencyInjection;
 using RapidCore.Locking;
 using RapidCore.Migration;
 
-namespace Pylonboard.Infrastructure.DAL;
+namespace SapientFi.Infrastructure.DAL;
 
-public class PylonboardMigrationRunner : MigrationRunner
+public class CosmosIndexerMigrationRunner : MigrationRunner
 {
-    public PylonboardMigrationRunner(
-        ILogger<PylonboardMigrationRunner> logger,
+    public CosmosIndexerMigrationRunner(
+        ILogger<CosmosIndexerMigrationRunner> logger,
         IRapidContainerAdapter container,
         IMigrationEnvironment environment,
         IDistributedAppLockProvider appLocker,
@@ -21,6 +21,6 @@ public class PylonboardMigrationRunner : MigrationRunner
 
     protected override string GetLockName()
     {
-        return "locks:migrations:pylonboard";
+        return "locks:migrations:cosmos-indexer";
     }
 }

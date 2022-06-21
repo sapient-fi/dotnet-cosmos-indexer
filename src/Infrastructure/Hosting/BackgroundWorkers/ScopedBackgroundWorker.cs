@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Pylonboard.Infrastructure.Hosting.BackgroundWorkers;
+namespace SapientFi.Infrastructure.Hosting.BackgroundWorkers;
 
 public class ScopedBackgroundService<TWorker> : BackgroundService where TWorker : IScopedBackgroundServiceWorker
 {

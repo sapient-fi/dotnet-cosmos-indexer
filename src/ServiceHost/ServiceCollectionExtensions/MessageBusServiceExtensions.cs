@@ -1,9 +1,8 @@
 using MassTransit;
-using Pylonboard.Infrastructure.Consumers.Terra;
-using Pylonboard.Kernel.Config;
-using Pylonboard.ServiceHost.Config;
+using SapientFi.Kernel.Config;
+using SapientFi.ServiceHost.Config;
 
-namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
+namespace SapientFi.ServiceHost.ServiceCollectionExtensions;
 
 public static class MessageBusServiceExtensions
 {
@@ -27,14 +26,16 @@ public static class MessageBusServiceExtensions
 
             if (enabledServiceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
             {
+                /*
                 x.AddConsumers(
                     typeof(MineStakingTransactionConsumer).Assembly
                 );
+                //*/
             }
                 
             x.UsingRabbitMq((context, cfg) =>
             {
-                var config = new PylonboardConfig(configuration);
+                var config = new CosmosIndexerConfig(configuration);
 
                 cfg.Host(new Uri((config as IMessageTransportConfig).TransportUri));
 

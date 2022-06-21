@@ -12,30 +12,30 @@ public record TerraTxWrapper
     /// <summary>
     /// Id of the chain it was performed on 
     /// </summary>
-    public string ChainId { get; set; }
+    public string ChainId { get; set; } = string.Empty;
 
     /// <summary>
     /// A generic transaction carrier 
     /// </summary>
-    public TerraTxGeneric Tx { get; set; }
+    public TerraTxGeneric Tx { get; set; } = new();
 
     /// <summary>
     /// Block height at which this transaction happened
     /// </summary>
     [JsonPropertyName("height")]
-    public string Height { get; set; }
+    public string Height { get; set; } = string.Empty;
         
     /// <summary>
     /// Transaction hash
     /// </summary>
     [JsonPropertyName("txhash")]
-    public string TransactionHash { get; set; }
+    public string TransactionHash { get; set; } = string.Empty;
         
     [JsonPropertyName("gas_used")]
-    public string GasUsed { get; set; }
+    public string GasUsed { get; set; } = string.Empty;
         
     [JsonPropertyName("gas_wanted")]
-    public string GasWanted { get; set; }
+    public string GasWanted { get; set; } = string.Empty;
         
     [JsonPropertyName("timestamp")]
     public DateTimeOffset CreatedAt { get; set; }
@@ -47,5 +47,5 @@ public record TerraTxWrapper
     public int Code { get; set; }
 
     [JsonPropertyName("logs")]
-    public List<TxLog> Logs { get; set; }
+    public List<TxLog> Logs { get; set; } = new();
 }

@@ -7,10 +7,10 @@ namespace TerraDotnet.TerraFcd.Messages;
 public record TerraStringAmount
 {
     [JsonPropertyName("denom")]
-    public string Denominator { get; set; }
+    public string Denominator { get; set; } = string.Empty;
         
     [JsonPropertyName("amount")]
-    public string Amount { get; set; }
+    public string Amount { get; set; } = string.Empty;
 
     public WasmExecuteMessageAsset ToWasmExecuteMessageAsset()
     {

@@ -5,6 +5,6 @@ namespace TerraDotnet.TerraLcd.Messages;
 public record TerraBlock
 {
     [JsonPropertyName("header")]
-    public TerraBlockHeader Header { get; set; }
-    
+    public TerraBlockHeader Header { get; set; } = new();
+
 }

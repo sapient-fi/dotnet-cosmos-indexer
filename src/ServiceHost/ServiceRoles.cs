@@ -1,4 +1,5 @@
-namespace Pylonboard.ServiceHost;
+// ReSharper disable InconsistentNaming
+namespace SapientFi.ServiceHost;
 
 public static class ServiceRoles
 {

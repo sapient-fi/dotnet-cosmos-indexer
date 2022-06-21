@@ -1,4 +1,4 @@
-namespace Pylonboard.Kernel.Contracts.Exchanges;
+namespace SapientFi.Kernel.Contracts.Exchanges;
 
 public class GetExchangeRateResult
 {

@@ -2,12 +2,12 @@ using Hangfire;
 using Hangfire.InMemory;
 using Medallion.Threading;
 using Medallion.Threading.Postgres;
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra;
-using Pylonboard.Kernel.Config;
-using Pylonboard.ServiceHost.Config;
-using Pylonboard.ServiceHost.RecurringJobs;
+using SapientFi.Infrastructure.Oracles.ExchangeRates.Terra;
+using SapientFi.Kernel.Config;
+using SapientFi.ServiceHost.Config;
+using SapientFi.ServiceHost.RecurringJobs;
 
-namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
+namespace SapientFi.ServiceHost.ServiceCollectionExtensions;
 
 public static class BackgroundJobServiceCollectionExtension
 {
@@ -31,16 +31,14 @@ public static class BackgroundJobServiceCollectionExtension
         // Add our jobs
         services.AddTransient<TerraExchangeRateOracle>();
         services.AddTransient<TerraMoneyRefreshJob>();
-        services.AddSingleton<PsiPoolArbJob>();
         services.AddTransient<MaterializedViewRefresherJob>();
         services.AddTransient<FxRateDownloadJob>();
-        services.AddTransient<TerraBpsiDpLiquidityPoolTradesRefreshJob>();
 
         services.AddTransient<CronjobManager>();
         services.AddTransient<RecurringJobManager>();
 
         services.AddSingleton<IDistributedLockProvider>(_ =>
-            new PostgresDistributedSynchronizationProvider((new PylonboardConfig(configuration) as IDbConfig)
+            new PostgresDistributedSynchronizationProvider((new CosmosIndexerConfig(configuration) as IDbConfig)
                 .ConnectionString));
 
         return services;

@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyName>Pylonboard.ServiceHost</AssemblyName>
-    <RootNamespace>Pylonboard.ServiceHost</RootNamespace>
+    <AssemblyName>SapientFi.ServiceHost</AssemblyName>
+    <RootNamespace>SapientFi.ServiceHost</RootNamespace>
   <Version>0.18.0</Version></PropertyGroup>
 
   <ItemGroup>

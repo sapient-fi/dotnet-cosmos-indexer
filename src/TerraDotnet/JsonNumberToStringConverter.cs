@@ -20,14 +20,14 @@ public class JsonNumberToStringConverter : JsonConverter<string>
 
         if (reader.TokenType == JsonTokenType.String)
         {
-            return reader.GetString();
+            return reader.GetString()!;
         }
 
-        throw new System.Text.Json.JsonException();
+        throw new JsonException();
     }
 
     public override void Write(Utf8JsonWriter writer, string value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString());
+        writer.WriteStringValue(value);
     }
 }

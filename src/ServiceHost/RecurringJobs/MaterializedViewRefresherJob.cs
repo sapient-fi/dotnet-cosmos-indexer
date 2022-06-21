@@ -1,11 +1,9 @@
 using System.Data;
-using Pylonboard.Kernel.Config;
-using Pylonboard.Kernel.DAL.Entities.Terra.Views;
-using Pylonboard.ServiceHost.Config;
+using SapientFi.Kernel.Config;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Pylonboard.ServiceHost.RecurringJobs;
+namespace SapientFi.ServiceHost.RecurringJobs;
 
 public class MaterializedViewRefresherJob
 {
@@ -28,7 +26,7 @@ public class MaterializedViewRefresherJob
     {
         if (!_serviceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
         {
-            _logger.LogInformation("Background worker role not active, not starting materialized view refrsher");
+            _logger.LogInformation("Background worker role not active, not starting materialized view refresher");
             return;
         }
         
@@ -38,10 +36,10 @@ public class MaterializedViewRefresherJob
         {
             db.SetCommandTimeout((int?)TimeSpan.FromMinutes(15).TotalSeconds);
 
-            await RefreshViewAsync<GatewayPoolDepositorRankingView>(stoppingToken, db);
-            await RefreshViewAsync<MineWalletStakeView>(stoppingToken, db);
-            await RefreshViewAsync<MineWalletStakePercentilesView>(stoppingToken, db);
-            await RefreshViewAsync<MyGatewayPoolsView>(stoppingToken, db);
+            // await RefreshViewAsync<GatewayPoolDepositorRankingView>(stoppingToken, db);
+            // await RefreshViewAsync<MineWalletStakeView>(stoppingToken, db);
+            // await RefreshViewAsync<MineWalletStakePercentilesView>(stoppingToken, db);
+            // await RefreshViewAsync<MyGatewayPoolsView>(stoppingToken, db);
         }
     }
 

@@ -3,7 +3,7 @@ using HotChocolate.Execution;
 using HotChocolate.Execution.Instrumentation;
 using HotChocolate.Resolvers;
 
-namespace Pylonboard.ServiceHost.Endpoints;
+namespace SapientFi.ServiceHost.Endpoints;
 
 public class NewRelicReportingDiagnosticEventListener : ExecutionDiagnosticEventListener
 {

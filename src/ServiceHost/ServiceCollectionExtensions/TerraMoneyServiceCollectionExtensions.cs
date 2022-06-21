@@ -1,29 +1,27 @@
-using Pylonboard.Infrastructure.Hosting.BackgroundWorkers;
-using Pylonboard.Infrastructure.Hosting.TerraDataFetchers;
-using Pylonboard.Infrastructure.Hosting.TerraDataFetchers.Internal.PylonPools;
-using Pylonboard.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
-using Pylonboard.Kernel.Config;
-using Pylonboard.Kernel.IdGeneration;
-using Pylonboard.ServiceHost.Config;
 using RapidCore.Locking;
 using Refit;
+using SapientFi.Infrastructure.Hosting.BackgroundWorkers;
+using SapientFi.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
+using SapientFi.Kernel.Config;
+using SapientFi.Kernel.IdGeneration;
+using SapientFi.ServiceHost.Config;
 using TerraDotnet;
 using TerraDotnet.TerraFcd;
 
-namespace Pylonboard.ServiceHost.ServiceCollectionExtensions;
+namespace SapientFi.ServiceHost.ServiceCollectionExtensions;
 
 public static class TerraMoneyServiceCollectionExtensions
 {
     public static IServiceCollection AddTerraMoney(this IServiceCollection services, IConfiguration configuration)
     {
-        var config = new PylonboardConfig(configuration);
+        var config = new CosmosIndexerConfig(configuration);
         services.AddSingleton<IEnabledServiceRolesConfig>(config);
         services.AddSingleton<IGatewayPoolsConfig>(config);
         services.AddSingleton<ICorsConfig>(config);
         services.AddSingleton<IFeatureConfig>(config);
 
-        services.AddSingleton<IDistributedAppLockProvider>(c => new NoopDistributedAppLockProvider());
-        services.AddSingleton<IdGenerator>(c => new IdGenerator(new IdGen.IdGenerator(0)));
+        services.AddSingleton<IDistributedAppLockProvider>(_ => new NoopDistributedAppLockProvider());
+        services.AddSingleton(_ => new IdProvider(new IdGen.IdGenerator(0)));
 
         services.AddRefitClient<ITerraMoneyFcdApiClient>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://fcd.terra.dev"));
@@ -37,12 +35,6 @@ public static class TerraMoneyServiceCollectionExtensions
         
         services.AddTransient<TerraTransactionEnumerator>();
 
-        services.AddTransient<MineBuybackDataFetcher>();
-        services.AddTransient<MineStakingDataFetcher>();
-        services.AddTransient<MineTreasuryDataFetcher>();
-
-        services.AddTransient<PylonPoolsDataFether>();
-        services.AddTransient<LowLevelPoolFetcher>();
         
         return services;
     }

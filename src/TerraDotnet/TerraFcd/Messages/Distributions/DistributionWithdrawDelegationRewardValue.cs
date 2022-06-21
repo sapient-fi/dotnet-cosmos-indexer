@@ -5,8 +5,8 @@ namespace TerraDotnet.TerraFcd.Messages.Distributions;
 public record DistributionWithdrawDelegationRewardValue
 {
     [JsonPropertyName("delegator_address")]
-    public string DelegatorAddress { get; set; }
+    public string DelegatorAddress { get; set; } = string.Empty;
 
     [JsonPropertyName("validator_address")]
-    public string ValidatorAddress { get; set; }
+    public string ValidatorAddress { get; set; } = string.Empty;
 }

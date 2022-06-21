@@ -41,9 +41,9 @@ CORECLR_PROFILER={36032161-FFC0-4B61-B559-F6C5D41BAE5A} \
 CORECLR_NEWRELIC_HOME=/usr/local/newrelic-netcore20-agent \
 CORECLR_PROFILER_PATH=/usr/local/newrelic-netcore20-agent/libNewRelicProfiler.so \
 NEW_RELIC_LICENSE_KEY=eu01xx1ac5c939b087f58a69276b7688d91dNRAL \
-NEW_RELIC_APP_NAME=Pylonboard-backend
+NEW_RELIC_APP_NAME=SapientFiCosmosIndexer-backend
 
 WORKDIR /app
 EXPOSE 5000/tcp
 
-CMD ["/app/Pylonboard.ServiceHost"]
+CMD ["/app/SapientFi.ServiceHost"]
