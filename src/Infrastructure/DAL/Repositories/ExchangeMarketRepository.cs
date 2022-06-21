@@ -1,10 +1,10 @@
 using Microsoft.Extensions.Logging;
-using Sapient.Kernel;
-using Sapient.Kernel.DAL.Entities.Exchanges;
+using SapientFi.Kernel;
+using SapientFi.Kernel.DAL.Entities.Exchanges;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Sapient.Infrastructure.DAL.Repositories;
+namespace SapientFi.Infrastructure.DAL.Repositories;
 
 public class ExchangeMarketRepository
 {

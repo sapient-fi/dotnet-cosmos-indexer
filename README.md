@@ -1,6 +1,6 @@
-# Terra v2 data indexer
+# Cosmos data indexer
 
-Ths repository contains a Terra v2 block and transaction indexer
+Ths repository contains a Cosmos block and transaction indexer.
 
 ## Getting started
 
@@ -30,7 +30,7 @@ as [Common web application architectures](https://docs.microsoft.com/en-us/dotne
 by Microsoft.
 
 - **terra dotnet**
-   - To be separate repository down the road with everything related to parsing Terra transactions / messages
+    - To be separate repository down the road with everything related to parsing Terra transactions / messages
 
 - **Kernel types**
     - Entities (business model classes that are persisted)
@@ -49,7 +49,7 @@ by Microsoft.
     - MassTransit Consumers
     - Terra data fetchers
     - API integrations
-    
+
 - **ServiceHost types**
     - GraphQL resolvers/mutations and types
     - MassTransit configuration

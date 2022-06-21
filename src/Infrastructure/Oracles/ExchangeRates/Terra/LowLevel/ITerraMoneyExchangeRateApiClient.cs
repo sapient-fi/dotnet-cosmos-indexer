@@ -1,7 +1,7 @@
 using Refit;
 using TerraDotnet;
 
-namespace Sapient.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
+namespace SapientFi.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
 
 public interface ITerraMoneyExchangeRateApiClient
 {

@@ -1,17 +1,11 @@
 using System.Diagnostics;
 using NewRelic.Api.Agent;
-using Sapient.Infrastructure.Hosting.BackgroundWorkers;
-using Sapient.Kernel.Config;
-using Sapient.ServiceHost.Endpoints;
-using Sapient.ServiceHost.Endpoints.GatewayPoolStats;
-using Sapient.ServiceHost.Endpoints.GatewayPoolStats.Types;
-using Sapient.ServiceHost.Endpoints.MineRankings;
-using Sapient.ServiceHost.Endpoints.MineStakingStats;
-using Sapient.ServiceHost.Endpoints.MineTreasury;
-using Sapient.ServiceHost.Endpoints.MineWalletStats;
+using SapientFi.Infrastructure.Hosting.BackgroundWorkers;
+using SapientFi.Kernel.Config;
+using SapientFi.ServiceHost.Endpoints;
 using ServiceStack.Caching;
 
-namespace Sapient.ServiceHost;
+namespace SapientFi.ServiceHost;
 
 public class CacheRefresherServiceWorker : IScopedBackgroundServiceWorker
 {
@@ -51,28 +45,8 @@ public class CacheRefresherServiceWorker : IScopedBackgroundServiceWorker
                 var gql = new Query();
                 var cacheClient = services.GetRequiredService<ICacheClient>();
 
-                await gql.GetGatewayPoolTotalValues(services.GetRequiredService<GatewayPoolStatsService>(),
-                    cacheClient,
-                    stoppingToken);
-                await gql.GetMineRankings(services.GetRequiredService<MineRankingService>(), cacheClient,
-                    stoppingToken);
-                await gql.GetMineTreasury(services.GetRequiredService<MineTreasuryService>(), cacheClient,
-                    stoppingToken);
-                foreach (var pool in (GatewayPoolIdentifier[])Enum.GetValues(typeof(GatewayPoolIdentifier)))
-                {
-                    await gql.GetGatewayPoolStats(pool, services.GetRequiredService<GatewayPoolStatsService>(),
-                        cacheClient, stoppingToken);
-                    await gql.GetGatewayPoolMineRanking(pool,
-                        services.GetRequiredService<GatewayPoolStatsService>(),
-                        cacheClient, stoppingToken);
-                    await gql.GetGatewayPoolMineStakingStats(0, 10, "", pool,
-                        services.GetRequiredService<GatewayPoolStatsService>(), cacheClient, stoppingToken);
-                }
-
-                await gql.GetMineStakingStats(services.GetRequiredService<MineStakingStatsService>(), cacheClient,
-                    stoppingToken);
-                await gql.GetMineWalletStats(0, 10, "", cacheClient,
-                    services.GetRequiredService<MineWalletStatsService>());
+                // TODO run GQL queries here that should be hydrated in the cache
+                
                 stopWatch.Stop();
                 
                 _logger.LogInformation("Background refresh of caches complete");

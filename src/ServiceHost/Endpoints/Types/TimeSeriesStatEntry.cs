@@ -1,4 +1,4 @@
-namespace Sapient.ServiceHost.Endpoints.Types;
+namespace SapientFi.ServiceHost.Endpoints.Types;
 
 public class TimeSeriesStatEntry
 {

@@ -1,4 +1,4 @@
-namespace Sapient.Kernel.Config;
+namespace SapientFi.Kernel.Config;
 
 public interface IGatewayPoolsConfig
 {

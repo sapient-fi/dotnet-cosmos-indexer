@@ -1,4 +1,4 @@
-namespace Sapient.Infrastructure.Hosting.BackgroundWorkers;
+namespace SapientFi.Infrastructure.Hosting.BackgroundWorkers;
 
 public interface IScopedBackgroundServiceWorker
 {

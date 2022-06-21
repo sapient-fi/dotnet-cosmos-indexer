@@ -1,26 +1,22 @@
-using Microsoft.Extensions.Logging;
-using Sapient.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
+using SapientFi.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
 using ServiceStack;
 using ServiceStack.Data;
 using TerraDotnet;
 
-namespace Sapient.Infrastructure.Oracles.ExchangeRates.Terra;
+namespace SapientFi.Infrastructure.Oracles.ExchangeRates.Terra;
 
 public class TerraExchangeRateOracle
 {
     private readonly ITerraMoneyExchangeRateApiClient _exchangeRateApiClient;
     private readonly IDbConnectionFactory _connectionFactory;
-    private readonly ILogger<TerraExchangeRateOracle> _logger;
 
     public TerraExchangeRateOracle(
         ITerraMoneyExchangeRateApiClient exchangeRateApiClient,
-        IDbConnectionFactory connectionFactory,
-        ILogger<TerraExchangeRateOracle> logger
+        IDbConnectionFactory connectionFactory
     )
     {
         _exchangeRateApiClient = exchangeRateApiClient;
         _connectionFactory = connectionFactory;
-        _logger = logger;
     }
 
     /// <summary>
@@ -59,7 +55,6 @@ public class TerraExchangeRateOracle
             TerraDenominators.Apollo => "terra1xj2w7w8mx6m2nueczgsxy2gnmujwejjeu2xf78",
             TerraDenominators.bEth => "terra1c0afrdc5253tkp5wt7rxhuj42xwyf2lcre0s7c",
             TerraDenominators.nEth => "terra1c0afrdc5253tkp5wt7rxhuj42xwyf2lcre0s7c", // Lookup nEth as bEth as it's basically the same
-            "bPsiDP" => "terra167gwjhv4mrs0fqj0q5tejyl6cz6qc2cl95z530",
             TerraDenominators.Glow => "terra1p44kn7l233p7gcj0v3mzury8k7cwf4zt6gsxs5",
             TerraDenominators.Whale => "terra1v4kpj65uq63m4x0mqzntzm27ecpactt42nyp5c",
             TerraDenominators.Sayve => "terra1k8lvj3w7dxzd6zlyptcj086gfwms422xkqjmzx",
@@ -83,8 +78,13 @@ public class TerraExchangeRateOracle
             interval
         );
 
-        var first = response.Content.First();
+        var first = response.Content?.First();
 
+        if (first == default)
+        {
+            throw new InvalidOperationException("Response did not contain an exchange rate");
+        }
+        
         if (first.Close <= 0.0001m)
         {
             first.Close *= 1_000_000m;

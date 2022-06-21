@@ -1,6 +1,6 @@
 using ServiceStack.DataAnnotations;
 
-namespace Sapient.Kernel.DAL.Entities.Terra;
+namespace SapientFi.Kernel.DAL.Entities.Terra;
 
 public class TerraRawTransactionEntity
 {
@@ -10,8 +10,8 @@ public class TerraRawTransactionEntity
     public DateTimeOffset CreatedAt { get; set; }
         
     [Unique]
-    public string TxHash { get; set; }
+    public string TxHash { get; set; } = string.Empty;
 
     [PgSqlJsonB]
-    public string RawTx { get; set; }
+    public string RawTx { get; set; } = string.Empty;
 }

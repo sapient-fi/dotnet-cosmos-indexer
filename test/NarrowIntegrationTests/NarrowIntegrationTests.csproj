@@ -25,4 +25,8 @@
       <ProjectReference Include="..\..\src\ServiceHost\ServiceHost.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Endpoints" />
+    </ItemGroup>
+
 </Project>

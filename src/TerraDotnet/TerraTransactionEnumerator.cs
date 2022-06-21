@@ -35,7 +35,7 @@ public class TerraTransactionEnumerator
         var response = await Policy
             .Handle<ApiException>(exception => exception.StatusCode == HttpStatusCode.TooManyRequests)
             .WaitAndRetryAsync(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
-                (exception, span) =>
+                (_, span) =>
                 {
                     _logger.LogWarning("Handling retry while enumerating Terra Transactions, waiting {Time:c}", span);
                 })
@@ -89,7 +89,7 @@ public class TerraTransactionEnumerator
 
             Policy.Handle<ApiException>(exception => exception.StatusCode == HttpStatusCode.TooManyRequests)
                 .WaitAndRetry(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
-                    (exception, span) =>
+                    (_, span) =>
                     {
                         _logger.LogWarning("Handling retry while enumerating Terra Transactions, waiting {Time:c}", span);
                         nextTxes = listTxesAsync();

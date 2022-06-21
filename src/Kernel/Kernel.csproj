@@ -4,8 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyName>Sapient.Kernel</AssemblyName>
-    <RootNamespace>Sapient.Kernel</RootNamespace>
+    <AssemblyName>SapientFi.Kernel</AssemblyName>
+    <RootNamespace>SapientFi.Kernel</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,5 +18,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TerraDotnet\TerraDotnet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\Terra" />
   </ItemGroup>
 </Project>

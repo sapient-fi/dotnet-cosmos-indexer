@@ -7,10 +7,10 @@ public class TerraTxGeneric
     /// <summary>
     /// The type of the transaction - contains valuable information on how the parse the <see cref="Value"/>
     /// </summary>
-    public string Type { get; set; }
+    public string Type { get; set; } = string.Empty;
 
     /// <summary>
     /// Generic blobbed storage to carry arbitrary 
     /// </summary>
-    public Dictionary<string, JsonElement> Value { get; set; }
+    public Dictionary<string, JsonElement> Value { get; set; } = new();
 }

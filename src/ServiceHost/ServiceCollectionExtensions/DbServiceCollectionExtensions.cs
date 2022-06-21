@@ -1,16 +1,16 @@
 using System.Reflection;
-using Pylonboard.ServiceHost.DAL.Migrations;
 using RapidCore.DependencyInjection;
 using RapidCore.Migration;
 using RapidCore.PostgreSql.Migration;
-using Sapient.Infrastructure.DAL;
-using Sapient.Infrastructure.DAL.Repositories;
-using Sapient.Kernel.Config;
-using Sapient.ServiceHost.Config;
+using SapientFi.Infrastructure.DAL;
+using SapientFi.Infrastructure.DAL.Migrations;
+using SapientFi.Infrastructure.DAL.Repositories;
+using SapientFi.Kernel.Config;
+using SapientFi.ServiceHost.Config;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
-namespace Sapient.ServiceHost.ServiceCollectionExtensions;
+namespace SapientFi.ServiceHost.ServiceCollectionExtensions;
 
 public static class DbServiceCollectionExtensions
 {
@@ -22,10 +22,9 @@ public static class DbServiceCollectionExtensions
 
         AddPostgresMigrationRunner(services, new[]
         {
-            typeof(Migration_20211019_201600_TerraMoneyMine).Assembly,
+            typeof(MigrationsAssemblyMarker).Assembly,
         });
 
-        services.AddTransient<DbConnectionHealthCheck>();
         services.AddTransient<ExchangeMarketRepository>();
         return services;
     }
@@ -97,7 +96,7 @@ public static class DbServiceCollectionExtensions
         services.AddSingleton<IMigrationContextFactory, PostgreSqlMigrationContextFactory>();
         services.AddSingleton<IMigrationFinder>(new ReflectionMigrationFinder(assemblies));
         services.AddSingleton<IMigrationStorage, PostgreSqlMigrationStorage>();
-        services.AddSingleton<MigrationRunner, PylonboardMigrationRunner>();
+        services.AddSingleton<MigrationRunner, CosmosIndexerMigrationRunner>();
         services.AddSingleton<IRapidContainerAdapter, ServiceProviderRapidContainerAdapter>();
 
         return services;
@@ -105,7 +104,7 @@ public static class DbServiceCollectionExtensions
 
     private static void AddConfig(IServiceCollection services, IConfiguration configuration)
     {
-        var config = new PylonboardConfig(configuration);
+        var config = new CosmosIndexerConfig(configuration);
         services.AddSingleton<IDbConfig>(config);
     }
 }

@@ -5,18 +5,15 @@ using Refit;
 using TerraDotnet;
 using TerraDotnet.TerraFcd;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace NarrowIntegrationTests.Oracles.TerraLcdClient
 {
     public class TerraMoneyFcdApiClientTests
     {
-        private readonly ITestOutputHelper _testOutputHelper;
         private readonly ITerraMoneyFcdApiClient _client;
 
-        public TerraMoneyFcdApiClientTests(ITestOutputHelper testOutputHelper)
+        public TerraMoneyFcdApiClientTests()
         {
-            _testOutputHelper = testOutputHelper;
             _client = RestService.For<ITerraMoneyFcdApiClient>(
                 new HttpClient(new HttpClientHandler
                 {

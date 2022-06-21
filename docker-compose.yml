@@ -8,9 +8,9 @@ services:
     ports:
       - "35432:5432"
     environment:
-      POSTGRES_USER: "pylonboard_user"
-      POSTGRES_PASSWORD: "pylonboard_user_pass"
-      POSTGRES_MULTIPLE_DATABASES: pylonboard
+      POSTGRES_USER: "sapientfi_indexer_user"
+      POSTGRES_PASSWORD: "sapientfi_indexer_user_pass"
+      POSTGRES_MULTIPLE_DATABASES: sapientfi_indexer
     volumes:
       - .docker/postgres/init:/docker-entrypoint-initdb.d
       - .docker/postgres/data:/var/lib/postgresql/data

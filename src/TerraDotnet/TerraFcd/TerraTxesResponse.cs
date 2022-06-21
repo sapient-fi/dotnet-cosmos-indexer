@@ -17,5 +17,5 @@ public record TerraTxesResponse
     /// <summary>
     /// The list of txes returned 
     /// </summary>
-    public List<TerraTxWrapper> Txs { get; set; }
+    public List<TerraTxWrapper> Txs { get; set; } = new();
 }

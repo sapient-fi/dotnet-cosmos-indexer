@@ -1,4 +1,8 @@
+// ReSharper disable InconsistentNaming
+// ReSharper disable IdentifierTypo
 namespace TerraDotnet;
+
+// TODO update address
 
 public static class TerraTokenContracts
 {

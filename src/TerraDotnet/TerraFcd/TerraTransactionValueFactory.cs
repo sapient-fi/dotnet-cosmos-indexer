@@ -17,7 +17,7 @@ public static class TerraTransactionValueFactory
                 Messages = tx.Tx.Value.FromCoreStdTxMessage("msg", tx.ChainId, tx.TransactionHash),
                 Logs = tx.Logs,
             },
-            _ => throw new ArgumentOutOfRangeException("type", $"Unable to handle tx type: {tx.Tx.Type}"),
+            _ => throw new ArgumentOutOfRangeException(nameof(tx.Tx.Type), $"Unable to handle tx type: {tx.Tx.Type}"),
         };
     }
 }

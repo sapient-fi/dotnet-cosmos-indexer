@@ -1,4 +1,4 @@
-namespace Sapient.Kernel;
+namespace SapientFi.Kernel;
 
 public enum Exchange
 {

@@ -1,4 +1,4 @@
-namespace Sapient.Kernel.Contracts.Exchanges;
+namespace SapientFi.Kernel.Contracts.Exchanges;
 
 public record GetLatestExchangeRateResult
 {

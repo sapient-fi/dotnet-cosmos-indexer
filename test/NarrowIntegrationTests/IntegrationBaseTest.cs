@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Sapient.ServiceHost.ServiceCollectionExtensions;
+using SapientFi.ServiceHost.ServiceCollectionExtensions;
 
 namespace NarrowIntegrationTests;
 
@@ -10,7 +10,7 @@ public abstract class IntegrationBaseTest : IDisposable
     protected readonly ServiceProvider ServiceProvider;
     protected readonly IServiceScope Scope;
 
-    public IntegrationBaseTest()
+    protected IntegrationBaseTest()
     {
         var serviceCollection = new ServiceCollection();
         
@@ -22,6 +22,7 @@ public abstract class IntegrationBaseTest : IDisposable
         serviceCollection.AddDbStack(configBuilder.Build());
         serviceCollection.AddEndpointServices();
         
+        // ReSharper disable once VirtualMemberCallInConstructor
         AddServices(serviceCollection);
         
         ServiceProvider = serviceCollection.BuildServiceProvider();

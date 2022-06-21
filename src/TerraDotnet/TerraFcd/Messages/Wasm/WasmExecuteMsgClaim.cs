@@ -8,5 +8,5 @@ public record WasmExecuteMsgClaim
     public int Stage { get; set; }
 
     [JsonPropertyName("amount")]
-    public string Amount { get; set; }
+    public string Amount { get; set; } = string.Empty;
 }

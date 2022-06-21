@@ -1,7 +1,7 @@
 using MassTransit;
-using Sapient.Kernel.Contracts.Exchanges;
+using SapientFi.Kernel.Contracts.Exchanges;
 
-namespace Sapient.ServiceHost.Endpoints.FxRates;
+namespace SapientFi.ServiceHost.Endpoints.FxRates;
 
 public class FxRatesService
 {

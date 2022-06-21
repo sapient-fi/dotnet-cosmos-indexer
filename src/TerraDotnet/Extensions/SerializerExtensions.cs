@@ -25,7 +25,7 @@ public static class SerializerExtensions
     };
 
     
-    public static T ToObject<T>(this JsonElement element)
+    public static T? ToObject<T>(this JsonElement element)
     {
         var json = element.GetRawText();
         if (json.IsBase64String())
@@ -36,13 +36,13 @@ public static class SerializerExtensions
         return JsonSerializer.Deserialize<T>(json, Options);
     }
 
-    public static T ToObject<T>(this JsonDocument document)
+    public static T? ToObject<T>(this JsonDocument document)
     {
         var json = document.RootElement.GetRawText();
         return JsonSerializer.Deserialize<T>(json, Options);
     }
 
-    public static T ToObject<T>(this Dictionary<string, JsonElement> dict, string key)
+    public static T? ToObject<T>(this Dictionary<string, JsonElement>? dict, string key)
     {
         if (dict == null)
         {
@@ -72,7 +72,7 @@ public static class SerializerExtensions
         return JsonSerializer.Deserialize<T>(Convert.FromBase64String(base64StringMessage), Options);
     }
     
-    public static List<IMsg> FromCoreStdTxMessage(this Dictionary<string, JsonElement> dict,
+    public static List<IMsg>? FromCoreStdTxMessage(this Dictionary<string, JsonElement>? dict,
         string key,
         string chainId, 
         string txTransactionHash

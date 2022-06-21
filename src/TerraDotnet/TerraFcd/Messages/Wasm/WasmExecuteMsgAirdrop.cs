@@ -5,5 +5,5 @@ namespace TerraDotnet.TerraFcd.Messages.Wasm;
 public record WasmExecuteMsgAirdrop
 {
     [JsonPropertyName("claim")]
-    public WasmExecuteMsgAirdropClaim Claim { get; set; }
+    public WasmExecuteMsgAirdropClaim Claim { get; set; } = new();
 }
