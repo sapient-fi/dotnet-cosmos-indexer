@@ -1,6 +1,8 @@
 using SapientFi.Infrastructure.Terra2.Storage;
 using SapientFi.Kernel.IdGeneration;
+using TerraDotnet;
 using TerraDotnet.TerraLcd.Messages;
+using System.Text.Json;
 
 namespace SapientFi.Infrastructure.Terra2;
 
@@ -15,13 +17,13 @@ public class Terra2Factory
 
     public virtual Terra2RawTransactionEntity NewRawEntity(LcdTxResponse lcdTransaction)
     {
-        return new Terra2RawTransactionEntity
+        return new()
         {
             Id = _idProvider.Snowflake(),
             Height = lcdTransaction.HeightAsInt,
             CreatedAt = lcdTransaction.CreatedAt,
             TxHash = lcdTransaction.TransactionHash,
-            RawTx = lcdTransaction
+            RawTx = JsonSerializer.Serialize(lcdTransaction, TerraJsonSerializerOptions.GetThem())
         };
     }
 }

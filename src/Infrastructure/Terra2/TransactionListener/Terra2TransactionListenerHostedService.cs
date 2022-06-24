@@ -1,6 +1,8 @@
+using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
+using SapientFi.Infrastructure.Terra2.BusMessages;
 using SapientFi.Infrastructure.Terra2.Storage;
 using TerraDotnet;
 
@@ -12,6 +14,7 @@ public class Terra2TransactionListenerHostedService : IHostedService
     private readonly TerraTransactionEnumerator _transactionEnumerator;
     private readonly Terra2RawRepository _rawRepository;
     private readonly Terra2Factory _factory;
+    private readonly IBus _massTransitBus;
 
     private CancellationTokenSource? _tokenSource;
 
@@ -19,13 +22,15 @@ public class Terra2TransactionListenerHostedService : IHostedService
         ILogger<Terra2TransactionListenerHostedService> logger,
         TerraTransactionEnumerator transactionEnumerator,
         Terra2RawRepository rawRepository,
-        Terra2Factory factory
+        Terra2Factory factory, 
+        IBus massTransitBus
     )
     {
         _logger = logger;
         _transactionEnumerator = transactionEnumerator;
         _rawRepository = rawRepository;
         _factory = factory;
+        _massTransitBus = massTransitBus;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -40,14 +45,19 @@ public class Terra2TransactionListenerHostedService : IHostedService
         await foreach (var lcdTransaction in enumeration.WithCancellation(cancellationToken))
         {
             _logger.LogDebug("Got new raw transaction {TxHash} with height={TxHeight}", lcdTransaction.TransactionHash, lcdTransaction.HeightAsInt);
-            
+
             var entity = _factory.NewRawEntity(lcdTransaction);
 
             try
             {
                 await _rawRepository.SaveRawTransactionAsync(entity, cancellationToken);
-                
-                // TODO announce the new raw transaction on the bus
+
+                await _massTransitBus.Publish(
+                    new RawTerra2TransactionAvailableAnnouncement
+                    {
+                        TransactionHash = entity.TxHash,
+                        RawEntityId = entity.Id
+                    }, cancellationToken);
             }
             catch (PostgresException e) when (e.SqlState == PostgresErrorCodes.UniqueViolation)
             {

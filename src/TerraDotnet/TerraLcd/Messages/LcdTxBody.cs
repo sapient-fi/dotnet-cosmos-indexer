@@ -1,10 +1,12 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace TerraDotnet.TerraLcd.Messages;
 
 public record LcdTxBody
 {
-    public List<LcdMessageGeneric> Messages { get; set; } = new();
+    [JsonPropertyName("messages")]
+    public List<Dictionary<string, JsonElement>> Messages { get; set; } = new();
 
     public string Memo { get; set; } = string.Empty;
 

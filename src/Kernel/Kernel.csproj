@@ -21,6 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Terra" />
+    <Compile Remove="Contracts\Terra\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Contracts\Terra\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Contracts\Terra\**" />
   </ItemGroup>
 </Project>

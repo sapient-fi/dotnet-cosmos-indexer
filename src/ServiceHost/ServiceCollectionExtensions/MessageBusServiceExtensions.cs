@@ -1,4 +1,5 @@
 using MassTransit;
+using SapientFi.Infrastructure;
 using SapientFi.Kernel.Config;
 using SapientFi.ServiceHost.Config;
 
@@ -17,20 +18,21 @@ public static class MessageBusServiceExtensions
             // Check this out: https://masstransit-project.com/usage/containers/#consumer-definition
             // Add all consumers in the specified assembly
                 
+            /*
+             // TODO this seems weird... why would the API listen to the bus?
             if (enabledServiceRolesConfig.IsRoleEnabled(ServiceRoles.API))
             {
                 x.AddConsumers(
                     typeof(MessageBusServiceExtensions).Assembly
                 );
             }
+            //*/
 
             if (enabledServiceRolesConfig.IsRoleEnabled(ServiceRoles.BACKGROUND_WORKER))
             {
-                /*
                 x.AddConsumers(
-                    typeof(MineStakingTransactionConsumer).Assembly
+                    typeof(InfrastructureAssemblyMarker).Assembly
                 );
-                //*/
             }
                 
             x.UsingRabbitMq((context, cfg) =>
