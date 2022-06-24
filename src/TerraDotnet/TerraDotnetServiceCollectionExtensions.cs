@@ -10,6 +10,7 @@ public static class TerraDotnetServiceCollectionExtensions
     {
         services.AddTransient<TerraTransactionEnumerator>();
         services.InternalAddLcdClient();
+        services.AddTransient<TerraMessageParser>();
         
         
         return services;

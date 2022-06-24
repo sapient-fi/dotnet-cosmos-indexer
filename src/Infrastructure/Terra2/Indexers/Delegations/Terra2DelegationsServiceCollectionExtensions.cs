@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using SapientFi.Infrastructure.Indexing;
+using SapientFi.Infrastructure.Terra2.Indexers.Delegations.Storage;
 
 namespace SapientFi.Infrastructure.Terra2.Indexers.Delegations;
 
@@ -7,7 +7,8 @@ public static class Terra2DelegationsServiceCollectionExtensions
 {
     public static IServiceCollection AddTerra2DelegationsIndexer(this IServiceCollection services)
     {
-        services.AddTransient<IIndexer, Terra2DelegationsIndexer>();
+        services.AddTransient<Terra2DelegationsIndexer>();
+        services.AddTransient<Terra2DelegationsRepository>();
         
         return services;
     }

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace TerraDotnet;
 
 public record TerraAmount
@@ -12,7 +14,9 @@ public record TerraAmount
 
     public decimal Divisor { get; }
 
+    [JsonPropertyName("amount")]
     public decimal Value { get; }
-        
+
+    [JsonPropertyName("denom")]
     public string Denominator { get; set; }
 }

@@ -31,7 +31,7 @@ public class TerraTransactionEnumeratorTests
     {
         var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
         
-        var enumeration = _transactionEnumerator.EnumerateTransactionsAsync(999999999, tokenSource.Token);
+        var enumeration = _transactionEnumerator.EnumerateTransactionsAsync(0, tokenSource.Token);
 
         await foreach (var response in enumeration.WithCancellation(tokenSource.Token))
         {

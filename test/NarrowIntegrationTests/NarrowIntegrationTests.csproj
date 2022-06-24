@@ -25,4 +25,13 @@
       <ProjectReference Include="..\..\src\ServiceHost\ServiceHost.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="TerraDotnet\GetTransactionsMatchingQueryResponse_01.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+        <None Update="TerraDotnet\GetTransactionsMatchingQueryResponse_02.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>

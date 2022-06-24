@@ -14,7 +14,7 @@ public class Terra2RawTransactionEntity
     public string TxHash { get; set; } = string.Empty;
 
     [PgSqlJsonB]
-    public LcdTxResponse RawTx { get; set; } = new();
+    public string RawTx { get; set; } = string.Empty;
     
     [Index]
     public int Height { get; set; }

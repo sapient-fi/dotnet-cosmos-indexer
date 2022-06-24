@@ -4,7 +4,7 @@ namespace TerraDotnet.TerraLcd.Messages;
 
 public record LcdTxResponse
 {
-    public string Height { get; set; }
+    public string Height { get; set; } = string.Empty;
 
     public int HeightAsInt => int.Parse(Height);
 
@@ -13,13 +13,13 @@ public record LcdTxResponse
 
     [JsonPropertyName("codespace")]
     public string CodeSpace { get; set; } = string.Empty;
-    
+
     public int Code { get; set; }
     
-    public string Data { get; set; }
+    public string Data { get; set; } = string.Empty;
     
     [JsonPropertyName("raw_log")]
-    public string RawLog { get; set; }
+    public string RawLog { get; set; } = string.Empty;
     
     public List<LcdTxResponseLog> Logs { get; set; }
 
