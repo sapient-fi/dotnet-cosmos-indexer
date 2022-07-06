@@ -23,9 +23,6 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddSingleton<IDistributedAppLockProvider>(_ => new NoopDistributedAppLockProvider());
         services.AddSingleton(_ => new IdProvider(new IdGen.IdGenerator(0)));
 
-        services.AddRefitClient<ITerraMoneyFcdApiClient>()
-            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://fcd.terra.dev"));
-
         services.AddRefitClient<ITerraMoneyExchangeRateApiClient>()
             .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.coinhall.org"));
         

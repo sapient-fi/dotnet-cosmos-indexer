@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using TerraDotnet.Extensions;
 using TerraDotnet.TerraFcd.Messages;
 using TerraDotnet.TerraLcd.Messages;
@@ -64,12 +63,4 @@ public class TerraMessageParser
 
         return parseStatus;
     }
-}
-
-public record CosmosAmount
-{
-    [JsonPropertyName("denom")]
-    public string Denominator { get; set; } = string.Empty;
-    [JsonPropertyName("amount")]
-    public string Amount { get; set; } = string.Empty;
 }

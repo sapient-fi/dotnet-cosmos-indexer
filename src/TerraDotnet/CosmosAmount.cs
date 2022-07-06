@@ -1,12 +1,11 @@
 using System.Text.Json.Serialization;
 
-namespace TerraDotnet.TerraFcd.Messages;
+namespace TerraDotnet;
 
-public record Coin
+public record CosmosAmount
 {
     [JsonPropertyName("denom")]
     public string Denominator { get; set; } = string.Empty;
-
     [JsonPropertyName("amount")]
     public string Amount { get; set; } = string.Empty;
 }

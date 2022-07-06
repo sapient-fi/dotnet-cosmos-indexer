@@ -115,8 +115,6 @@ public class TerraTransactionEnumerator
 
         public void Advance(LcdPagination pagination)
         {
-            //TODO Consider: should we check if we're at the end of the desired WindowBlockWidth?
-
             // did we reach the final page of this "block window"?
             if (IsFinalPage(pagination))
             {

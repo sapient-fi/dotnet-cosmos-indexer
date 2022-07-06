@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using SapientFi.Infrastructure.Terra2.Storage;
 using TerraDotnet;
@@ -129,37 +128,6 @@ public class GetTransactionsMatchingQueryResponseTests
         Assert.Equal("1932000000", parsedRedelegateMessage.Amount!.Amount);
         //*/
     }
-
-    // [Fact]
-    // public void AAAAAAAAAARGHH()
-    // {
-    //     const int ID = 3;
-    //
-    //     var actual = GetParsedJson();
-    //     
-    //     Assert.Equal(3, actual!.TransactionResponses.Count);
-    //     var tx = actual.TransactionResponses[0];
-    //
-    //     var txEntity = new Terra2RawTransactionEntity
-    //     {
-    //         Id = ID,
-    //         Height = tx.HeightAsInt,
-    //         CreatedAt = tx.CreatedAt,
-    //         TxHash = tx.TransactionHash,
-    //         RawTx = tx
-    //     };
-    //
-    //     var vut = txEntity.RawTx;
-    //
-    //     var msg = vut.Transaction.Body.Messages.First();
-    //     var parseStatusResult = TerraMessageParser.TryParse(msg, out var parsedMessage);
-    //     Assert.True(parseStatusResult);
-    //     Assert.NotNull(parsedMessage);
-    // }
-
-    
-    
-    
     
     [Fact]
     public void CanDeserialize_LcdTxResponse()

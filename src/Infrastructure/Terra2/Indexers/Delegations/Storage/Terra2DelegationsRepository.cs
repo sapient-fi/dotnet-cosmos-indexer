@@ -60,19 +60,4 @@ public class Terra2DelegationsRepository
     {
         return await _dbFactory.OpenDbConnectionAsync(cancellationToken);
     }
-    
-    /*/
-    public virtual async Task<IEnumerable<T>> QueryAsync<T>(string query, CancellationToken cancellationToken)
-    {
-        var db = await _dbFactory.OpenDbConnectionAsync(cancellationToken);
-        return await db.QueryAsync<T>(query);
-    }
-
-    public virtual async Task<T1> SingleAsync<T1, T2>(SqlExpression<T2> sqlExpression, CancellationToken cancellationToken = new())
-    {
-        var db = await _dbFactory.OpenDbConnectionAsync(cancellationToken);
-
-        return await db.SingleAsync<T1>(sqlExpression, cancellationToken);
-    }
-    ////*/
 }
