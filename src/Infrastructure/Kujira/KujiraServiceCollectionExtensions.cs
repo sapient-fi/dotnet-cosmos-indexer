@@ -18,7 +18,7 @@ public static class KujiraServiceCollectionExtensions
         services.AddKujiraDelegationsIndexer();
         services.AddTransient<KujiraTransactionListenerHostedService>();
         services.AddTransient<KujiraFactory>();
-        services.AddCosmosDotnet<KujiraMarker>("https://lcd.kaiyo.kujira.setten.io");
+        services.AddCosmosDotnet<KujiraMarker>("https://rest.kujira.ccvalidators.com:443");
 
         if (config.DoEnable)
         {
