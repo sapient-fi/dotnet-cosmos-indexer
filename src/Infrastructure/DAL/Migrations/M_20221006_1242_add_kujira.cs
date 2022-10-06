@@ -34,7 +34,7 @@ create table kujira_raw_transaction_entity
 create index idx_kujirarawtransactionentity_height
     on kujira_raw_transaction_entity (height);
 
-SELECT create_hypertable('kujira_raw_transaction_entity', 'created_at', chunk_time_interval => INTERVAL '1 day');
+SELECT create_hypertable('kujira_raw_transaction_entity', 'created_at', chunk_time_interval => INTERVAL '7 days');
 ");
         });
         
@@ -71,7 +71,7 @@ create index idx_kujiravalidatordelegationledgerentity_valaddr
 create index idx_kujiravalidatordelegationledgerentity_deladdr
     on kujira_validator_delegation_ledger_entity (delegator_address);
 
-SELECT create_hypertable('kujira_validator_delegation_ledger_entity', 'at', chunk_time_interval => INTERVAL '1 day');
+SELECT create_hypertable('kujira_validator_delegation_ledger_entity', 'at', chunk_time_interval => INTERVAL '7 days');
 ");
         });
     }
