@@ -46,7 +46,7 @@ public class CosmosTransactionEnumerator<T>
                 .WaitAndRetryAsync(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
                     (_, span) =>
                     {
-                        _logger.LogWarning("Handling retry while enumerating Terra Transactions, waiting {Time:c}", span);
+                        _logger.LogWarning("Handling retry while enumerating Cosmos Transactions, waiting {Time:c}", span);
                     }
                 )
                 .ExecuteAsync(
