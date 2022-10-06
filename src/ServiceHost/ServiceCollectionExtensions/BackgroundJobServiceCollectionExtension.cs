@@ -32,7 +32,6 @@ public static class BackgroundJobServiceCollectionExtension
         services.AddTransient<TerraExchangeRateOracle>();
         services.AddTransient<TerraMoneyRefreshJob>();
         services.AddTransient<MaterializedViewRefresherJob>();
-        services.AddTransient<FxRateDownloadJob>();
 
         services.AddTransient<CronjobManager>();
         services.AddTransient<RecurringJobManager>();
