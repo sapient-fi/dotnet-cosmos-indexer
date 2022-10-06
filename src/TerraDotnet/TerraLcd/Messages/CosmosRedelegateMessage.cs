@@ -3,7 +3,7 @@ using TerraDotnet.TerraFcd.Messages;
 
 namespace TerraDotnet.TerraLcd.Messages;
 
-public record Terra2RedelegateMessage : IMsg
+public record CosmosRedelegateMessage : IMsg
 {
     [JsonPropertyName("@type")]
     public string Type { get; set; } = string.Empty;

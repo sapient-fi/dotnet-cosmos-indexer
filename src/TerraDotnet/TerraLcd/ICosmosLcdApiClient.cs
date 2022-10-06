@@ -3,10 +3,10 @@ using TerraDotnet.TerraLcd.Messages;
 
 namespace TerraDotnet.TerraLcd;
 
-public interface ITerraMoneyLcdApiClient
+public interface ICosmosLcdApiClient<T> 
 {
     [Get("/blocks/latest")]
-    public Task<ApiResponse<TerraBlockResponse>> GetLatestBlockAsync();
+    public Task<ApiResponse<CosmosBlockResponse>> GetLatestBlockAsync();
 
     [Get("/cosmos/tx/v1beta1/txs")]
     public Task<GetTransactionsMatchingQueryResponse> GetTransactionsMatchingQueryAsync(

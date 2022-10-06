@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Refit;
+using SapientFi.Infrastructure.Terra2;
 using TerraDotnet.TerraLcd;
 using Xunit;
 
@@ -9,11 +10,11 @@ namespace NarrowIntegrationTests.Oracles.TerraLcdClient;
 
 public class TerraMoneyLcdApiClientTests
 {
-    private readonly ITerraMoneyLcdApiClient _client;
+    private readonly ICosmosLcdApiClient<Terra2Marker> _client;
 
     public TerraMoneyLcdApiClientTests()
     {
-        _client = RestService.For<ITerraMoneyLcdApiClient>(
+        _client = RestService.For<ICosmosLcdApiClient<Terra2Marker>>(
             new HttpClient(new HttpClientHandler
             {
                 // To route via Charles proxy for debugging use: 

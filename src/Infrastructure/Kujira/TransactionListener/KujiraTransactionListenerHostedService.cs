@@ -2,27 +2,27 @@ using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
-using SapientFi.Infrastructure.Terra2.BusMessages;
-using SapientFi.Infrastructure.Terra2.Storage;
+using SapientFi.Infrastructure.Kujira.BusMessages;
+using SapientFi.Infrastructure.Kujira.Storage;
 using TerraDotnet;
 
-namespace SapientFi.Infrastructure.Terra2.TransactionListener;
+namespace SapientFi.Infrastructure.Kujira.TransactionListener;
 
-public class Terra2TransactionListenerHostedService : IHostedService
+public class KujiraTransactionListenerHostedService : IHostedService
 {
-    private readonly ILogger<Terra2TransactionListenerHostedService> _logger;
-    private readonly CosmosTransactionEnumerator<Terra2Marker> _transactionEnumerator;
-    private readonly Terra2RawRepository _rawRepository;
-    private readonly Terra2Factory _factory;
+    private readonly ILogger<KujiraTransactionListenerHostedService> _logger;
+    private readonly CosmosTransactionEnumerator<KujiraMarker> _transactionEnumerator;
+    private readonly KujiraRawRepository _rawRepository;
+    private readonly KujiraFactory _factory;
     private readonly IBus _massTransitBus;
 
     private CancellationTokenSource? _tokenSource;
 
-    public Terra2TransactionListenerHostedService(
-        ILogger<Terra2TransactionListenerHostedService> logger,
-        CosmosTransactionEnumerator<Terra2Marker> transactionEnumerator,
-        Terra2RawRepository rawRepository,
-        Terra2Factory factory, 
+    public KujiraTransactionListenerHostedService(
+        ILogger<KujiraTransactionListenerHostedService> logger,
+        CosmosTransactionEnumerator<KujiraMarker> transactionEnumerator,
+        KujiraRawRepository rawRepository,
+        KujiraFactory factory, 
         IBus massTransitBus
     )
     {
@@ -35,10 +35,7 @@ public class Terra2TransactionListenerHostedService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        // FIXME dead code on purpose
-        return;
-        
-        _logger.LogInformation("Starting terra2 transaction listener");
+        _logger.LogInformation("Starting kujira transaction listener");
         _tokenSource = new CancellationTokenSource();
 
         var latestSeenBlock = await _rawRepository.GetLatestSeenBlockHeightAsync(cancellationToken);
@@ -56,7 +53,7 @@ public class Terra2TransactionListenerHostedService : IHostedService
                 await _rawRepository.SaveRawTransactionAsync(entity, cancellationToken);
 
                 await _massTransitBus.Publish(
-                    new RawTerra2TransactionAvailableAnnouncement
+                    new RawKujiraTransactionAvailableAnnouncement
                     {
                         TransactionHash = entity.TxHash,
                         RawEntityId = entity.Id

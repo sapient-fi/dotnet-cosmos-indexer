@@ -2,9 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace TerraDotnet.TerraLcd.Messages;
 
-public record TerraBlock
+public record CosmosBlock
 {
     [JsonPropertyName("header")]
-    public TerraBlockHeader Header { get; set; } = new();
+    public CosmosBlockHeader Header { get; set; } = new();
 
 }

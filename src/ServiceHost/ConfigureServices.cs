@@ -1,3 +1,4 @@
+using SapientFi.Infrastructure.Kujira;
 using SapientFi.Infrastructure.Terra2;
 using SapientFi.Kernel.Config;
 using SapientFi.ServiceHost.Config;
@@ -44,6 +45,7 @@ public static class ConfigureServices
         services.AddBackgroundJobStack(configuration);
         services.AddEndpointServices();
         services.AddTerra2Stack(configuration);
+        services.AddKujiraStack(configuration);
 
         services.AddGraphQLServer()
             .AddQueryType<Query>()

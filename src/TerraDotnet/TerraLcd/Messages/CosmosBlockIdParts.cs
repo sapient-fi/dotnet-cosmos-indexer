@@ -2,11 +2,11 @@ using System.Text.Json.Serialization;
 
 namespace TerraDotnet.TerraLcd.Messages;
 
-public record TerraBlockId
+public record CosmosBlockIdParts
 {
+    [JsonPropertyName("total")]
+    public int Total { get; set; }
+
     [JsonPropertyName("hash")]
     public string Hash { get; set; } = string.Empty;
-
-    [JsonPropertyName("parts")]
-    public TerraBlockIdParts Parts { get; set; } = new();
 }

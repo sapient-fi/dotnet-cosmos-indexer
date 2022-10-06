@@ -9,20 +9,20 @@ using TerraDotnet.TerraLcd.Messages;
 
 namespace TerraDotnet;
 
-public class TerraTransactionEnumerator
+public class CosmosTransactionEnumerator<T>  
 {
-    private readonly ILogger<TerraTransactionEnumerator> _logger;
-    private readonly ITerraMoneyLcdApiClient _terraClient;
+    private readonly ILogger<CosmosTransactionEnumerator<T>> _logger;
+    private readonly ICosmosLcdApiClient<T> _cosmosClient;
 
     private const int SecondsPerBlock = 6;
     
-    public TerraTransactionEnumerator(
-        ILogger<TerraTransactionEnumerator> logger,
-        ITerraMoneyLcdApiClient terraClient
+    public CosmosTransactionEnumerator(
+        ILogger<CosmosTransactionEnumerator<T>> logger,
+        ICosmosLcdApiClient<T> cosmosClient
     )
     {
         _logger = logger;
-        _terraClient = terraClient;
+        _cosmosClient = cosmosClient;
     }
 
     [Trace]
@@ -46,11 +46,11 @@ public class TerraTransactionEnumerator
                 .WaitAndRetryAsync(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
                     (_, span) =>
                     {
-                        _logger.LogWarning("Handling retry while enumerating Terra Transactions, waiting {Time:c}", span);
+                        _logger.LogWarning("Handling retry while enumerating Cosmos Transactions, waiting {Time:c}", span);
                     }
                 )
                 .ExecuteAsync(
-                    async () => await _terraClient.GetTransactionsMatchingQueryAsync(
+                    async () => await _cosmosClient.GetTransactionsMatchingQueryAsync(
                         queryWindow.GetConditions(),
                         queryWindow.PaginationLimit,
                         queryWindow.PaginationOffset
@@ -62,7 +62,7 @@ public class TerraTransactionEnumerator
             {
                 // now we have to figure out if we went past the
                 // latest block, or whether we just hit a "dead period"
-                var latestBlockResponse = await _terraClient.GetLatestBlockAsync();
+                var latestBlockResponse = await _cosmosClient.GetLatestBlockAsync();
 
                 if (!latestBlockResponse.IsSuccessStatusCode)
                 {

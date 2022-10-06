@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace TerraDotnet.TerraLcd.Messages;
 
-public record TerraClaimableRewardsRequest
+public record CosmosClaimableRewardsRequest
 {
     [JsonPropertyName("claimable_reward")]
-    public TerraClaimableRewardBody ClaimableReward { get; set; } = new();
+    public CosmosClaimableRewardBody ClaimableReward { get; set; } = new();
 }
