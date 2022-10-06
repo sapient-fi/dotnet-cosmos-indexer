@@ -33,11 +33,20 @@ public class CosmosTransactionEnumerator<T>
     {
         var queryWindow = new QueryWindow
         {
-            WindowBlockWidth = 100,
+            WindowBlockWidth = 2000,
             StartBlockHeight = fromAndIncludingBlockHeight,
             PaginationLimit = 100,
             PaginationOffset = 0
         };
+        
+        // Fetch the latest block in the chain before we start enumerating. Will be used later.
+        var latestBlockResponse = await _cosmosClient.GetLatestBlockAsync();
+        if (!latestBlockResponse.IsSuccessStatusCode)
+        {
+            _logger.LogCritical(latestBlockResponse.Error, "Unable to request latest block, abort");
+            throw new Exception("latest block request went wrong... figure it out", latestBlockResponse.Error);
+        }
+        var latestBlockHeight = latestBlockResponse.Content.Block.Header.HeightAsInt;
 
         while (true)
         {
@@ -62,15 +71,6 @@ public class CosmosTransactionEnumerator<T>
             {
                 // now we have to figure out if we went past the
                 // latest block, or whether we just hit a "dead period"
-                var latestBlockResponse = await _cosmosClient.GetLatestBlockAsync();
-
-                if (!latestBlockResponse.IsSuccessStatusCode)
-                {
-                    throw new Exception("latest block request went wrong... figure it out", latestBlockResponse.Error);
-                }
-
-                var latestBlockHeight = latestBlockResponse.Content.Block.Header.HeightAsInt;
-
                 if (queryWindow.EndBlockHeight >= latestBlockHeight)
                 {
                     // we should wait a bit for some blocks to be formed
