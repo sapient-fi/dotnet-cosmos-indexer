@@ -88,10 +88,7 @@ public class CosmosTransactionEnumerator<T>
                 }
             }
             
-            
             queryWindow.Advance(response.Pagination);
-
-            await Task.Delay(TimeSpan.FromSeconds(2), stoppingToken);
         }
     }
     
