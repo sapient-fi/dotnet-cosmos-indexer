@@ -132,7 +132,7 @@ public class CosmosTransactionEnumerator<T>
 
         private bool IsFinalPage(LcdPagination pagination)
         {
-            return pagination.TotalAsInt < (PaginationOffset + PaginationLimit);
+            return pagination.TotalAsInt <= (PaginationOffset + PaginationLimit);
         }
     }
 }
