@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace TerraDotnet.TerraLcd.Messages;
 
-public record TerraBlockHeader
+public record CosmosBlockHeader
 {
     [JsonPropertyName("chain_id")]
     public string ChainId { get; set; } = string.Empty;
@@ -16,5 +16,5 @@ public record TerraBlockHeader
     public DateTimeOffset Time { get; set; }
 
     [JsonPropertyName("last_block_id")]
-    public TerraBlockId LastBlockId { get; set; } = new();
+    public CosmosBlockId LastBlockId { get; set; } = new();
 }

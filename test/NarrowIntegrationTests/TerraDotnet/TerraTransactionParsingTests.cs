@@ -192,7 +192,7 @@ public class TerraTransactionParsingTests : IntegrationBaseTest
         Assert.NotNull(parsedMessage);
         
         Assert.Equal("/cosmos.staking.v1beta1.MsgBeginRedelegate", parsedMessage!.Type);
-        var parsedRedelegateMessage = (Terra2RedelegateMessage)parsedMessage;
+        var parsedRedelegateMessage = (CosmosRedelegateMessage)parsedMessage;
         
         Assert.Equal("terra1wcff43z8jweneamztk8uy74w3sy7rlmudxjdc0", parsedRedelegateMessage.DelegatorAddress);
         Assert.Equal("terravaloper1ktu7a6wqlk6vlywf4rt6wfcxuphc0es27p0qvx", parsedRedelegateMessage.ValidatorSourceAddress);

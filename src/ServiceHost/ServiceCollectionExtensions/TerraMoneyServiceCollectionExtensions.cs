@@ -2,6 +2,7 @@ using RapidCore.Locking;
 using Refit;
 using SapientFi.Infrastructure.Hosting.BackgroundWorkers;
 using SapientFi.Infrastructure.Oracles.ExchangeRates.Terra.LowLevel;
+using SapientFi.Infrastructure.Terra2;
 using SapientFi.Kernel.Config;
 using SapientFi.Kernel.IdGeneration;
 using SapientFi.ServiceHost.Config;
@@ -30,7 +31,7 @@ public static class TerraMoneyServiceCollectionExtensions
         services.AddHostedService<ScopedBackgroundService<CacheRefresherServiceWorker>>();
         
         
-        services.AddTransient<TerraTransactionEnumerator>();
+        services.AddTransient<CosmosTransactionEnumerator<Terra2Marker>>();
 
         
         return services;

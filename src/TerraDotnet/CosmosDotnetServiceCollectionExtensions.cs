@@ -6,10 +6,10 @@ namespace TerraDotnet;
 
 public static class TerraDotnetServiceCollectionExtensions
 {
-    public static IServiceCollection AddTerraDotnet(this IServiceCollection services)
+    public static IServiceCollection AddCosmosDotnet<T>(this IServiceCollection services, string lcdClientBaseUrl)
     {
-        services.AddTransient<TerraTransactionEnumerator>();
-        services.InternalAddLcdClient();
+        services.AddTransient<CosmosTransactionEnumerator<T>>();
+        services.InternalAddLcdClient<T>(lcdClientBaseUrl);
         services.AddTransient<TerraMessageParser>();
         
         
@@ -17,9 +17,9 @@ public static class TerraDotnetServiceCollectionExtensions
     }
 
 
-    public static IServiceCollection InternalAddLcdClient(this IServiceCollection services)
+    public static IServiceCollection InternalAddLcdClient<T>(this IServiceCollection services, string lcdClientBaseUrl)
     {
-        services.AddRefitClient<ITerraMoneyLcdApiClient>(serviceProvider =>
+        services.AddRefitClient<ICosmosLcdApiClient<T>>(serviceProvider =>
             {
                 var settings = new RefitSettings();
 
@@ -29,7 +29,7 @@ public static class TerraDotnetServiceCollectionExtensions
             })
             .ConfigureHttpClient(client =>
             {
-                client.BaseAddress = new Uri("https://phoenix-lcd.terra.dev");
+                client.BaseAddress = new Uri(lcdClientBaseUrl);
             });
 
         return services;

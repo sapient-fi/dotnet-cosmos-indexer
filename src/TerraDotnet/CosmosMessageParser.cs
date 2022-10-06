@@ -21,7 +21,7 @@ public class TerraMessageParser
         switch (typeProperty.GetString())
         {
             case "/cosmos.staking.v1beta1.MsgDelegate":
-                message = new Terra2DelegateMessage
+                message = new CosmosDelegateMessage
                 {
                     Type = txMessage["@type"].GetString()!,
                     DelegatorAddress = txMessage["delegator_address"].GetString()!,
@@ -31,7 +31,7 @@ public class TerraMessageParser
                 break;
 
             case "/cosmos.staking.v1beta1.MsgUndelegate":
-                message = new Terra2UndelegateMessage
+                message = new CosmosUndelegateMessage
                 {
                     Type = txMessage["@type"].GetString()!,
                     DelegatorAddress = txMessage["delegator_address"].GetString()!,
@@ -41,7 +41,7 @@ public class TerraMessageParser
                 break;
 
             case "/cosmos.staking.v1beta1.MsgBeginRedelegate":
-                message = new Terra2RedelegateMessage
+                message = new CosmosRedelegateMessage
                 {
                     Type = txMessage["@type"].GetString()!,
                     DelegatorAddress = txMessage["delegator_address"].GetString()!,

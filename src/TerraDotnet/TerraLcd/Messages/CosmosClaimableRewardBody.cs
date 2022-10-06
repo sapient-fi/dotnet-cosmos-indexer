@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace TerraDotnet.TerraLcd.Messages;
 
-public record TerraClaimableRewardBody
+public record CosmosClaimableRewardBody
 {
     [JsonPropertyName("owner")]
     public string Owner { get; set; } = string.Empty;

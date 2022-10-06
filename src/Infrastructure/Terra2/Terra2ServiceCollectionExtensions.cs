@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SapientFi.Infrastructure.Kujira;
 using SapientFi.Infrastructure.Terra2.Indexers.Delegations;
 using SapientFi.Infrastructure.Terra2.Storage;
 using SapientFi.Infrastructure.Terra2.TransactionListener;
@@ -18,7 +19,7 @@ public static class Terra2ServiceCollectionExtensions
         services.AddTerra2DelegationsIndexer();
         services.AddTransient<Terra2TransactionListenerHostedService>();
         services.AddTransient<Terra2Factory>();
-        services.AddTerraDotnet();
+        services.AddCosmosDotnet<Terra2Marker>("https://phoenix-lcd.terra.dev");
 
         if (config.DoEnable)
         {

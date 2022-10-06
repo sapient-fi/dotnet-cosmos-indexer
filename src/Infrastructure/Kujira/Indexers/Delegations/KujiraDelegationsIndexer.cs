@@ -2,26 +2,26 @@ using System.Text.Json;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using SapientFi.Infrastructure.Indexing;
-using SapientFi.Infrastructure.Terra2.BusMessages;
-using SapientFi.Infrastructure.Terra2.Indexers.Delegations.Storage;
-using SapientFi.Infrastructure.Terra2.Storage;
+using SapientFi.Infrastructure.Kujira.BusMessages;
+using SapientFi.Infrastructure.Kujira.Indexers.Delegations.Storage;
+using SapientFi.Infrastructure.Kujira.Storage;
 using SapientFi.Kernel.IdGeneration;
 using TerraDotnet;
 using TerraDotnet.TerraLcd.Messages;
 
-namespace SapientFi.Infrastructure.Terra2.Indexers.Delegations;
+namespace SapientFi.Infrastructure.Kujira.Indexers.Delegations;
 
-public class Terra2DelegationsIndexer : IIndexer<RawTerra2TransactionAvailableAnnouncement>
+public class KujiraDelegationsIndexer : IIndexer<RawKujiraTransactionAvailableAnnouncement>
 {
-    private readonly ILogger<Terra2DelegationsIndexer> _logger;
-    private readonly Terra2DelegationsRepository _repository;
-    private readonly Terra2RawRepository _rawRepository;
+    private readonly ILogger<KujiraDelegationsIndexer> _logger;
+    private readonly KujiraDelegationsRepository _repository;
+    private readonly KujiraRawRepository _rawRepository;
     private readonly IdProvider _idProvider;
 
-    public Terra2DelegationsIndexer(
-        ILogger<Terra2DelegationsIndexer> logger,
-        Terra2DelegationsRepository repository,
-        Terra2RawRepository rawRepository,
+    public KujiraDelegationsIndexer(
+        ILogger<KujiraDelegationsIndexer> logger,
+        KujiraDelegationsRepository repository,
+        KujiraRawRepository rawRepository,
         IdProvider idProvider
     )
     {
@@ -35,13 +35,13 @@ public class Terra2DelegationsIndexer : IIndexer<RawTerra2TransactionAvailableAn
 
     public string DisplayName => "Terra 2 Delegations";
 
-    public async Task Consume(ConsumeContext<RawTerra2TransactionAvailableAnnouncement> context)
+    public async Task Consume(ConsumeContext<RawKujiraTransactionAvailableAnnouncement> context)
     {
         var rawTransaction = await _rawRepository.GetByIdOrDefaultAsync(context.Message.RawEntityId, context.CancellationToken);
         if (rawTransaction == default)
         {
             // TODO write to a custom metric in order to be able to monitor missing raw transactions
-            _logger.LogWarning("Unable to find raw terra2 transaction with id={RawTerra2Id}", context.Message.RawEntityId);
+            _logger.LogWarning("Unable to find raw terra2 transaction with id={RawKujiraId}", context.Message.RawEntityId);
             return;
         }
 
@@ -71,7 +71,7 @@ public class Terra2DelegationsIndexer : IIndexer<RawTerra2TransactionAvailableAn
                             break;
 
                         }
-                        var undelegateEntity = new Terra2ValidatorDelegationLedgerEntity {
+                        var undelegateEntity = new KujiraValidatorDelegationLedgerEntity {
                             Id = _idProvider.Snowflake(),
                             TxHash = txHash,
                             At = rawTransaction.CreatedAt,
@@ -93,7 +93,7 @@ public class Terra2DelegationsIndexer : IIndexer<RawTerra2TransactionAvailableAn
                             break;
                         }
 
-                        var delegateEntity = new Terra2ValidatorDelegationLedgerEntity
+                        var delegateEntity = new KujiraValidatorDelegationLedgerEntity
                         {
                             Id = _idProvider.Snowflake(),
                             TxHash = txHash,
@@ -120,7 +120,7 @@ public class Terra2DelegationsIndexer : IIndexer<RawTerra2TransactionAvailableAn
                         {
                             // first a ledger entry that removes the delegation
                             // from the original validator
-                            new Terra2ValidatorDelegationLedgerEntity
+                            new KujiraValidatorDelegationLedgerEntity
                             {
                                 Id = _idProvider.Snowflake(),
                                 TxHash = txHash,
@@ -131,7 +131,7 @@ public class Terra2DelegationsIndexer : IIndexer<RawTerra2TransactionAvailableAn
                                 Denominator = redelegateMsg.Amount.Denominator
                             },
                             // then a ledger entry adding the delegation to the new validator
-                            new Terra2ValidatorDelegationLedgerEntity
+                            new KujiraValidatorDelegationLedgerEntity
                             {
                                 Id = _idProvider.Snowflake(),
                                 TxHash = txHash,
