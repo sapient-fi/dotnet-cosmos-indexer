@@ -35,7 +35,7 @@ public class CosmosTransactionEnumerator<T>
         {
             WindowBlockWidth = 2000,
             StartBlockHeight = fromAndIncludingBlockHeight,
-            PaginationLimit = 100,
+            PaginationLimit = 200,
             PaginationOffset = 0
         };
         
