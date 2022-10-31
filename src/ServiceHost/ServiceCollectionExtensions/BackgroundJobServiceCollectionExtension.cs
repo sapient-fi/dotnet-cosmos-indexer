@@ -2,6 +2,8 @@ using Hangfire;
 using Hangfire.InMemory;
 using Medallion.Threading;
 using Medallion.Threading.Postgres;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using SapientFi.Infrastructure.Oracles.ExchangeRates.Terra;
 using SapientFi.Kernel.Config;
 using SapientFi.ServiceHost.Config;

@@ -1,7 +1,6 @@
 using System.IO;
 using System.Text.Json;
 using MassTransit;
-using SapientFi.Infrastructure.Terra2.BusMessages;
 using TerraDotnet;
 using TerraDotnet.TerraLcd.Messages;
 

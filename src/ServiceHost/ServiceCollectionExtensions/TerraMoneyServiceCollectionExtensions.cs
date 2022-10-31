@@ -1,3 +1,6 @@
+using System;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using RapidCore.Locking;
 using Refit;
 using SapientFi.Infrastructure.Hosting.BackgroundWorkers;
@@ -7,7 +10,6 @@ using SapientFi.Kernel.Config;
 using SapientFi.Kernel.IdGeneration;
 using SapientFi.ServiceHost.Config;
 using TerraDotnet;
-using TerraDotnet.TerraFcd;
 
 namespace SapientFi.ServiceHost.ServiceCollectionExtensions;
 

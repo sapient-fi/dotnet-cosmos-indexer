@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using SapientFi.Infrastructure.Indexing;

@@ -1,4 +1,8 @@
+using System;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RapidCore.DependencyInjection;
 using RapidCore.Migration;
 using RapidCore.PostgreSql.Migration;

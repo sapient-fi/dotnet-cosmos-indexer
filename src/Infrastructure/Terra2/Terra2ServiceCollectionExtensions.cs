@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SapientFi.Infrastructure.Kujira;
 using SapientFi.Infrastructure.Terra2.Indexers.Delegations;
 using SapientFi.Infrastructure.Terra2.Storage;
 using SapientFi.Infrastructure.Terra2.TransactionListener;

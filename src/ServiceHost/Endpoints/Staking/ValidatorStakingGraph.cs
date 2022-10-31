@@ -1,4 +1,5 @@
-using MassTransit.Futures.Contracts;
+using System;
+using System.Collections.Generic;
 
 namespace SapientFi.ServiceHost.Endpoints.Staking;
 

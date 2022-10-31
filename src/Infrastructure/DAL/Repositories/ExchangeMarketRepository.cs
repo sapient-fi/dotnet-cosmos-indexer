@@ -1,9 +1,6 @@
 //TODO do we still need this?
 using Microsoft.Extensions.Logging;
-using SapientFi.Kernel;
-using SapientFi.Kernel.DAL.Entities.Exchanges;
 using ServiceStack.Data;
-using ServiceStack.OrmLite;
 
 namespace SapientFi.Infrastructure.DAL.Repositories;
 

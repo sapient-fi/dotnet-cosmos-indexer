@@ -1,3 +1,5 @@
+using System;
+
 namespace SapientFi.ServiceHost.Endpoints.Types;
 
 public class TimeSeriesStatEntry

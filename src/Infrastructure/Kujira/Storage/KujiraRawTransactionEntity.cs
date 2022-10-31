@@ -1,3 +1,4 @@
+using System;
 using ServiceStack.DataAnnotations;
 
 namespace SapientFi.Infrastructure.Kujira.Storage;

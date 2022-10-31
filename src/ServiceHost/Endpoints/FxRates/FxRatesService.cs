@@ -1,4 +1,8 @@
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using SapientFi.Kernel.Contracts.Exchanges;
 
 namespace SapientFi.ServiceHost.Endpoints.FxRates;

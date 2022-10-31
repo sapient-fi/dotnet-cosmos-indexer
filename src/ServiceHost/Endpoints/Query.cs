@@ -1,3 +1,6 @@
+using System.Threading;
+using System.Threading.Tasks;
+using HotChocolate;
 using NewRelic.Api.Agent;
 using SapientFi.ServiceHost.Endpoints.FxRates;
 

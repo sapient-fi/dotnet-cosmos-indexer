@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace TerraDotnet.TerraLcd.Messages;
 
 public record LcdEvent
