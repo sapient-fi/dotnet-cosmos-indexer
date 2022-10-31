@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using TerraDotnet.TerraLcd;
@@ -9,11 +10,9 @@ public static class TerraDotnetServiceCollectionExtensions
 {
     public static IServiceCollection AddCosmosDotnet<T>(this IServiceCollection services, string lcdClientBaseUrl)
     {
-        services.AddTransient<CosmosTransactionEnumerator<T>>();
         services.InternalAddLcdClient<T>(lcdClientBaseUrl);
         services.AddTransient<TerraMessageParser>();
-        
-        
+
         return services;
     }
 

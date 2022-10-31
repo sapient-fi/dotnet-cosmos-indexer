@@ -7,7 +7,7 @@ public static class KujiraDelegationsServiceCollectionExtensions
 {
     public static IServiceCollection AddKujiraDelegationsIndexer(this IServiceCollection services)
     {
-        services.AddTransient<KujiraDelegationsIndexer>();
+        services.AddTransient<KujiraDelegationIndexer>();
         services.AddTransient<KujiraDelegationsRepository>();
         
         return services;

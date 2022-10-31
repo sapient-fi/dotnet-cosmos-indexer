@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SapientFi.Infrastructure.Cosmos;
 using SapientFi.Infrastructure.Terra2.Indexers.Delegations;
 using SapientFi.Infrastructure.Terra2.Storage;
 using SapientFi.Infrastructure.Terra2.TransactionListener;
@@ -17,10 +18,11 @@ public static class Terra2ServiceCollectionExtensions
         services.AddTransient<Terra2RawRepository>();
         services.AddTerra2DelegationsIndexer();
         services.AddTransient<Terra2TransactionListenerHostedService>();
-        services.AddTransient<Terra2Factory>();
-        services.AddCosmosDotnet<Terra2Marker>("https://phoenix-lcd.terra.dev");
+        services.AddTransient<CosmosFactory<Terra2RawTransactionEntity>>();
+        services.AddTransient<Terra2TransactionEnumerator>();
+        services.AddCosmosDotnet<Terra2Marker>("https://phoenix-lcd.sapient.fi");
 
-        if (config.DoEnable)
+        if (config.DoEnable())
         {
             services.AddHostedService<Terra2TransactionListenerHostedService>();
         }

@@ -35,6 +35,7 @@ public class CosmosIndexerConfig : IEnabledServiceRolesConfig, IDbConfig, IGatew
         true
     );
 
+    //TODO: Do we still need this?
     int IGatewayPoolsConfig.NumberOfElementsInDepositsPrWallet => _config.Get(
         "SAPIENTFI_NR_ELEMENTS_DEPOSITS_PR_WALLET",
         11

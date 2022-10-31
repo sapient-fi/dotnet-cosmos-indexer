@@ -1,21 +1,22 @@
 using System;
+using SapientFi.Infrastructure.Cosmos.Storage;
 using ServiceStack.DataAnnotations;
 
 namespace SapientFi.Infrastructure.Kujira.Storage;
 
-public class KujiraRawTransactionEntity
+public class KujiraRawTransactionEntity : ICosmosRawTransactionEntity
 {
     [PrimaryKey]
-    public long Id { get; set; }
-    
-    public DateTimeOffset CreatedAt { get; set; }
-        
-    [Unique]
-    public string TxHash { get; set; } = string.Empty;
+    public long Id { get; init; }
 
+    public DateTimeOffset CreatedAt { get; init; }
+    
+    [Unique]
+    public string TxHash { get; init; } = string.Empty;
+    
     [PgSqlJsonB]
-    public string RawTx { get; set; } = string.Empty;
+    public string RawTx { get; init; } = string.Empty;
     
     [Index]
-    public int Height { get; set; }
+    public int Height { get; init; }
 }

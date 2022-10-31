@@ -11,22 +11,41 @@ using Refit;
 using TerraDotnet.TerraLcd;
 using TerraDotnet.TerraLcd.Messages;
 
+// ReSharper disable MemberCanBePrivate.Global
+
 namespace TerraDotnet;
 
-public class CosmosTransactionEnumerator<T>  
+public struct EnumeratorOptions
 {
-    private readonly ILogger<CosmosTransactionEnumerator<T>> _logger;
-    private readonly ICosmosLcdApiClient<T> _cosmosClient;
+    public EnumeratorOptions(int secondsPerBlock)
+    {
+        SecondsPerBlock = secondsPerBlock;
+    }
 
-    private const int SecondsPerBlock = 6;
+    public int SecondsPerBlock { get; init; }
+    public int WindowBlockWidth { get; init; } = 2000;
+    public int PaginationLimit { get; init; } = 200;
+}
+
+public abstract class CosmosTransactionEnumerator<TMarker>
+{
+    protected readonly ILogger<CosmosTransactionEnumerator<TMarker>> Logger;
+    protected readonly ICosmosLcdApiClient<TMarker> CosmosClient;
+    protected int SecondsPerBlock { get; }
+    protected int WindowBlockWidth { get; }
+    protected int PaginationLimit { get; }
     
-    public CosmosTransactionEnumerator(
-        ILogger<CosmosTransactionEnumerator<T>> logger,
-        ICosmosLcdApiClient<T> cosmosClient
+    protected CosmosTransactionEnumerator(
+        ILogger<CosmosTransactionEnumerator<TMarker>> logger,
+        ICosmosLcdApiClient<TMarker> cosmosClient,
+        EnumeratorOptions options
     )
     {
-        _logger = logger;
-        _cosmosClient = cosmosClient;
+        Logger = logger;
+        CosmosClient = cosmosClient;
+        SecondsPerBlock = options.SecondsPerBlock;
+        WindowBlockWidth = options.WindowBlockWidth;
+        PaginationLimit = options.PaginationLimit;
     }
 
     [Trace]
@@ -37,20 +56,20 @@ public class CosmosTransactionEnumerator<T>
     {
         var queryWindow = new QueryWindow
         {
-            WindowBlockWidth = 2000,
+            WindowBlockWidth = WindowBlockWidth,
             StartBlockHeight = fromAndIncludingBlockHeight,
-            PaginationLimit = 200,
+            PaginationLimit = PaginationLimit,
             PaginationOffset = 0
         };
         
         // Fetch the latest block in the chain before we start enumerating. Will be used later.
-        var latestBlockResponse = await _cosmosClient.GetLatestBlockAsync();
+        var latestBlockResponse = await CosmosClient.GetLatestBlockAsync();
         if (!latestBlockResponse.IsSuccessStatusCode)
         {
-            _logger.LogCritical(latestBlockResponse.Error, "Unable to request latest block, abort");
+            Logger.LogCritical(latestBlockResponse.Error, "Unable to request latest block, abort");
             throw new Exception("latest block request went wrong... figure it out", latestBlockResponse.Error);
         }
-        var latestBlockHeight = latestBlockResponse.Content.Block.Header.HeightAsInt;
+        int latestBlockHeight = latestBlockResponse.Content.Block.Header.HeightAsInt;
 
         while (true)
         {
@@ -59,17 +78,16 @@ public class CosmosTransactionEnumerator<T>
                 .WaitAndRetryAsync(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
                     (_, span) =>
                     {
-                        _logger.LogWarning("Handling retry while enumerating Cosmos Transactions, waiting {Time:c}", span);
+                        Logger.LogWarning("Handling retry while enumerating Cosmos Transactions, waiting {Time:c}", span);
                     }
                 )
                 .ExecuteAsync(
-                    async () => await _cosmosClient.GetTransactionsMatchingQueryAsync(
+                    async () => await CosmosClient.GetTransactionsMatchingQueryAsync(
                         queryWindow.GetConditions(),
                         queryWindow.PaginationLimit,
                         queryWindow.PaginationOffset
                     )
                 );
-
 
             if (response.Pagination.TotalAsInt == 0)
             {
@@ -78,7 +96,7 @@ public class CosmosTransactionEnumerator<T>
                 if (queryWindow.EndBlockHeight >= latestBlockHeight)
                 {
                     // we should wait a bit for some blocks to be formed
-                    await Task.Delay(TimeSpan.FromSeconds(queryWindow.WindowBlockWidth * SecondsPerBlock), stoppingToken);
+                    await Task.Delay(TimeSpan.FromSeconds(SecondsPerBlock), stoppingToken);
                     // do NOT advance the query window in this scenario, as we want to
                     // retry the same window later
                     continue;

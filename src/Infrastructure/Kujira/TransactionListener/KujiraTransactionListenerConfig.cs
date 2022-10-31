@@ -1,16 +1,14 @@
 using Microsoft.Extensions.Configuration;
 using RapidCore.Configuration;
+using SapientFi.Infrastructure.Cosmos.TransactionListener;
 
 namespace SapientFi.Infrastructure.Kujira.TransactionListener;
 
-public class KujiraTransactionListenerConfig
+public class KujiraTransactionListenerConfig : CosmosTransactionListenerConfig
 {
-    private readonly IConfiguration _raw;
-
-    public KujiraTransactionListenerConfig(IConfiguration raw)
+    public KujiraTransactionListenerConfig(IConfiguration raw) : base(raw)
     {
-        _raw = raw;
     }
 
-    public virtual bool DoEnable => _raw.Get("Terra2:TransactionListener:DoEnable", false);
+    public override bool DoEnable() => Raw.Get("Kujira_TransactionListener_DoEnable", true);
 }

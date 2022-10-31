@@ -1,0 +1,19 @@
+# Configuration
+
+Keys marked with :exclamation: should be set when deploying.
+
+## General
+
+| Key                                          | Type                 | Default                                                                                                                                                                             | Example         | Description |
+|----------------------------------------------|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------|-------------|
+| **General**                                  |                      |                                                                                                                                                                                     |                 |             |
+| `SAPIENTFI_SERVICE_ROLES_ENABLED`            | comma-separated-list | `API, BACKGROUND_WORKER`                                                                                                                                                            | `Foo, Bar, Baz` |             |
+| `SAPIENTFI_DB_CONNECTION_STRING`             | string               | `User ID=sapientfi_indexer_user;Password=sapientfi_indexer_user_pass;Host=localhost;Port=35432;Database=sapientfi_indexer;Pooling=true;Minimum Pool Size=10;Maximum Pool Size=100;` |                 |             |
+| `SAPIENTFI_DB_RUN_MIGRATIONS_ON_BOOT`        | bool                 | `true`                                                                                                                                                                              |                 |             |
+| `SAPIENTFI_NR_ELEMENTS_DEPOSITS_PR_WALLET`   | int                  | `11`                                                                                                                                                                                |                 |             |
+| `SAPIENTFI_API_ALLOWED_CORS_ORIGINS`         | string               | `http://localhost:3000`                                                                                                                                                             |                 |             |
+| `SAPIENTFI_TRIGGER_GATEWAY_POOL_FULL_RESYNC` | bool                 | `false`                                                                                                                                                                             |                 |             |
+| `SAPIENTFI_TRIGGER_MINE_STAKING_FULL_RESYNC` | bool                 | `false`                                                                                                                                                                             |                 |             |
+| `SAPIENTFI_TRIGGER_MINE_BUYBACK_FULL_RESYNC` | bool                 | `false`                                                                                                                                                                             |                 |             |
+| `SAPIENTFI_MESSAGE_TRANSPORT_URI`            | string               | `amqp://guest:guest@localhost:5672`                                                                                                                                                 |                 |             |
+| `Kujira_TransactionListener_DoEnable`        | bool                 | `true`                                                                                                                                                                              |                 |             |

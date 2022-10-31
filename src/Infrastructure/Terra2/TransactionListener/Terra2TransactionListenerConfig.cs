@@ -1,16 +1,14 @@
 using Microsoft.Extensions.Configuration;
 using RapidCore.Configuration;
+using SapientFi.Infrastructure.Cosmos.TransactionListener;
 
 namespace SapientFi.Infrastructure.Terra2.TransactionListener;
 
-public class Terra2TransactionListenerConfig
+public class Terra2TransactionListenerConfig : CosmosTransactionListenerConfig
 {
-    private readonly IConfiguration _raw;
-
-    public Terra2TransactionListenerConfig(IConfiguration raw)
+    public Terra2TransactionListenerConfig(IConfiguration raw) : base(raw)
     {
-        _raw = raw;
     }
 
-    public virtual bool DoEnable => _raw.Get("Terra2:TransactionListener:DoEnable", false);
+    public override bool DoEnable() => Raw.Get("Terra2_TransactionListener_DoEnable", true);
 }

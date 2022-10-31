@@ -22,7 +22,7 @@ public class TerraMoneyLcdApiClientTests
                 ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true,
             })
             {   
-                BaseAddress = new Uri("https://phoenix-lcd.terra.dev"),
+                BaseAddress = new Uri("https://phoenix-lcd.sapient.fi"),
             });
     }
 

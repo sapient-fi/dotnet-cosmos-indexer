@@ -1,8 +1,9 @@
+using SapientFi.Infrastructure.Cosmos.BusMessages;
+
 namespace SapientFi.Infrastructure.Kujira.BusMessages;
 
-public class RawKujiraTransactionAvailableAnnouncement
+public record RawKujiraTransactionAvailableAnnouncement : IRawCosmosTransactionAvailableAnnouncement
 {
-    public string TransactionHash { get; set; } = string.Empty;
-    
-    public long RawEntityId { get; set; }
+    public string TransactionHash { get; init; } = string.Empty;
+    public long RawEntityId { get; init; }
 }

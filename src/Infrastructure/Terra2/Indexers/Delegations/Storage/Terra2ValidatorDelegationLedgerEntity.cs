@@ -1,4 +1,5 @@
 using System;
+using SapientFi.Infrastructure.Cosmos.Indexers.Delegations.Storage;
 using ServiceStack.DataAnnotations;
 
 namespace SapientFi.Infrastructure.Terra2.Indexers.Delegations.Storage;
@@ -13,30 +14,30 @@ namespace SapientFi.Infrastructure.Terra2.Indexers.Delegations.Storage;
 /// inverted signs), as the tokens are leaving A
 /// and going into B. 
 /// </summary>
-public record Terra2ValidatorDelegationLedgerEntity
+public record Terra2ValidatorDelegationLedgerEntity : ICosmosValidatorDelegationLedgerEntity
 {
-    public long Id { get; set; }
+    public long Id { get; init; }
     
-    public DateTimeOffset At { get; set; }
+    public DateTimeOffset At { get; init; }
 
     /// <summary>
     /// The TxHash of the transaction that this delegation
     /// came from
     /// </summary>
     [Index]
-    public string TxHash { get; set; } = string.Empty;
+    public string TxHash { get; init; } = string.Empty;
 
     [Index]
-    public string ValidatorAddress { get; set; } = string.Empty;
+    public string ValidatorAddress { get; init; } = string.Empty;
 
     [Index]
-    public string DelegatorAddress { get; set; } = string.Empty;
+    public string DelegatorAddress { get; init; } = string.Empty;
     
     /// <summary>
     /// Positive = delegation to validator
     /// Negative = delegation away from validator
     /// </summary>
-    public long Amount { get; set; }
+    public long Amount { get; init; }
 
-    public string Denominator { get; set; } = string.Empty;
+    public string Denominator { get; init; } = string.Empty;
 }

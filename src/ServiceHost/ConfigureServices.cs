@@ -47,8 +47,8 @@ public static class ConfigureServices
         services.AddDbStack(configuration);
         services.AddBackgroundJobStack(configuration);
         services.AddEndpointServices();
-        services.AddTerra2Stack(configuration);
         services.AddKujiraStack(configuration);
+        services.AddTerra2Stack(configuration);
 
         services.AddGraphQLServer()
             .AddQueryType<Query>()

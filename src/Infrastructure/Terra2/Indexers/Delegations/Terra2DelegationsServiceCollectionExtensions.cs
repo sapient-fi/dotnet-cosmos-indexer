@@ -7,7 +7,7 @@ public static class Terra2DelegationsServiceCollectionExtensions
 {
     public static IServiceCollection AddTerra2DelegationsIndexer(this IServiceCollection services)
     {
-        services.AddTransient<Terra2DelegationsIndexer>();
+        services.AddTransient<Terra2DelegationIndexer>();
         services.AddTransient<Terra2DelegationsRepository>();
         
         return services;
