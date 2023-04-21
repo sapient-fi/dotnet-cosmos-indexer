@@ -12,4 +12,6 @@ public abstract class CosmosTransactionListenerConfig
     }
 
     public abstract bool DoEnable();
+
+    public abstract string LcdUri();
 }

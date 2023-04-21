@@ -10,5 +10,11 @@ public class Terra2TransactionListenerConfig : CosmosTransactionListenerConfig
     {
     }
 
-    public override bool DoEnable() => Raw.Get("Terra2_TransactionListener_DoEnable", true);
+    public override bool DoEnable() => Raw.Get("TERRA2__TRANSACTION_LISTENER__DO_ENABLE", true);
+
+    // Other options are:
+    // "https://phoenix-lcd.sapient.fi"
+    // "https://phoenix-lcd.terra.dev/"
+    public override string LcdUri() =>
+        Raw.Get("TERRA2__TRANSACTION_LISTENER__LCD_URI", "http://54.36.112.157:1317");
 }

@@ -20,7 +20,7 @@ public static class Terra2ServiceCollectionExtensions
         services.AddTransient<Terra2TransactionListenerHostedService>();
         services.AddTransient<CosmosFactory<Terra2RawTransactionEntity>>();
         services.AddTransient<Terra2TransactionEnumerator>();
-        services.AddCosmosDotnet<Terra2Marker>("https://phoenix-lcd.sapient.fi");
+        services.AddCosmosDotnet<Terra2Marker>(config.LcdUri());
 
         if (config.DoEnable())
         {

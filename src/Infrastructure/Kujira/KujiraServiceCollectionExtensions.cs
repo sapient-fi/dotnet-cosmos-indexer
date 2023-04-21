@@ -20,7 +20,7 @@ public static class KujiraServiceCollectionExtensions
         services.AddTransient<KujiraTransactionListenerHostedService>();
         services.AddTransient<CosmosFactory<KujiraRawTransactionEntity>>();
         services.AddTransient<KujiraTransactionEnumerator>();
-        services.AddCosmosDotnet<KujiraMarker>("https://lcd.kaiyo.kujira.setten.io");
+        services.AddCosmosDotnet<KujiraMarker>(config.LcdUri());
 
         if (config.DoEnable())
         {

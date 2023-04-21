@@ -16,7 +16,9 @@
       "applicationUrl": "https://localhost:7047;http://localhost:5064",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "SAPIENT_SERVICE_ROLES_ENABLED": "API,BACKGROUND_WORKER"
+        "SAPIENT_SERVICE_ROLES_ENABLED": "API,BACKGROUND_WORKER",
+        "KUJIRA__TRANSACTION_LISTENER__DO_ENABLE": false,
+        "TERRA2__TRANSACTION_LISTENER__DO_ENABLE": true
       }
     },
     "IIS Express": {
