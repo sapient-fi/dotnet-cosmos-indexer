@@ -19,3 +19,4 @@ public record CosmosBlockHeader
     [JsonPropertyName("last_block_id")]
     public CosmosBlockId LastBlockId { get; set; } = new();
 }
+

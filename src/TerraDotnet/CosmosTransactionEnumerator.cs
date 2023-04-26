@@ -34,7 +34,7 @@ public abstract class CosmosTransactionEnumerator<TMarker>
     protected int SecondsPerBlock { get; }
     protected int WindowBlockWidth { get; }
     protected int PaginationLimit { get; }
-    
+
     protected CosmosTransactionEnumerator(
         ILogger<CosmosTransactionEnumerator<TMarker>> logger,
         ICosmosLcdApiClient<TMarker> cosmosClient,
@@ -61,7 +61,7 @@ public abstract class CosmosTransactionEnumerator<TMarker>
             PaginationLimit = PaginationLimit,
             PaginationOffset = 0
         };
-        
+
         // Fetch the latest block in the chain before we start enumerating. Will be used later.
         var latestBlockResponse = await CosmosClient.GetLatestBlockAsync();
         if (!latestBlockResponse.IsSuccessStatusCode)
@@ -69,27 +69,14 @@ public abstract class CosmosTransactionEnumerator<TMarker>
             Logger.LogCritical(latestBlockResponse.Error, "Unable to request latest block, abort");
             throw new Exception("latest block request went wrong... figure it out", latestBlockResponse.Error);
         }
+
         int latestBlockHeight = latestBlockResponse.Content.Block.Header.HeightAsInt;
 
+        // Fire off initial request....
+        var response = await SendLcdQueryAsync(queryWindow);
         while (true)
         {
-            var response = await Policy
-                .Handle<ApiException>(exception => exception.StatusCode == HttpStatusCode.TooManyRequests)
-                .WaitAndRetryAsync(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
-                    (_, span) =>
-                    {
-                        Logger.LogWarning("Handling retry while enumerating Cosmos Transactions, waiting {Time:c}", span);
-                    }
-                )
-                .ExecuteAsync(
-                    async () => await CosmosClient.GetTransactionsMatchingQueryAsync(
-                        queryWindow.GetConditions(),
-                        queryWindow.PaginationLimit,
-                        queryWindow.PaginationOffset
-                    )
-                );
-
-            if (response.Pagination.TotalAsInt == 0)
+            if (response.Pagination?.TotalAsInt == 0)
             {
                 // now we have to figure out if we went past the
                 // latest block, or whether we just hit a "dead period"
@@ -102,19 +89,43 @@ public abstract class CosmosTransactionEnumerator<TMarker>
                     continue;
                 }
             }
-            else
+            queryWindow.Advance(response?.Pagination);
+            // Queue up the next request for async completion while we yield the current result set
+            var nextResponseTask = SendLcdQueryAsync(queryWindow);
+            foreach (var txResponse in response.TransactionResponses)
             {
-                foreach (var txResponse in response.TransactionResponses)
-                {
-                    yield return txResponse;
-                }
+                yield return txResponse;
             }
             
-            queryWindow.Advance(response.Pagination);
+            // await settlement of the api query and reassign response so the restart of the loop works as expected
+            response = await nextResponseTask;
         }
     }
-    
-    
+
+    private Task<GetTransactionsMatchingQueryResponse> SendLcdQueryAsync(QueryWindow queryWindow)
+    {
+        return Policy
+            .Handle<ApiException>(exception =>
+                exception.StatusCode is HttpStatusCode.TooManyRequests or HttpStatusCode.BadGateway
+                    or HttpStatusCode.Gone or HttpStatusCode.GatewayTimeout or HttpStatusCode.RequestTimeout
+                    or HttpStatusCode.ServiceUnavailable)
+            .WaitAndRetryAsync(10, retryCounter => TimeSpan.FromMilliseconds(Math.Pow(10, retryCounter)),
+                (_, span) =>
+                {
+                    Logger.LogWarning("Handling retry while enumerating Cosmos Transactions, waiting {Time:c}",
+                        span);
+                }
+            )
+            .ExecuteAsync(
+                async () => await CosmosClient.GetTransactionsMatchingQueryAsync(
+                    queryWindow.GetConditions(),
+                    queryWindow.PaginationLimit,
+                    queryWindow.PaginationOffset
+                )
+            );
+    }
+
+
     private class QueryWindow
     {
         public int WindowBlockWidth { get; set; }
@@ -127,12 +138,11 @@ public abstract class CosmosTransactionEnumerator<TMarker>
         {
             return new[]
             {
-                $"tx.height>={StartBlockHeight}",
-                $"tx.height<={EndBlockHeight}"
+                $"tx.height={StartBlockHeight}"
             };
         }
 
-        public void Advance(LcdPagination pagination)
+        public void Advance(LcdPagination? pagination)
         {
             // did we reach the final page of this "block window"?
             if (IsFinalPage(pagination))
@@ -149,8 +159,10 @@ public abstract class CosmosTransactionEnumerator<TMarker>
             }
         }
 
-        private bool IsFinalPage(LcdPagination pagination)
+        private bool IsFinalPage(LcdPagination? pagination)
         {
+            if (pagination == null) return true;
+
             return pagination.TotalAsInt <= (PaginationOffset + PaginationLimit);
         }
     }

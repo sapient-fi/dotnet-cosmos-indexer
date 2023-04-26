@@ -14,7 +14,7 @@ public class Terra2TransactionEnumerator : CosmosTransactionEnumerator<Terra2Mar
         new()
         {
             SecondsPerBlock = 6,
-            WindowBlockWidth = 2000,
+            WindowBlockWidth = 1,
             PaginationLimit = 200
         }
     )

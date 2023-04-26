@@ -6,7 +6,7 @@ namespace TerraDotnet.TerraLcd;
 
 public interface ICosmosLcdApiClient<T> 
 {
-    [Get("/blocks/latest")]
+    [Get("/cosmos/base/tendermint/v1beta1/blocks/latest")]
     public Task<ApiResponse<CosmosBlockResponse>> GetLatestBlockAsync();
 
     [Get("/cosmos/tx/v1beta1/txs")]

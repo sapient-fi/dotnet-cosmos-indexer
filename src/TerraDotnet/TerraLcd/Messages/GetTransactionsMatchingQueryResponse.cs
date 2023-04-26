@@ -15,5 +15,5 @@ public record GetTransactionsMatchingQueryResponse
     [JsonPropertyName("tx_responses")]
     public List<LcdTxResponse> TransactionResponses { get; set; } = new();
 
-    public LcdPagination Pagination { get; set; } = new();
+    public LcdPagination? Pagination { get; set; } = new();
 }
