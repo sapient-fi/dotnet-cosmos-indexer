@@ -1,3 +1,4 @@
+using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MassTransit;
@@ -59,8 +60,9 @@ public abstract class
 
     protected async Task DefaultConsume(ConsumeContext<TRawTransactionAvailableAnnouncement> context)
     {
-        var rawTransaction = await RawRepository.GetByIdOrDefaultAsync(
+        var rawTransaction = await RawRepository.GetByIdAndCreateOrDefaultAsync(
             context.Message.RawEntityId,
+            context.Message.CreatedAt,
             context.CancellationToken
         );
         if (rawTransaction is null)
@@ -71,7 +73,8 @@ public abstract class
                 NameOfBlockChain,
                 context.Message.RawEntityId
             );
-            return;
+            // throw for retry!
+            throw new Exception($"Unable to find raw transaction with id={context.Message.RawEntityId}")
         }
 
         var txHash = rawTransaction.TxHash;

@@ -79,7 +79,8 @@ public abstract class
                             new TRawTransactionAvailableAnnouncement
                             {
                                 TransactionHash = entity.TxHash,
-                                RawEntityId = entity.Id
+                                RawEntityId = entity.Id,
+                                CreatedAt = entity.CreatedAt,
                             }, cancellationToken);
                     }
                     catch (PostgresException e) when (e.SqlState == PostgresErrorCodes.UniqueViolation)
