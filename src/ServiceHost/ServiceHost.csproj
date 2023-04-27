@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>SapientFi.ServiceHost</AssemblyName>
     <RootNamespace>SapientFi.ServiceHost</RootNamespace>
   <Version>0.18.0</Version></PropertyGroup>

@@ -4,13 +4,127 @@
     "colId": "6404331f-4dc7-4360-8741-960c7fb00bc1",
     "containerId": "",
     "name": "Transactions from specific block",
-    "url": "{{terra2BaseUrl}}/cosmos/tx/v1beta1/txs/block/352708",
+    "url": "{{terra2BaseUrl}}/cosmos/tx/v1beta1/txs/block/141",
     "method": "GET",
     "sortNum": 10000,
     "created": "2022-06-21T12:35:09.514Z",
-    "modified": "2022-06-21T12:35:44.158Z",
+    "modified": "2022-06-24T13:26:58.804Z",
     "headers": [],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "c7bcf9a9-78f0-4b92-95c2-e8c6ee38cb44",
+    "colId": "6404331f-4dc7-4360-8741-960c7fb00bc1",
+    "containerId": "",
+    "name": "Transactions before block",
+    "url": "{{terra2BaseUrl}}/cosmos/tx/v1beta1/txs?events=tx.height<=100",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-06-22T08:23:40.974Z",
+    "modified": "2022-06-22T08:24:17.802Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "events",
+        "value": "tx.height<=100",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "467681eb-c185-486c-9b27-0569f8c89102",
+    "colId": "6404331f-4dc7-4360-8741-960c7fb00bc1",
+    "containerId": "",
+    "name": "Transactions in block window",
+    "url": "{{terra2BaseUrl}}/cosmos/tx/v1beta1/txs?events=tx.height>=100&events=tx.height<=200&pagination.limit=100&pagination.offset=0",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2022-06-22T08:24:27.911Z",
+    "modified": "2022-06-24T14:35:56.000Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "events",
+        "value": "tx.height>=100",
+        "isPath": false
+      },
+      {
+        "name": "events",
+        "value": "tx.height<=200",
+        "isPath": false
+      },
+      {
+        "name": "pagination.limit",
+        "value": "100",
+        "isPath": false
+      },
+      {
+        "name": "pagination.offset",
+        "value": "0",
+        "isPath": false
+      },
+      {
+        "name": "pagination.key",
+        "value": "",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "order_by",
+        "value": "ORDER_BY_ASC",
+        "isDisabled": true,
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "9023d2b9-d47a-4e44-957e-18951a4d73ee",
+    "colId": "6404331f-4dc7-4360-8741-960c7fb00bc1",
+    "containerId": "",
+    "name": "Transactions in using single block window",
+    "url": "{{terra2BaseUrl}}/cosmos/tx/v1beta1/txs?events=tx.height>=24&events=tx.height<=24&pagination.limit=100&pagination.offset=0",
+    "method": "GET",
+    "sortNum": 40000,
+    "created": "2022-06-24T14:37:25.407Z",
+    "modified": "2022-07-01T08:31:47.336Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "events",
+        "value": "tx.height>=24",
+        "isPath": false
+      },
+      {
+        "name": "events",
+        "value": "tx.height<=24",
+        "isPath": false
+      },
+      {
+        "name": "pagination.limit",
+        "value": "100",
+        "isPath": false
+      },
+      {
+        "name": "pagination.offset",
+        "value": "0",
+        "isPath": false
+      },
+      {
+        "name": "pagination.key",
+        "value": "",
+        "isDisabled": true,
+        "isPath": false
+      },
+      {
+        "name": "order_by",
+        "value": "ORDER_BY_ASC",
+        "isDisabled": true,
+        "isPath": false
+      }
+    ],
     "tests": []
   }
 ]

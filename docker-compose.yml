@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   db:
-    image: timescale/timescaledb:2.5.0-pg12
+    image: timescale/timescaledb:2.10.0-pg15
     command: ["postgres", "-c", "log_statement=all", "-c", "max_locks_per_transaction=4096"]
     shm_size: 1g
     ports:
@@ -16,7 +16,7 @@ services:
       - .docker/postgres/data:/var/lib/postgresql/data
   
   rabbitmq:
-    image: masstransit/rabbitmq:3.9
+    image: rabbitmq:3.11-management
     environment:
       # default user + pass is "guest"
       RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
@@ -32,7 +32,7 @@ services:
       - "35433:6379"
 
   logging:
-    image: datalust/seq:5.1
+    image: datalust/seq:latest
     ports:
       - "35435:80"
     environment:

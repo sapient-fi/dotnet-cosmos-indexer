@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using SapientFi.ServiceHost.Endpoints.FxRates;
 using ServiceStack.Caching;
 

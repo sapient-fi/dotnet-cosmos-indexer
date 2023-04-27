@@ -1,3 +1,5 @@
+using System;
+
 namespace SapientFi.Kernel.Contracts.Exchanges;
 
 public class GetExchangeRateResult

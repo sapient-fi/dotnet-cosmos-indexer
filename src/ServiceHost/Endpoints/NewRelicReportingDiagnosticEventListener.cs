@@ -1,7 +1,10 @@
+using System;
 using System.Text;
+using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Execution.Instrumentation;
 using HotChocolate.Resolvers;
+using Microsoft.Extensions.Logging;
 
 namespace SapientFi.ServiceHost.Endpoints;
 

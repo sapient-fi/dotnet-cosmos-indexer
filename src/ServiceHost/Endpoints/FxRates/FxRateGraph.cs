@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SapientFi.ServiceHost.Endpoints.FxRates;
 
 public record FxRateGraph

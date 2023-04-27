@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>SapientFi.Infrastructure</AssemblyName>
     <RootNamespace>SapientFi.Infrastructure</RootNamespace>
   </PropertyGroup>
@@ -25,12 +23,6 @@
     <Reference Include="ServiceStack.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\ServiceHost\bin\Debug\net6.0\ServiceStack.Common.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Consumers\ExchangeRates" />
-    <Folder Include="Consumers\Terra" />
-    <Folder Include="Hosting\TerraDataFetchers" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,7 @@
+using System.Threading;
 using Hangfire;
 using Hangfire.Common;
+using Microsoft.Extensions.Logging;
 using SapientFi.Kernel.Config;
 using SapientFi.ServiceHost.RecurringJobs;
 
@@ -48,12 +50,7 @@ public class CronjobManager
             Job.FromExpression<MaterializedViewRefresherJob>(job => job.DoWorkAsync(CancellationToken.None)),
             "13 * * * *"
         );
-
-        _jobManager.AddOrUpdate("fx-rate-download",
-            Job.FromExpression<FxRateDownloadJob>(job => job.DoWorkAsync(CancellationToken.None)),
-            "43 * * * *"
-        );
-
+        
         if (_featureConfig.TriggerGatewayPoolFullResync
             || _featureConfig.TriggerMineStakingFullResync
             || _featureConfig.TriggerMineBuyBackFullResync

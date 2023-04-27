@@ -1,4 +1,6 @@
-using ServiceStack;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TerraDotnet.Extensions;
 
@@ -12,7 +14,7 @@ public static class ListExtensions
             return;
         }
 
-        if (list.All(i => !i.Denominator.EqualsIgnoreCase(TerraDenominators.Ust))) return;
+        if (list.All(i => !i.Denominator.Equals(TerraDenominators.Ust, StringComparison.CurrentCultureIgnoreCase))) return;
             
         if (list[1].Denominator != TerraDenominators.Ust)
         {

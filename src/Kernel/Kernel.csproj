@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>SapientFi.Kernel</AssemblyName>
     <RootNamespace>SapientFi.Kernel</RootNamespace>
   </PropertyGroup>
@@ -21,6 +19,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Terra" />
+    <Compile Remove="Contracts\Terra\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Contracts\Terra\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Contracts\Terra\**" />
   </ItemGroup>
 </Project>

@@ -26,7 +26,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Endpoints" />
+      <None Update="TerraDotnet\GetTransactionsMatchingQueryResponse_01.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+        <None Update="TerraDotnet\GetTransactionsMatchingQueryResponse_02.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
